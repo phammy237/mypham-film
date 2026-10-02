@@ -109,7 +109,7 @@ function FilmStrip({ frames, onOpen, onPosition }: { frames: Frame[]; onOpen: (f
           onScroll={(e) => onPosition(Math.min(frames.length, Math.round(e.currentTarget.scrollLeft / 314) + 1))}>
           <div className={s.rail}>
             {frames.map((f, i) => (
-              <button key={f.key + i} type="button" className={s.frame} onClick={() => onOpen(f, i + 1)}>
+              <button key={f.key + i} type="button" data-cursor-photo className={s.frame} onClick={() => onOpen(f, i + 1)}>
                 <span className={s.photo} style={{ aspectRatio: "3 / 2" }}>
                   {f.src && <Image src={f.src} alt={f.alt} fill sizes="300px" draggable={false} />}
                   <span className={s.fno}>{frameNo(i + 1)}</span>
@@ -142,7 +142,7 @@ export function FilmHome() {
     <div className={s.root}>
       {/* hero */}
       <section className={s.hero}>
-        <div className={`${s.heroBg} ${s.reticle}`} onClick={() => setOpen({ frame: { key: "nyc", ...PHOTOS.nyc }, n: 1 })}>
+        <div data-cursor-photo data-cursor-label="view frame ↗" className={`${s.heroBg} ${s.reticle}`} onClick={() => setOpen({ frame: { key: "nyc", ...PHOTOS.nyc }, n: 1 })}>
           <Photo src={PHOTOS.nyc.src} alt={PHOTOS.nyc.alt} sizes="100vw" priority className="" />
         </div>
         <div className={`${s.wrap} ${s.heroCopy}`}>
@@ -220,7 +220,7 @@ export function FilmHome() {
           </div>
           <div className={`${s.grid} ${s.reticle}`}>
             {more.filter(({ m }) => filter === "all" || m.filter === filter).map(({ m, f }, i) => (
-              <button key={f.key + i} type="button" className={`${s.photo} ${s.tile} ${m.tall ? s.tall : ""}`} onClick={() => setOpen({ frame: f, n: i + 1 })}>
+              <button key={f.key + i} type="button" data-cursor-photo className={`${s.photo} ${s.tile} ${m.tall ? s.tall : ""}`} onClick={() => setOpen({ frame: f, n: i + 1 })}>
                 <Image src={f.src!} alt={f.alt} fill sizes="(max-width: 600px) 50vw, 180px" />
                 <span className={s.view}>view frame ↗</span>
               </button>

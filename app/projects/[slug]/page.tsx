@@ -21,7 +21,7 @@ export default function ProjectDetail({
   const nextProject = allWork[(currentIndex + 1) % allWork.length];
 
   return (
-    <main className="bg-base">
+    <main className="bg-[var(--paper)]">
       <Navbar />
       {project.slug === "scudem" ? (
         <ScudemDetail project={project} nextProject={nextProject} />

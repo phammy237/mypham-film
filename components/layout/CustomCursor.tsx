@@ -1,78 +1,72 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
+
+/* Camera-viewfinder cursor: four butter corner brackets + a centre cross. Brackets tighten over links
+   ("focus"), a label appears over photos, and a click fires a shutter flash. Text fields get the native I-beam. */
+type Mode = "idle" | "focus" | "photo" | "text";
+
+const PHOTO_SELECTOR = "[data-cursor-photo], [data-cursor-label]";
+const FOCUS_SELECTOR = "a, button, summary, [role='button'], [role='tab'], [data-cursor-hover]";
+const TEXT_SELECTOR = "input, textarea, select, [contenteditable='true']";
+
+function modeFor(target: EventTarget | null): { mode: Mode; label: string } {
+  if (!(target instanceof Element)) return { mode: "idle", label: "" };
+  if (target.closest(TEXT_SELECTOR)) return { mode: "text", label: "" };
+  const photo = target.closest<HTMLElement>(PHOTO_SELECTOR);
+  if (photo) return { mode: "photo", label: photo.dataset.cursorLabel ?? "view ↗" };
+  if (target.closest(FOCUS_SELECTOR)) return { mode: "focus", label: "" };
+  return { mode: "idle", label: "" };
+}
 
 export function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [fine, setFine] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const hoveredRef = useRef(false);
-  const pos = useRef({ x: -100, y: -100 });
-  const ring = useRef({ x: -100, y: -100 });
-  const raf = useRef<number>();
+  const [state, setState] = useState<{ mode: Mode; label: string }>({ mode: "idle", label: "" });
+  const [flash, setFlash] = useState(0);
 
   useEffect(() => {
-    // Only on fine pointer devices (mouse/trackpad)
     if (!window.matchMedia("(pointer: fine)").matches) return;
+    setFine(true);
+    document.documentElement.classList.add("film-cursor");
 
     const onMove = (e: MouseEvent) => {
-      pos.current = { x: e.clientX, y: e.clientY };
+      if (rootRef.current) rootRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       setVisible(true);
     };
+    const onOver = (e: MouseEvent) => setState(modeFor(e.target));
+    const onOut = (e: MouseEvent) => { if (!e.relatedTarget) setVisible(false); };
+    const onDown = () => setFlash((n) => n + 1);
 
-    const updateHover = (target: EventTarget | null) => {
-      const next = target instanceof Element && !!target.closest("a, button, [data-cursor-hover]");
-      hoveredRef.current = next;
-      setHovered(next);
-    };
-    const onOver = (e: MouseEvent) => updateHover(e.target);
-    const onOut = (e: MouseEvent) => updateHover(e.relatedTarget);
-
-    const animate = () => {
-      // Dot follows instantly
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${pos.current.x - 4}px, ${pos.current.y - 4}px)`;
-      }
-      // Ring lags behind with lerp
-      ring.current.x += (pos.current.x - ring.current.x) * 0.28;
-      ring.current.y += (pos.current.y - ring.current.y) * 0.28;
-      if (ringRef.current) {
-        const size = hoveredRef.current ? 44 : 28;
-        ringRef.current.style.transform = `translate(${ring.current.x - size / 2}px, ${ring.current.y - size / 2}px)`;
-      }
-      raf.current = requestAnimationFrame(animate);
-    };
-
-    window.addEventListener("mousemove", onMove);
-    raf.current = requestAnimationFrame(animate);
-
+    window.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseover", onOver);
     document.addEventListener("mouseout", onOut);
-
+    document.addEventListener("mousedown", onDown);
     return () => {
+      document.documentElement.classList.remove("film-cursor");
       window.removeEventListener("mousemove", onMove);
-      if (raf.current) cancelAnimationFrame(raf.current);
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseout", onOut);
+      document.removeEventListener("mousedown", onDown);
     };
   }, []);
 
-  if (typeof window !== "undefined" && !window.matchMedia("(pointer: fine)").matches) return null;
+  if (!fine) return null;
+  const { mode, label } = state;
+  const half = mode === "focus" ? 11 : mode === "photo" ? 20 : 16;
+  const hidden = !visible || mode === "text";
 
   return (
-    <>
-      {/* Dot */}
-      <div
-        ref={dotRef}
-        className="fixed top-0 left-0 z-[9999] pointer-events-none w-2 h-2 rounded-full bg-accent"
-        style={{ opacity: visible ? (hovered ? 0 : 1) : 0, willChange: "transform" }}
-      />
-      {/* Ring */}
-      <div
-        ref={ringRef}
-        className={`fixed top-0 left-0 z-[9998] pointer-events-none rounded-full border-2 border-accent transition-[width,height] duration-150 ${hovered ? "w-11 h-11 opacity-70" : "w-7 h-7 opacity-40"}`}
-        style={{ opacity: visible ? (hovered ? 0.7 : 0.4) : 0, willChange: "transform" }}
-      />
-    </>
+    <div ref={rootRef} aria-hidden="true" className="pointer-events-none fixed left-0 top-0 z-[9999]" style={{ willChange: "transform" }}>
+      <div className="film-cursor-box" data-mode={mode} data-still={reduce ? "" : undefined}
+        style={{ ["--half" as string]: `${half}px`, opacity: hidden ? 0 : 1 }}>
+        <i /><i /><i /><i />
+        <b />
+        {mode === "photo" && <span className="film-cursor-label">{label}</span>}
+        {flash > 0 && !reduce && <em key={flash} className="film-cursor-flash" />}
+      </div>
+    </div>
   );
 }

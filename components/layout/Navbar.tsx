@@ -77,10 +77,10 @@ export function Navbar() {
               ? "bg-transparent"
               : "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-film-black/10 dark:border-white/10"
             : solidBg
-            ? "bg-white/90 dark:bg-navy/90 backdrop-blur-sm border-b border-border dark:border-white/10 shadow-sm"
+            ? "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-border dark:border-white/10"
             : isDark
             ? "bg-transparent"
-            : "bg-white/90 dark:bg-navy/90 backdrop-blur-sm border-b border-border dark:border-white/10 shadow-sm"
+            : "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-border dark:border-white/10"
         }`}
         animate={{ y: visible ? 0 : -80 }}
         transition={{ type: "spring", stiffness: 200, damping: 30 }}
@@ -133,7 +133,7 @@ export function Navbar() {
                   isActive
                     ? isJourneyLight
                       ? "border-b-2 border-journey-violet pb-0.5 text-journey-violet"
-                      : "text-accent"
+                      : "text-[var(--blue)]"
                     : lightText
                     ? "text-white/70 hover:text-white"
                     : "text-surface/80 dark:text-white/50 hover:text-surface dark:hover:text-white"
@@ -167,7 +167,7 @@ export function Navbar() {
                 ? "rounded-md border-[rgba(38,49,91,0.18)] bg-[#FBFAFD] text-journey-ink hover:border-journey-violet focus-visible:border-journey-violet"
                 : lightText
                 ? "border-white/30 text-white hover:bg-white hover:text-navy"
-                : "border-accent/40 text-accent hover:bg-accent hover:text-white"
+                : "rounded-full border-film-black/70 dark:border-white/50 text-surface dark:text-white hover:bg-film-butter hover:border-transparent hover:text-film-black"
             }`}
           >
             Connect
@@ -185,7 +185,7 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
-              className="fixed top-16 left-0 right-0 z-40 bg-white dark:bg-navy border-b border-border dark:border-white/10 shadow-xl md:hidden"
+              className="fixed top-16 left-0 right-0 z-40 bg-film-cream dark:bg-film-black border-b border-border dark:border-white/10 shadow-xl md:hidden"
               initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
               transition={{ type: "spring", stiffness: 260, damping: 26 }}
             >
@@ -195,7 +195,7 @@ export function Navbar() {
                   return (
                     <Link key={label} href={href} onClick={() => setMobileOpen(false)}
                       className={`font-mono text-sm tracking-wider uppercase py-3 border-b border-border dark:border-white/10 last:border-b-0 transition-colors duration-200 ${
-                        isActive ? "text-accent" : "text-surface/80 dark:text-white/60 hover:text-surface dark:hover:text-white"
+                        isActive ? "text-[var(--blue)]" : "text-surface/80 dark:text-white/60 hover:text-surface dark:hover:text-white"
                       }`}
                     >
                       {label}
@@ -203,7 +203,7 @@ export function Navbar() {
                   );
                 })}
                 <Link href="/connect" onClick={() => setMobileOpen(false)}
-                  className="font-mono text-sm tracking-wider uppercase py-3 text-accent"
+                  className="font-mono text-sm tracking-wider uppercase py-3 text-[var(--blue)]"
                 >
                   Connect
                 </Link>

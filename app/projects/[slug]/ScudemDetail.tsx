@@ -3,8 +3,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Project } from "@/data/projects";
 
-const GRADIENT = "linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)";
-
 /* ─── Small building blocks ─────────────────────────── */
 
 function Equation({ children }: { children: React.ReactNode }) {
@@ -154,20 +152,19 @@ export function ScudemDetail({ project, nextProject }: { project: Project; nextP
   ].filter(Boolean) as { label: string; href: string }[];
 
   return (
-    <>
+    <div className="bg-[var(--paper)]">
       {/* Hero */}
-      <div className="relative min-h-[70vh] overflow-hidden px-[5vw] pb-16 pt-28" style={{ background: GRADIENT }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      <div className="relative min-h-[70vh] overflow-hidden px-[5vw] pb-16 pt-28" style={{ background: "var(--sky)", color: "#20201E" }}>
         <div className="relative z-10 mx-auto flex min-h-[46vh] max-w-[900px] flex-col justify-end">
           <motion.span
-            className="mb-4 font-mono text-sm text-white/60"
+            className="mb-4 f-hand text-2xl text-[#20201E]"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             SCUDEM X 2025 · Outstanding Award
           </motion.span>
           <motion.h1
-            className="mb-4 font-display text-5xl leading-[0.95] text-white sm:text-6xl md:text-7xl"
+            className="mb-4 f-serif text-5xl leading-[0.95] sm:text-6xl md:text-7xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, type: "spring", stiffness: 100, damping: 20 }}
@@ -175,7 +172,7 @@ export function ScudemDetail({ project, nextProject }: { project: Project; nextP
             Vigilance-Based Predator Detection Model
           </motion.h1>
           <motion.p
-            className="max-w-2xl font-body text-lg italic text-white/70 sm:text-xl"
+            className="max-w-2xl f-type text-lg italic text-[#20201E]/75 sm:text-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25 }}
@@ -183,7 +180,7 @@ export function ScudemDetail({ project, nextProject }: { project: Project; nextP
             A Probabilistic Framework for Mixed-Species Groups
           </motion.p>
           <motion.p
-            className="mt-5 max-w-2xl font-body text-white/60"
+            className="mt-5 max-w-2xl f-type text-[#20201E]/70"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
@@ -451,6 +448,6 @@ export function ScudemDetail({ project, nextProject }: { project: Project; nextP
           </Link>
         </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -3,13 +3,13 @@ import { SITE_EMAIL } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="bg-white dark:bg-navy border-t border-border dark:border-white/10 px-[5vw] py-16">
+    <footer className="bg-film-cream dark:bg-film-black border-t border-border dark:border-white/10 px-[5vw] py-16">
       <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div>
           <p className="font-mono text-sm text-muted dark:text-white/40 mb-1">
             UF Data Science · Class of 2028
           </p>
-          <p className="font-body text-2xl text-surface dark:text-white">
+          <p className="font-display text-3xl text-surface dark:text-white">
             Open to opportunities →
           </p>
         </div>

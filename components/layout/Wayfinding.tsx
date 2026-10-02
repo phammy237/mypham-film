@@ -20,42 +20,36 @@ export function YouAreHere({ page, place = "Gainesville, FL" }: { page: Stop; pl
   return (
     <Link
       href="/biography/journey"
-      className="group inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/5 px-3 py-1.5 transition-colors hover:border-accent/40 dark:hover:border-accent-lavender/40"
+      className="group f-mono inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
       aria-label={`You are here: ${place}, ${page}. Open the journey map`}
     >
-      <svg width="10" height="12" viewBox="0 0 10 12" aria-hidden className="text-accent dark:text-accent-lavender">
-        <path fill="currentColor" d="M5 0a5 5 0 0 0-5 5c0 3.6 5 7 5 7s5-3.4 5-7a5 5 0 0 0-5-5Zm0 6.8A1.8 1.8 0 1 1 5 3.2a1.8 1.8 0 0 1 0 3.6Z" />
-      </svg>
-      <span className="eyebrow text-[10px] text-surface/60 dark:text-white/55">
-        {place} · {page}
-      </span>
-      <span className="eyebrow text-[10px] text-accent dark:text-accent-lavender opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
-        Map →
-      </span>
+      <span aria-hidden className="h-2 w-2 rounded-full bg-[var(--butter)] ring-1 ring-[var(--ink)]/30" />
+      <span>{place} · {page}</span>
+      <span className="text-[var(--blue)] opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">map →</span>
     </Link>
   );
 }
 
+/** bottom-of-page "next frame": a strip of film with the next stop on it */
 export function NextStop({ from }: { from: Stop }) {
   const i = ROUTE.findIndex((s) => s.name === from);
   const next = ROUTE[(i + 1) % ROUTE.length];
   return (
-    <div className="px-[5vw] max-w-[1400px] mx-auto pb-16">
+    <div className="f-wrap pb-16 pt-6">
       <Link
         href={next.href}
-        className="group flex items-center justify-between gap-6 rounded-2xl bg-navy dark:bg-white/[0.06] dark:border dark:border-white/10 px-6 py-7 md:px-10 md:py-9 transition-transform hover:-translate-y-0.5"
+        data-cursor-label="next frame →"
+        data-cursor-photo
+        className="group relative flex items-center justify-between gap-6 overflow-hidden rounded-sm bg-[var(--film)] px-8 py-9 text-[#FAF7EF] md:px-14 md:py-12"
       >
+        <span aria-hidden className="absolute inset-x-0 top-2 h-2.5 bg-[repeating-linear-gradient(90deg,transparent_0_9px,#FAF7EF_9px_21px,transparent_21px_30px)] opacity-80" />
+        <span aria-hidden className="absolute inset-x-0 bottom-2 h-2.5 bg-[repeating-linear-gradient(90deg,transparent_0_9px,#FAF7EF_9px_21px,transparent_21px_30px)] opacity-80" />
         <div>
-          <p className="eyebrow text-[10px] text-white/45">Next stop</p>
-          <p className="font-display text-3xl md:text-4xl text-white mt-2">{next.name}</p>
-          <p className="font-body text-sm text-white/60 mt-1.5">{next.pitch}</p>
+          <p className="f-mono text-[#F4D35E]">next frame ▸ {String(((i + 1) % ROUTE.length) + 1).padStart(2, "0")}A</p>
+          <p className="f-serif mt-2 text-4xl md:text-6xl">{next.name}</p>
+          <p className="f-type mt-2 max-w-md text-sm text-[#FAF7EF]/65">{next.pitch}</p>
         </div>
-        <span
-          aria-hidden
-          className="hidden sm:grid h-14 w-14 shrink-0 place-items-center rounded-full border border-white/25 text-white text-xl transition-transform group-hover:translate-x-1"
-        >
-          →
-        </span>
+        <span aria-hidden className="hidden h-14 w-14 shrink-0 place-items-center rounded-full bg-[#F4D35E] text-xl text-[#20201E] transition-transform group-hover:translate-x-1 sm:grid">→</span>
       </Link>
     </div>
   );

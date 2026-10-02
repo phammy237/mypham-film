@@ -58,7 +58,7 @@ function BotAvatar() {
   return (
     <div
       className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-white text-xs font-display"
-      style={{ background: "linear-gradient(135deg, #5B3A8E, #9B8BB5)" }}
+      style={{ background: "linear-gradient(135deg, #F4D35E, #8DBCE0)" }}
     >
       M
     </div>
@@ -164,7 +164,7 @@ export function ChatBot() {
         <motion.button
           onClick={() => setOpen((o) => !o)}
           className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl shadow-accent/30"
-          style={{ background: "linear-gradient(135deg, #5B3A8E, #9B8BB5)" }}
+          style={{ background: "linear-gradient(135deg, #F4D35E, #8DBCE0)" }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
         >

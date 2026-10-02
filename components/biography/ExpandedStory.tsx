@@ -33,7 +33,7 @@ export function ExpandedStory({
     <ModalShell
       onClose={onClose}
       maxWidth="max-w-3xl"
-      panelClassName="bg-white border border-border dark:bg-navy dark:border-white/10"
+      panelClassName="bg-film-cream border border-border dark:bg-film-black dark:border-white/10"
       closeButtonClassName="bg-black/5 text-surface/70 hover:bg-black/10 hover:text-surface dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20 dark:hover:text-white"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden">

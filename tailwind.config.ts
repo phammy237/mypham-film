@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["var(--font-dm-serif)", "serif"],
+        display: ["var(--font-instrument)", "serif"],
         body: ["var(--font-inter)", "sans-serif"],
         mono: ["var(--font-jetbrains)", "monospace"],
         roboto: ["var(--font-roboto)", "sans-serif"],
@@ -15,28 +15,28 @@ const config: Config = {
       },
       colors: {
         // Deep violet — main brand color: intense, creative, ambitious
-        accent: "#5B3A8E",
-        "accent-light": "#E4DDED",
+        accent: "rgb(var(--accent-rgb) / <alpha-value>)",
+        "accent-light": "#E8DDC7",
         // Muted gold — warm, elegant, quietly confident (secondary accent)
-        "accent-gold": "#C5A46D",
+        "accent-gold": "#C99A1B",
         // Dusty mauve — romantic and emotionally expressive
-        "accent-mauve": "#B982A8",
+        "accent-mauve": "#D98E73",
         // Smoky lavender — dreamy and artistic without being childish
-        "accent-lavender": "#9B8BB5",
+        "accent-lavender": "#8DBCE0",
         // Pearl white — soft, polished, clean
-        base: "#F7F3FA",
-        card: "#F7F3FA",
+        base: "#FAF7EF",
+        card: "#FFFDF8",
         // Pearl white — light-mode page background from the hero down through the homepage
-        sand: "#F7F3FA",
+        sand: "#FAF7EF",
         // Midnight navy — intelligent, private, slightly intimidating
-        surface: "#18233F",
-        navy: "#18233F",
+        surface: "#20201E",
+        navy: "#20201E",
         // Raised surface in dark mode — cards, panels, modals floating above the navy base
-        "navy-mid": "#22264B",
+        "navy-mid": "#2A2A27",
         // Deepest dark-mode moment (immersive/interlude sections) — deliberately dark but never pure black
-        "navy-deep": "#141B33",
-        border: "#E6E0EE",
-        muted: "#676186",
+        "navy-deep": "#171715",
+        border: "#E3DAC6",
+        muted: "#6E6A60",
         // Film home — cream canvas, film-blue structure, butter personality, sky + beige accents
         "film-cream": "#FAF7EF",
         "film-beige": "#E8DDC7",
