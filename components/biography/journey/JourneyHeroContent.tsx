@@ -65,7 +65,7 @@ export function JourneyHeroContent({
       ref={rootRef}
       className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 px-6 md:left-[4.5vw] md:right-auto md:top-[28vh] md:w-[340px] md:translate-y-0 md:px-0"
     >
-      <p className="mb-[28px] font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-journey-muted dark:text-[rgba(210,205,225,0.42)]">
+      <p className="mb-[28px] font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-journey-muted dark:text-[rgba(218,216,212,0.42)]">
         {journeyHeroContent.eyebrow}
       </p>
       <h2 className="mb-[28px] font-display text-[56px] leading-[0.98] text-journey-ink dark:text-journey-paper md:text-[68px]">
@@ -75,7 +75,7 @@ export function JourneyHeroContent({
           </span>
         ))}
       </h2>
-      <p className="mb-[30px] max-w-[300px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-[rgba(226,224,235,0.70)]">
+      <p className="mb-[30px] max-w-[300px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
         {journeyHeroContent.body}
       </p>
       <button
@@ -85,7 +85,7 @@ export function JourneyHeroContent({
         className="group flex w-fit items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink dark:text-journey-paper transition-colors disabled:cursor-default disabled:opacity-60"
       >
         {journeyHeroContent.ctaLabel}
-        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(38,49,91,0.18)] text-journey-violet transition-colors duration-200 group-hover:border-journey-violet group-hover:text-journey-violet dark:border-[rgba(148,128,216,0.35)] dark:text-[rgba(148,128,216,0.9)]">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(74,72,64,0.18)] text-journey-violet transition-colors duration-200 group-hover:border-journey-violet group-hover:text-journey-violet dark:border-[rgba(131,179,214,0.35)] dark:text-[rgba(131,179,214,0.9)]">
           →
         </span>
       </button>

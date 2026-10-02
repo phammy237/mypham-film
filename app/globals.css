@@ -79,23 +79,23 @@ body::before {
 
 /* Thin, quiet scrollbar for the journey story panels — a visible-but-unobtrusive rail rather than
    the browser's default wide gray bar, which read as too "dashboard" against the editorial panels. */
-.journey-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(174,155,240,0.18) transparent; }
+.journey-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(244,218,123,0.18) transparent; }
 .journey-scrollbar::-webkit-scrollbar { width: 5px; }
 .journey-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.journey-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(174,155,240,0.18); border-radius: 999px; }
-.journey-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(174,155,240,0.34); }
+.journey-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(244,218,123,0.18); border-radius: 999px; }
+.journey-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(244,218,123,0.34); }
 
 /* Journey map attribution — MapLibre's default is a bright white pill; restyled small/quiet per
    the cinematic-atlas design system (legal text kept verbatim, only the chrome changes). */
 .maplibregl-ctrl-attrib {
-  background-color: rgba(8,13,28,0.42) !important;
+  background-color: rgba(22,21,19,0.42) !important;
   padding: 3px 6px !important;
   border-radius: 6px;
   opacity: 0.65;
   font-size: 9px !important;
   line-height: 1.4 !important;
 }
-.maplibregl-ctrl-attrib a { color: rgba(238,236,246,0.7) !important; }
+.maplibregl-ctrl-attrib a { color: rgba(247,244,235,0.7) !important; }
 .maplibregl-ctrl-attrib:hover { opacity: 0.85; }
 
 /* Hides the site-wide chat bubble while the journey's story modal is open — see the
@@ -124,42 +124,42 @@ body.journey-today-in-view .journey-chatbot-widget:hover {
   max-height: 52vh;
   flex-direction: column;
   overflow: auto;
-  border: 1px solid rgba(95, 78, 144, .22);
+  border: 1px solid rgba(119,114,103,.22);
   border-radius: 20px;
-  background: #fbfafd;
-  box-shadow: 0 20px 60px rgba(38, 31, 64, .14);
+  background: #FDFCFA;
+  box-shadow: 0 20px 60px rgba(54,53,48,.14);
   transition: opacity 160ms ease;
 }
 .dark .journey-preview-panel {
-  color: #eeeaf8;
-  border-color: rgba(180, 157, 244, .3);
-  background: linear-gradient(145deg, rgba(24, 24, 43, .97), rgba(10, 12, 23, .97) 65%);
-  box-shadow: inset 0 0 20px rgba(167, 141, 242, .055), 0 18px 65px rgba(0, 0, 0, .3), 0 0 1px rgba(192, 166, 255, .5);
+  color: #F7F4EB;
+  border-color: rgba(244,218,123,.3);
+  background: linear-gradient(145deg, rgba(39,38,34,.97), rgba(20,19,17,.97) 65%);
+  box-shadow: inset 0 0 20px rgba(244,218,122,.055), 0 18px 65px rgba(0, 0, 0, .3), 0 0 1px rgba(244,218,123,.5);
 }
 .journey-preview-content { display: flex; width: 100%; flex: 1; flex-direction: column; padding: 24px; }
 .journey-preview-number {
   display: flex; flex-shrink: 0; width: 44px; height: 44px; align-items: center; justify-content: center;
-  border-radius: 50%; background: #b59bee; color: #25183f; font: 13px var(--font-jetbrains), monospace;
-  box-shadow: 0 0 25px rgba(162, 128, 239, .2);
+  border-radius: 50%; background: #F4DA7B; color: #32312C; font: 13px var(--font-jetbrains), monospace;
+  box-shadow: 0 0 25px rgba(148,189,219,.2);
 }
 .journey-preview-title { font-size: clamp(24px, 2vw, 34px); line-height: 1.1; letter-spacing: -.025em; }
-.journey-preview-media { width: 100%; aspect-ratio: 1.62; flex-shrink: 0; margin-top: 24px; border-radius: 14px; border: 1px solid rgba(160, 145, 193, .15); }
-.journey-preview-description { margin-top: 22px; font-family: Georgia, serif; font-size: clamp(18px, 1.35vw, 22px); line-height: 1.48; color: #50526c; }
-.dark .journey-preview-description { color: #d2cede; }
-.journey-story-link { color: #71539f; padding-bottom: 7px; border-bottom: 1px solid rgba(137, 108, 196, .5); }
-.dark .journey-story-link { color: #c7b2fa; }
-.journey-story-link:hover { color: #9c7ee1; border-color: currentColor; }
-.journey-preview-pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 138, 185, .23); }
+.journey-preview-media { width: 100%; aspect-ratio: 1.62; flex-shrink: 0; margin-top: 24px; border-radius: 14px; border: 1px solid rgba(175,172,163,.15); }
+.journey-preview-description { margin-top: 22px; font-family: Georgia, serif; font-size: clamp(18px, 1.35vw, 22px); line-height: 1.48; color: #656157; }
+.dark .journey-preview-description { color: #D9D7D3; }
+.journey-story-link { color: #817D71; padding-bottom: 7px; border-bottom: 1px solid rgba(110,166,207,.5); }
+.dark .journey-story-link { color: #F4DA7B; }
+.journey-story-link:hover { color: #88B6D7; border-color: currentColor; }
+.journey-preview-pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(168,164,155,.23); }
 .journey-preview-content > * { flex-shrink: 0; }
-.journey-location-arrow { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(143, 119, 186, .55); border-radius: 50%; font-size: 22px; transition: background .2s, border-color .2s; }
-.journey-location-arrow:hover { background: rgba(172, 144, 229, .12); border-color: #b99cec; }
-.journey-preview-panel button:focus-visible, .journey-desktop-rail button:focus-visible { outline: 2px solid #b79ce9; outline-offset: 5px; }
+.journey-location-arrow { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(160,156,145,.55); border-radius: 50%; font-size: 22px; transition: background .2s, border-color .2s; }
+.journey-location-arrow:hover { background: rgba(244,216,114,.12); border-color: #F4DA7B; }
+.journey-preview-panel button:focus-visible, .journey-desktop-rail button:focus-visible { outline: 2px solid #F4DA7B; outline-offset: 5px; }
 .journey-desktop-rail { right: 18px; top: 15vh; width: 48px; height: 48vh; flex-direction: column; align-items: center; justify-content: space-between; }
-.journey-rail-line { position: absolute; top: 4px; bottom: 28px; left: 50%; width: 1px; background: rgba(90, 95, 130, .16); }
-.dark .journey-rail-line { background: rgba(180, 172, 215, .14); }
+.journey-rail-line { position: absolute; top: 4px; bottom: 28px; left: 50%; width: 1px; background: rgba(118,113,102,.16); }
+.dark .journey-rail-line { background: rgba(198,195,189,.14); }
 .journey-rail-stop { min-height: 44px; width: 100%; }
 .journey-rail-stop > span:first-child { padding: 0; background: transparent; }
-.journey-map-marginalia { display: none; color: #7b7591; }
+.journey-map-marginalia { display: none; color: #8C877A; }
 @media (min-width: 768px) {
   .journey-preview-panel { position: fixed; top: 104px; right: clamp(80px, 7.6vw, 128px); bottom: max(48px, 8vh); width: clamp(320px, 30vw, 500px); max-height: none; border-radius: 18px; }
   .journey-preview-content { padding: clamp(24px, 2.1vw, 36px); }
@@ -167,7 +167,7 @@ body.journey-today-in-view .journey-chatbot-widget:hover {
   .journey-story-link { margin-bottom: 24px; }
   .journey-map-marginalia { display: block; }
   .journey-map-caption { position: absolute; top: 110px; left: clamp(24px, 2.6vw, 44px); }
-  .journey-map-caption > p:first-of-type { color: #bfb9cf; }
+  .journey-map-caption > p:first-of-type { color: #C8C6C0; }
   .journey-map-footnote { position: absolute; left: clamp(24px, 2.6vw, 44px); bottom: 40px; }
 }
 @media (min-width: 1280px) { .journey-desktop-rail { right: 32px; width: 64px; } }

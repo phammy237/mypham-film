@@ -73,7 +73,7 @@ export function JourneyChapterComplete({
     >
       <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-journey-violet dark:text-journey-lilac">{eyebrow}</p>
       <h2 className="font-display text-[40px] leading-[1.05] text-journey-ink dark:text-journey-paper md:text-[46px]">{heading}</h2>
-      <p className="max-w-[320px] font-body text-[15px] leading-[1.55] text-journey-body dark:text-[rgba(226,224,235,0.70)]">{paragraph}</p>
+      <p className="max-w-[320px] font-body text-[15px] leading-[1.55] text-journey-body dark:text-[rgba(231,230,228,0.70)]">{paragraph}</p>
       <div className="mt-[10px] flex flex-col items-start gap-3">
         <button
           type="button"
@@ -86,7 +86,7 @@ export function JourneyChapterComplete({
         <button
           type="button"
           onClick={onSecondary}
-          className="font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(210,205,225,0.6)] dark:opacity-40 dark:hover:opacity-70"
+          className="font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(218,216,212,0.6)] dark:opacity-40 dark:hover:opacity-70"
         >
           {secondaryLabel}
         </button>

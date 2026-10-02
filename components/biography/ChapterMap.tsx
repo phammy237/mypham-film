@@ -80,7 +80,7 @@ export function ChapterMap({
 
   return (
     <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-base dark:border-white/10 dark:bg-navy" style={{ aspectRatio: `${MAP_WIDTH} / ${MAP_HEIGHT}` }}>
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-0 blur-3xl dark:opacity-100" style={{ background: "radial-gradient(circle, rgba(91, 58, 142,0.22), transparent 70%)" }} />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-0 blur-3xl dark:opacity-100" style={{ background: "radial-gradient(circle, rgba(65,103,136,0.22), transparent 70%)" }} />
       <MapBackdrop width={MAP_WIDTH} height={MAP_HEIGHT} riverPathD={projected?.riverPathD} />
       <div className="absolute left-6 top-6 md:left-8 md:top-8">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted dark:text-white/40">{chapter.mapEyebrow}</p>

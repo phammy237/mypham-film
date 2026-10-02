@@ -49,12 +49,12 @@ export function RoutePath({
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      <path d={d} fill="none" strokeWidth={2} strokeDasharray="1 7" strokeLinecap="round" className="stroke-[#C9BAD9] dark:stroke-[#3D3560]" />
+      <path d={d} fill="none" strokeWidth={2} strokeDasharray="1 7" strokeLinecap="round" className="stroke-[#CDCBC6] dark:stroke-[#514F48]" />
       {/* glow underlay, dark mode only */}
       <motion.path
         d={d}
         fill="none"
-        stroke="#5B3A8E"
+        stroke="#416788"
         strokeWidth={7}
         strokeLinecap="round"
         className="hidden opacity-60 dark:block dark:[filter:blur(4px)]"
@@ -66,10 +66,10 @@ export function RoutePath({
       <motion.path
         d={d}
         fill="none"
-        stroke="#5B3A8E"
+        stroke="#416788"
         strokeWidth={2}
         strokeLinecap="round"
-        className="dark:[filter:drop-shadow(0_0_3px_rgba(196,181,253,0.9))]"
+        className="dark:[filter:drop-shadow(0_0_3px_rgba(244,218,123,0.9))]"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: progress }}
         transition={transition}

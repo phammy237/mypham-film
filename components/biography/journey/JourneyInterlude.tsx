@@ -65,14 +65,14 @@ export function JourneyInterlude({
       >
         {/* "darken the map more than normal here" — a local overlay, not a second vignette system;
             shares this block's own opacity fade automatically (no separate ref needed). */}
-        <div className="pointer-events-none absolute inset-0 -z-10 dark:bg-[rgba(4,7,20,0.22)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 -z-10 dark:bg-[rgba(15,15,13,0.22)]" aria-hidden="true" />
         <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-journey-violet dark:text-journey-lilac">
           Between Chapters
         </p>
         <h2 className="max-w-[540px] font-display text-[44px] leading-[1.02] text-journey-ink dark:text-journey-paper md:text-left md:text-[50px]">
           {notYetInterludeCopy.heading}
         </h2>
-        <p className="max-w-[480px] font-body text-[16px] leading-relaxed text-journey-body dark:text-[rgba(226,224,235,0.70)] md:text-left">
+        <p className="max-w-[480px] font-body text-[16px] leading-relaxed text-journey-body dark:text-[rgba(231,230,228,0.70)] md:text-left">
           {notYetInterludeCopy.paragraph}
         </p>
       </div>
@@ -105,7 +105,7 @@ export function JourneyInterlude({
         ref={acrossPacificRef}
         className="pointer-events-none absolute bottom-[14vh] left-[7vw] z-20 opacity-0 md:bottom-[16vh] md:left-[8vw]"
       >
-        <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-journey-muted dark:text-[rgba(210,205,225,0.6)] dark:opacity-70">
+        <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-journey-muted dark:text-[rgba(218,216,212,0.6)] dark:opacity-70">
           Across the Pacific
         </p>
       </div>

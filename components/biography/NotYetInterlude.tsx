@@ -38,16 +38,16 @@ export function NotYetInterlude({ onCrossOcean }: { onCrossOcean: () => void }) 
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-border bg-[#FBFAFF] px-6 py-16 shadow-sm dark:border-white/10 dark:bg-navy-deep sm:px-10 md:py-24"
+      className="relative overflow-hidden rounded-3xl border border-border bg-[#FEFDFB] px-6 py-16 shadow-sm dark:border-white/10 dark:bg-navy-deep sm:px-10 md:py-24"
       aria-label="Interlude: the years before leaving Hanoi"
     >
       <div
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-0 blur-3xl dark:opacity-100"
-        style={{ background: "radial-gradient(circle, rgba(91,58,142,0.22), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(65,103,136,0.22), transparent 70%)" }}
       />
       <div
         className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full opacity-40 blur-3xl dark:opacity-60"
-        style={{ background: "radial-gradient(circle, rgba(155,139,181,0.25), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(167,163,153,0.25), transparent 70%)" }}
       />
 
       <div className="relative mx-auto max-w-2xl">

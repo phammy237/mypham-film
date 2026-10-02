@@ -133,7 +133,7 @@ export function HanoiMap({
       >
         <div
           className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-0 blur-3xl dark:opacity-100"
-          style={{ background: "radial-gradient(circle, rgba(91, 58, 142,0.2), transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(65,103,136,0.2), transparent 70%)" }}
         />
 
         {/* faint dot-grid texture so the surface reads as a map even away from the water */}
@@ -157,10 +157,10 @@ export function HanoiMap({
             <path d={roadsPathD} fill="none" strokeWidth={1} strokeLinecap="round" className="stroke-accent-light dark:stroke-white/[0.08]" />
           )}
           {lakePathD && (
-            <path d={lakePathD} className="fill-[#C7DBF7] stroke-[#8FB3E5] dark:fill-[#1B2E4F] dark:stroke-[#3D5E92]" strokeWidth={1.2} />
+            <path d={lakePathD} className="fill-[#F4DA7B] stroke-[#F4D771] dark:fill-[#3D3B35] dark:stroke-[#416788]" strokeWidth={1.2} />
           )}
           {riverPathD && (
-            <path d={riverPathD} fill="none" strokeWidth={16} strokeLinecap="round" className="stroke-[#C7DBF7] dark:stroke-[#1B2E4F]" />
+            <path d={riverPathD} fill="none" strokeWidth={16} strokeLinecap="round" className="stroke-[#F4DA7B] dark:stroke-[#3D3B35]" />
           )}
         </svg>
 

@@ -154,7 +154,7 @@ function Atmosphere() {
     <mesh scale={1.035}>
       <sphereGeometry args={[RADIUS, 64, 64]} />
       <atmosphereMaterial
-        glowColor={new THREE.Color("#9B8BB5")}
+        glowColor={new THREE.Color("#A7A399")}
         intensity={1.3}
         side={THREE.BackSide}
         transparent
@@ -177,7 +177,7 @@ function CountryBoundary({ countries, countryId }: { countries: FeatureCollectio
   return (
     <>
       {rings.map((ring, i) => (
-        <Line key={i} points={ring} color="#E4DDF7" lineWidth={2.25} transparent opacity={0.95} />
+        <Line key={i} points={ring} color="#F3EEE1" lineWidth={2.25} transparent opacity={0.95} />
       ))}
     </>
   );
@@ -430,7 +430,7 @@ function PlaneMarker({ matRef }: { matRef: React.RefObject<THREE.MeshBasicMateri
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={6} array={PLANE_MARKER_POSITIONS} itemSize={3} />
       </bufferGeometry>
-      <meshBasicMaterial ref={matRef} color="#F1EAF7" transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} />
+      <meshBasicMaterial ref={matRef} color="#F7F3EA" transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} />
     </mesh>
   );
 }
@@ -498,7 +498,7 @@ function FlightRoute({ points, routeProgressRef }: { points: THREE.Vector3[]; ro
         <bufferGeometry ref={lineGeomRef}>
           <bufferAttribute attach="attributes-position" count={points.length} array={positions} itemSize={3} />
         </bufferGeometry>
-        <lineBasicMaterial ref={lineMatRef} color="#C9BAD9" transparent opacity={0} depthWrite={false} toneMapped={false} />
+        <lineBasicMaterial ref={lineMatRef} color="#CDCBC6" transparent opacity={0} depthWrite={false} toneMapped={false} />
       </line>
       <group ref={planeGroupRef}>
         <PlaneMarker matRef={planeMatRef} />
@@ -607,7 +607,7 @@ function GlobeScene({
           (progressiveRoute ? (
             <FlightRoute points={arcSegments} routeProgressRef={controller.routeProgressRef} />
           ) : (
-            <Line points={arcSegments} color="#C9BAD9" dashed dashSize={0.022} gapSize={0.016} transparent opacity={0.75} />
+            <Line points={arcSegments} color="#CDCBC6" dashed dashSize={0.022} gapSize={0.016} transparent opacity={0.75} />
           ))}
       </group>
       <Atmosphere />
@@ -644,7 +644,7 @@ export function SatelliteGlobeCanvas({
       aria-label={ariaLabel}
     >
       <div
-        className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-[#0B1024] transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
+        className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-[#1C1B18] transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
       >
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-accent-lavender" />
       </div>

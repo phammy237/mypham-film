@@ -40,7 +40,7 @@ export function RegionOverview({
     <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-base dark:border-white/10 dark:bg-navy" style={{ minHeight: height }}>
       <div
         className="pointer-events-none absolute -left-16 -bottom-16 h-72 w-72 rounded-full opacity-0 blur-3xl dark:opacity-100"
-        style={{ background: "radial-gradient(circle, rgba(91, 58, 142,0.2), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(65,103,136,0.2), transparent 70%)" }}
       />
       <div className="absolute inset-0 flex items-center justify-center">
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Map of ${chapter.regionLabel}`}>
@@ -48,7 +48,7 @@ export function RegionOverview({
             <motion.path
               d={path}
               strokeWidth={1.4}
-              className="fill-accent-light stroke-accent dark:fill-[#2B2347] dark:stroke-accent-lavender"
+              className="fill-accent-light stroke-accent dark:fill-[#3D3B35] dark:stroke-accent-lavender"
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
@@ -59,12 +59,12 @@ export function RegionOverview({
             <g transform={`translate(${markerPoint[0]}, ${markerPoint[1]})`}>
               <motion.circle
                 r={16}
-                fill="#5B3A8E"
+                fill="#416788"
                 opacity={0.25}
                 animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0, 0.3] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
               />
-              <circle r={6} fill="#5B3A8E" strokeWidth={2} className="stroke-white dark:stroke-navy dark:[filter:drop-shadow(0_0_5px_rgba(91, 58, 142,0.8))]" />
+              <circle r={6} fill="#416788" strokeWidth={2} className="stroke-white dark:stroke-navy dark:[filter:drop-shadow(0_0_5px_rgba(65,103,136,0.8))]" />
             </g>
           )}
         </svg>

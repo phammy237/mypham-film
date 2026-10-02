@@ -40,8 +40,8 @@ export function JourneyProgressRail({ chapters, activeChapterId, activeChapterIn
               <span
                 className={`font-mono text-[10px] uppercase leading-none tracking-[0.18em] transition-colors ${
                   isActive
-                    ? "text-journey-ink dark:text-[rgba(244,241,248,0.92)]"
-                    : "text-[rgba(79,87,120,0.42)] group-hover:text-[rgba(79,87,120,0.65)] dark:text-[rgba(205,200,224,0.40)] dark:group-hover:text-[rgba(205,200,224,0.65)]"
+                    ? "text-journey-ink dark:text-[rgba(249,247,240,0.92)]"
+                    : "text-[rgba(106,103,93,0.42)] group-hover:text-[rgba(106,103,93,0.65)] dark:text-[rgba(215,213,209,0.40)] dark:group-hover:text-[rgba(215,213,209,0.65)]"
                 }`}
               >
                 {chapter.label}
@@ -49,8 +49,8 @@ export function JourneyProgressRail({ chapters, activeChapterId, activeChapterIn
               <span
                 className={`h-1.5 w-1.5 rounded-full transition-all ${
                   isActive
-                    ? "bg-journey-violet shadow-[0_0_8px_rgba(124,106,242,0.28)] dark:bg-[#A58AFF] dark:shadow-[0_0_8px_rgba(165,138,255,0.45)]"
-                    : "border border-[rgba(90,95,130,0.24)] bg-transparent group-hover:border-journey-violet dark:border-[rgba(180,172,215,0.28)] dark:group-hover:border-[#A58AFF]"
+                    ? "bg-journey-violet shadow-[0_0_8px_rgba(134,181,215,0.28)] dark:bg-[#F4DA7B] dark:shadow-[0_0_8px_rgba(244,218,123,0.45)]"
+                    : "border border-[rgba(118,113,102,0.24)] bg-transparent group-hover:border-journey-violet dark:border-[rgba(198,195,189,0.28)] dark:group-hover:border-[#F4DA7B]"
                 }`}
               />
             </button>
@@ -62,7 +62,7 @@ export function JourneyProgressRail({ chapters, activeChapterId, activeChapterIn
         aria-label="Journey chapters"
         className="fixed inset-x-0 bottom-20 z-40 flex justify-center md:hidden"
       >
-        <div className="flex items-center gap-1 rounded-full border border-[rgba(38,49,91,0.12)] bg-[#FBFAFD]/90 px-2 py-2 backdrop-blur-sm dark:border-white/15 dark:bg-navy-deep/85">
+        <div className="flex items-center gap-1 rounded-full border border-[rgba(74,72,64,0.12)] bg-[#FDFCFA]/90 px-2 py-2 backdrop-blur-sm dark:border-white/15 dark:bg-navy-deep/85">
           {chapters.map((chapter, i) => {
             const isActive = chapter.id === activeChapterId;
             const isCompleted = i < activeChapterIndex;

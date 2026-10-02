@@ -589,23 +589,23 @@ export function GeographicJourney() {
       <section
         ref={todaySectionRef}
         aria-label="Today & Ahead"
-        className="relative z-10 min-h-screen overflow-hidden bg-[#F4F2F8] dark:bg-[#080D1B]"
+        className="relative z-10 min-h-screen overflow-hidden bg-[#FAF7F0] dark:bg-[#151412]"
       >
         <div className="absolute left-6 bottom-[15vh] flex w-[calc(100%-48px)] max-w-[520px] flex-col items-start gap-4 md:left-[clamp(72px,7vw,120px)] md:bottom-[16vh]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-journey-muted dark:text-[rgba(185,170,225,0.72)]">Today / 2026</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-journey-muted dark:text-[rgba(244,218,123,0.72)]">Today / 2026</p>
           <h2 className="font-display text-[46px] leading-[1.05] text-journey-ink dark:text-journey-paper md:text-[56px]">
             Still becoming.
           </h2>
-          <p className="max-w-[470px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-[rgba(226,224,235,0.70)]">
+          <p className="max-w-[470px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
             Hanoi, Rivermont, Gainesville — the map ends here for now. The rest is still being written.
           </p>
           <Link
             href="/connect"
-            className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-[#B09DF2]"
+            className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-[#F4DA7B]"
           >
             Let&apos;s Connect →
           </Link>
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted dark:text-[rgba(210,205,225,0.6)] dark:opacity-[.28]">
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.28]">
             More places · More people · More to come
           </p>
         </div>

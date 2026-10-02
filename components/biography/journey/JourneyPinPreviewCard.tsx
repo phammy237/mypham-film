@@ -46,7 +46,7 @@ export function JourneyPinPreviewCard({
           {String(number).padStart(2, "0")}
         </span>
         <div className="min-w-0">
-          <p className="mb-2 font-mono text-[10px] uppercase leading-relaxed tracking-[0.18em] text-[#7260B6] dark:text-[#BBA6F5]">{metaLabel}</p>
+          <p className="mb-2 font-mono text-[10px] uppercase leading-relaxed tracking-[0.18em] text-[#938F83] dark:text-[#F4DA7B]">{metaLabel}</p>
           <h2 className="journey-preview-title font-display">{title}</h2>
         </div>
       </div>
@@ -61,7 +61,7 @@ export function JourneyPinPreviewCard({
             loading="lazy"
           />
         ) : (
-          <div className="journey-preview-media bg-[#F1EFF7] dark:bg-white/[0.04]" />
+          <div className="journey-preview-media bg-[#F8F5EE] dark:bg-white/[0.04]" />
         )
       ) : mediaPlaceholder ? (
         <JourneyMediaPlaceholder
@@ -93,7 +93,7 @@ export function JourneyPinPreviewCard({
         >
           ←
         </button>
-        <span className="font-mono text-[10px] tracking-[0.18em] text-[#626782] dark:text-[#D2CAE6]">
+        <span className="font-mono text-[10px] tracking-[0.18em] text-[#7A756A] dark:text-[#DBD9D5]">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
         <button

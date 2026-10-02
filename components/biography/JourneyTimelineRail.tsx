@@ -30,7 +30,7 @@ export function JourneyTimelineRail({ activeIndex }: { activeIndex: number }) {
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full border-2 font-mono text-[9px] transition-colors duration-300 ${
                   state === "active"
-                    ? "border-accent bg-accent text-white shadow-[0_0_14px_rgba(91,58,142,0.65)] dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy dark:shadow-[0_0_14px_rgba(155,139,181,0.75)]"
+                    ? "border-accent bg-accent text-white shadow-[0_0_14px_rgba(65,103,136,0.65)] dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy dark:shadow-[0_0_14px_rgba(167,163,153,0.75)]"
                     : state === "done"
                     ? "border-accent/60 bg-accent/15 text-accent dark:border-accent-lavender/60 dark:bg-accent-lavender/15 dark:text-accent-lavender"
                     : "border-black/20 bg-base text-black/30 dark:border-white/25 dark:bg-navy dark:text-white/30"

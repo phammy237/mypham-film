@@ -26,25 +26,33 @@ const BLOCKS = [
 ];
 const hash = (s: string) => s.split("").reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 
+/** a flat film-palette title card, for anything without a photo */
+export function BlockArt({ seed, label, n, className = '', sub }: { seed: string; label: string; n?: number; className?: string; sub?: string }) {
+  const b = BLOCKS[hash(seed) % BLOCKS.length];
+  return (
+    <span className={`f-photo ${className}`} style={{ background: b.bg, color: b.fg }}>
+      <span className="absolute inset-0 grid place-content-center gap-1 p-4 text-center">
+        <span className="f-serif text-[clamp(22px,3vw,34px)] leading-[1.05]">{label}</span>
+        {sub && <span className="f-mono opacity-70">{sub}</span>}
+      </span>
+      {n !== undefined && <span className="f-fno" style={{ color: b.fg === '#FAF7EF' ? '#F4D35E' : '#20201E', textShadow: 'none' }}>{frameNo(n)}</span>}
+    </span>
+  );
+}
+
 /** a project's cover: its screenshot when there is one, a title card otherwise */
-export function ProjectArt({ project, n, sizes, className = "", priority }: {
+export function ProjectArt({ project, n, sizes, className = '', priority }: {
   project: Project; n?: number; sizes: string; className?: string; priority?: boolean;
 }) {
   if (project.image) {
     return (
       <span className={`f-photo ${className}`}>
-        <Image src={project.image} alt={project.title} fill sizes={sizes} priority={priority} style={{ objectFit: "cover", objectPosition: "top" }} />
+        <Image src={project.image} alt={project.title} fill sizes={sizes} priority={priority} style={{ objectFit: 'cover', objectPosition: 'top' }} />
         {n !== undefined && <span className="f-fno">{frameNo(n)}</span>}
       </span>
     );
   }
-  const b = BLOCKS[hash(project.slug) % BLOCKS.length];
-  return (
-    <span className={`f-photo ${className}`} style={{ background: b.bg, color: b.fg }}>
-      <span className="f-serif absolute inset-0 grid place-items-center p-4 text-center text-[clamp(22px,3vw,34px)] leading-[1.05]">{project.title}</span>
-      {n !== undefined && <span className="f-fno" style={{ color: b.fg === "#FAF7EF" ? "#F4D35E" : "#20201E", textShadow: "none" }}>{frameNo(n)}</span>}
-    </span>
-  );
+  return <BlockArt seed={project.slug} label={project.title} n={n} className={className} />;
 }
 
 /** page title block: handwritten kicker, serif title with marker underline, typewriter intro */

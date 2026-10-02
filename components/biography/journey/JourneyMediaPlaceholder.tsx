@@ -21,7 +21,7 @@ export function JourneyMediaPlaceholder({
 }) {
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-2 border border-dashed border-[rgba(95,65,150,0.20)] bg-[#F7F4FC] px-6 text-center dark:border-[rgba(180,160,255,0.22)] dark:bg-[rgba(110,90,180,0.08)] ${className}`}
+      className={`flex flex-col items-center justify-center gap-2 border border-dashed border-[rgba(115,111,100,0.20)] bg-[#FBF9F5] px-6 text-center dark:border-[rgba(244,218,123,0.22)] dark:bg-[rgba(143,139,127,0.08)] ${className}`}
     >
       <span className="font-mono text-[11px] text-accent/60 dark:text-journey-glow/60">{String(number).padStart(2, "0")}</span>
       <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent/70 dark:text-journey-glow/70">{eyebrow}</p>

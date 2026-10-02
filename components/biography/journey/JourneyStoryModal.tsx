@@ -175,14 +175,14 @@ export function JourneyStoryModal({
       <div
         aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 bg-[rgba(5,8,18,0.62)] backdrop-blur-[8px] dark:bg-[rgba(5,8,18,0.62)]"
+        className="absolute inset-0 bg-[rgba(14,14,12,0.62)] backdrop-blur-[8px] dark:bg-[rgba(14,14,12,0.62)]"
       />
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={data.title}
-        className={`relative flex h-full w-full flex-col overflow-hidden border-[rgba(180,160,255,0.16)] bg-white shadow-[0_30px_90px_rgba(0,0,0,0.48)] transition-all dark:bg-[rgba(10,14,31,0.97)] md:h-[min(780px,81vh)] md:w-[min(940px,78vw)] md:flex-row md:rounded-[28px] md:border ${
+        className={`relative flex h-full w-full flex-col overflow-hidden border-[rgba(244,218,123,0.16)] bg-white shadow-[0_30px_90px_rgba(0,0,0,0.48)] transition-all dark:bg-[rgba(24,24,21,0.97)] md:h-[min(780px,81vh)] md:w-[min(940px,78vw)] md:flex-row md:rounded-[28px] md:border ${
           reducedMotion
             ? open
               ? "opacity-100"
@@ -346,7 +346,7 @@ export function JourneyStoryModal({
                       </p>
                     )}
                     {section.paragraphs.map((p, j) => (
-                      <p key={j} className="body-copy text-[17px] leading-[1.65] dark:text-[rgba(238,236,246,0.80)]">
+                      <p key={j} className="body-copy text-[17px] leading-[1.65] dark:text-[rgba(247,244,235,0.80)]">
                         {p}
                       </p>
                     ))}
@@ -402,7 +402,7 @@ export function JourneyStoryModal({
               <button
                 type="button"
                 onClick={onFinishChapter}
-                className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent transition-colors hover:text-accent/80 dark:text-journey-glow dark:hover:text-[#C7BAFF]"
+                className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent transition-colors hover:text-accent/80 dark:text-journey-glow dark:hover:text-[#F4DA7B]"
               >
                 Finish Chapter →
               </button>

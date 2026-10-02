@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { YouAreHere, NextStop } from "@/components/layout/Wayfinding";
 import { SITE_EMAIL } from "@/lib/site";
 
-const fieldClass = "font-mono text-sm bg-base dark:bg-white/5 border border-border dark:border-white/10 rounded-xl px-4 py-3 text-surface dark:text-white placeholder:text-muted/60 dark:placeholder:text-white/20 focus:outline-none focus:border-accent/50 transition-colors";
+const fieldClass = "f-input f-type";
 
 /* ─── Icons ────────────────────────────────────────── */
 type IconProps = { className?: string };
@@ -90,9 +90,9 @@ function CheckIcon({ className = "" }: IconProps) {
 
 function WavyDivider() {
   return (
-    <svg viewBox="0 0 320 60" className="h-10 w-full max-w-[320px] text-border dark:text-white/15" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 320 60" className="h-10 w-full max-w-[320px] text-[var(--line)]" fill="none" aria-hidden="true">
       <path d="M0 40c40 0 40-25 80-25s40 25 80 25 40-25 80-25 40 25 80 25" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 5" />
-      <circle cx="163" cy="27" r="4" className="fill-accent" />
+      <circle cx="163" cy="27" r="4" className="fill-[var(--butter)] stroke-[var(--ink)]" />
     </svg>
   );
 }
@@ -159,19 +159,19 @@ export default function ConnectPage() {
   }
 
   return (
-    <main className="min-h-screen bg-base dark:bg-navy">
+    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
       <Navbar />
 
       <div className="grid gap-12 px-[5vw] pb-24 pt-28 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 max-w-[1400px] mx-auto">
         {/* ─── Left column ─────────────────────────── */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="lg:sticky lg:top-28 lg:self-start">
           <div className="mb-5"><YouAreHere page="Connect" /></div>
-          <p className="eyebrow text-accent dark:text-accent-lavender mb-3">Let&apos;s hang</p>
-          <h1 className="heading text-6xl md:text-7xl mb-6">Connect</h1>
+          <p className="f-hand mb-1 text-3xl text-[var(--blue)]" style={{ transform: "rotate(-2deg)", transformOrigin: "left" }}>let&apos;s hang</p>
+          <h1 className="f-h1 mb-8"><span className="f-mark">connect</span></h1>
 
           <div className="flex gap-3">
-            <SparkleIcon className="mt-1 shrink-0 text-accent/70" />
-            <div className="font-body text-lg text-surface/80 dark:text-white/70 leading-relaxed">
+            <SparkleIcon className="mt-1 shrink-0 text-[var(--butter)] drop-shadow-[0_0_1px_rgba(32,32,30,.6)]" />
+            <div className="f-type text-lg leading-relaxed">
               <p>I genuinely love meeting people.</p>
               <p>Same city? Let&apos;s meet.</p>
               <p>Different city? We have WiFi.</p>
@@ -183,25 +183,25 @@ export default function ConnectPage() {
           </div>
 
           <div className="flex flex-col gap-3 mt-8 sm:mt-0">
-            <a href={`mailto:${SITE_EMAIL}`} className="group flex items-center gap-2.5 font-body text-surface dark:text-white hover:text-accent dark:hover:text-accent-lavender transition-colors w-fit">
-              <MailIcon className="text-accent dark:text-accent-lavender" /> Email
-              <ArrowUpRightIcon className="text-muted/50 dark:text-white/40 group-hover:text-accent dark:group-hover:text-accent-lavender transition-colors" />
+            <a href={`mailto:${SITE_EMAIL}`} className="group flex items-center gap-2.5 f-type text-[var(--ink)] hover:text-[var(--blue)] transition-colors w-fit">
+              <MailIcon className="text-[var(--blue)]" /> Email
+              <ArrowUpRightIcon className="text-[var(--muted)] group-hover:text-[var(--blue)] transition-colors" />
             </a>
-            <a href="https://linkedin.com/in/mypham237" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2.5 font-body text-surface dark:text-white hover:text-accent dark:hover:text-accent-lavender transition-colors w-fit">
-              <LinkedInBoxIcon className="text-accent dark:text-accent-lavender" /> LinkedIn
-              <ArrowUpRightIcon className="text-muted/50 dark:text-white/40 group-hover:text-accent dark:group-hover:text-accent-lavender transition-colors" />
+            <a href="https://linkedin.com/in/mypham237" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2.5 f-type text-[var(--ink)] hover:text-[var(--blue)] transition-colors w-fit">
+              <LinkedInBoxIcon className="text-[var(--blue)]" /> LinkedIn
+              <ArrowUpRightIcon className="text-[var(--muted)] group-hover:text-[var(--blue)] transition-colors" />
             </a>
-            <a href="/cv" className="group flex items-center gap-2.5 font-body text-surface dark:text-white hover:text-accent dark:hover:text-accent-lavender transition-colors w-fit">
-              <DocumentIcon className="text-accent dark:text-accent-lavender" /> Resume
-              <ArrowUpRightIcon className="text-muted/50 dark:text-white/40 group-hover:text-accent dark:group-hover:text-accent-lavender transition-colors" />
+            <a href="/cv" className="group flex items-center gap-2.5 f-type text-[var(--ink)] hover:text-[var(--blue)] transition-colors w-fit">
+              <DocumentIcon className="text-[var(--blue)]" /> Resume
+              <ArrowUpRightIcon className="text-[var(--muted)] group-hover:text-[var(--blue)] transition-colors" />
             </a>
           </div>
 
-          <div className="mt-8 flex items-start gap-3 rounded-2xl border border-border dark:border-white/10 bg-card dark:bg-white/5 p-5 max-w-[340px]">
-            <GlobeIcon className="mt-0.5 shrink-0 text-accent dark:text-accent-lavender" />
+          <div className="f-note mt-10 flex max-w-[300px] items-start gap-3 rounded-sm p-5">
+            <GlobeIcon className="mt-0.5 shrink-0" />
             <div>
-              <p className="font-body font-medium text-surface dark:text-white">Based in Gainesville, FL</p>
-              <p className="body-copy text-sm dark:text-white/45 mt-0.5">Open to connecting anywhere in the world.</p>
+              <p className="f-hand text-2xl">Based in Gainesville, FL</p>
+              <p className="f-type mt-0.5 text-sm text-[#20201E]/70">Open to connecting anywhere in the world.</p>
             </div>
           </div>
         </motion.div>
@@ -210,7 +210,7 @@ export default function ConnectPage() {
         <div>
           {/* 01 — How should we meet */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <p className="eyebrow text-accent dark:text-accent-lavender mb-4">01 / How should we meet?</p>
+            <p className="f-mono mb-4 text-[var(--blue)]">01 / How should we meet?</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {meetModes.map((mode) => {
                 const active = meetMode === mode.key;
@@ -219,23 +219,23 @@ export default function ConnectPage() {
                     key={mode.key}
                     type="button"
                     onClick={() => setMeetMode(mode.key)}
-                    className={`text-left rounded-2xl border p-5 transition-colors duration-200 ${
+                    className={`f-hover-lift text-left rounded-2xl border p-5 transition-colors duration-200 ${
                       active
-                        ? "border-accent/60 bg-accent/[0.06] dark:border-accent-lavender/70 dark:bg-accent/10"
-                        : "border-border dark:border-white/10 hover:border-accent/30"
+                        ? "border-[var(--ink)] bg-[var(--butter)]/40"
+                        : "border-[var(--line)] bg-[var(--card)] hover:border-[var(--ink)]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className={`font-display text-xl ${active ? "text-accent dark:text-accent-lavender" : "text-surface dark:text-white"}`}>{mode.title}</h3>
+                      <h3 className={"f-type text-xl font-bold"}>{mode.title}</h3>
                       <span
                         className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border transition-colors ${
-                          active ? "border-accent bg-accent text-white dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy" : "border-border dark:border-white/20 text-transparent"
+                          active ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--line)] text-transparent"
                         }`}
                       >
                         <CheckIcon />
                       </span>
                     </div>
-                    <p className="body-copy text-sm dark:text-white/50 leading-relaxed">{mode.desc}</p>
+                    <p className="text-sm leading-relaxed text-[var(--muted)]">{mode.desc}</p>
                   </button>
                 );
               })}
@@ -243,30 +243,30 @@ export default function ConnectPage() {
           </motion.div>
 
           {/* 02 — Where I'll be */}
-          <motion.div className="mt-10 pt-10 border-t border-border dark:border-white/10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
-            <p className="eyebrow text-accent dark:text-accent-lavender mb-4">02 / Where I&apos;ll be</p>
-            <div className="flex items-center gap-3 rounded-xl border border-border dark:border-white/10 bg-card dark:bg-white/5 px-5 py-4">
-              <MapPinIcon className="text-accent dark:text-accent-lavender shrink-0" />
-              <span className="font-body text-surface dark:text-white">Gainesville, FL</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-accent bg-accent/10 border border-accent/25 rounded-full px-2.5 py-1 dark:text-accent-lavender dark:bg-accent/20 dark:border-accent-lavender/40">
+          <motion.div className="mt-10 pt-10 border-t border-[var(--line)]" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
+            <p className="f-mono mb-4 text-[var(--blue)]">02 / Where I&apos;ll be</p>
+            <div className="flex items-center gap-3 f-card px-5 py-4">
+              <MapPinIcon className="shrink-0 text-[var(--blue)]" />
+              <span className="f-type font-bold">Gainesville, FL</span>
+              <span className="f-chip border-transparent bg-[var(--butter)] text-[#20201E]">
                 Current
               </span>
             </div>
           </motion.div>
 
           {/* 03 — What sounds good */}
-          <motion.div className="mt-10 pt-10 border-t border-border dark:border-white/10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }}>
-            <p className="eyebrow text-accent dark:text-accent-lavender mb-4">03 / What sounds good?</p>
+          <motion.div className="mt-10 pt-10 border-t border-[var(--line)]" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }}>
+            <p className="f-mono mb-4 text-[var(--blue)]">03 / What sounds good?</p>
 
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setDropdownOpen((o) => !o)}
-                className="flex w-full items-center gap-3 rounded-xl border border-border dark:border-white/10 bg-card dark:bg-white/5 px-5 py-4 text-left hover:border-accent/30 transition-colors"
+                className="f-card flex w-full items-center gap-3 px-5 py-4 text-left transition-colors hover:border-[var(--ink)]"
               >
                 <span className="text-xl">{selectedOpt.emoji}</span>
-                <span className="heading text-xl flex-1">{selectedOpt.title}</span>
-                <ChevronDownIcon className={`text-muted dark:text-white/40 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
+                <span className="f-type flex-1 text-lg font-bold">{selectedOpt.title}</span>
+                <ChevronDownIcon className={`text-[var(--muted)] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
 
               <AnimatePresence>
@@ -276,7 +276,7 @@ export default function ConnectPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute z-20 mt-2 w-full rounded-xl border border-border dark:border-white/10 bg-white dark:bg-[#1E2847] shadow-xl overflow-hidden max-h-72 overflow-y-auto"
+                    className="absolute z-20 mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--card)] shadow-xl overflow-hidden max-h-72 overflow-y-auto"
                   >
                     {options.map((opt) => (
                       <button
@@ -289,11 +289,11 @@ export default function ConnectPage() {
                           setStatus("idle");
                         }}
                         className={`flex w-full items-center gap-3 px-5 py-3 text-left transition-colors ${
-                          opt.title === selected ? "bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent-lavender" : "text-surface dark:text-white hover:bg-black/[0.03] dark:hover:bg-white/5"
+                          opt.title === selected ? "bg-[var(--butter)]/50 text-[var(--ink)]" : "text-[var(--ink)] hover:bg-[var(--soft)]"
                         }`}
                       >
                         <span className="text-lg">{opt.emoji}</span>
-                        <span className="font-body text-sm">{opt.title}</span>
+                        <span className="f-type text-sm">{opt.title}</span>
                       </button>
                     ))}
                   </motion.div>
@@ -302,11 +302,11 @@ export default function ConnectPage() {
             </div>
 
             <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-              <p className="font-body text-surface/80 dark:text-white/60 leading-relaxed max-w-sm">{selectedOpt.desc}</p>
+              <p className="max-w-sm leading-relaxed text-[var(--muted)]">{selectedOpt.desc}</p>
               <button
                 type="button"
                 onClick={() => setShowForm(true)}
-                className="shrink-0 inline-flex items-center gap-2 font-mono text-sm px-6 py-3 border border-accent/40 text-accent hover:bg-accent hover:text-white transition-colors duration-200 rounded-xl dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy dark:hover:bg-accent-lavender/85"
+                className="f-btn f-btn-butter shrink-0 !px-6 !py-3"
               >
                 Let&apos;s do it <span aria-hidden="true">→</span>
               </button>
@@ -321,7 +321,7 @@ export default function ConnectPage() {
                   transition={{ duration: 0.25 }}
                   className="overflow-hidden"
                 >
-                  <form onSubmit={handleSend} className="mt-6 flex flex-col gap-4 rounded-2xl border border-border dark:border-white/10 bg-card dark:bg-white/5 p-6">
+                  <form onSubmit={handleSend} className="f-card mt-6 flex flex-col gap-4 p-6">
                     <div className="hidden" aria-hidden="true">
                       <label>Website<input name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} /></label>
                     </div>
@@ -358,11 +358,11 @@ export default function ConnectPage() {
                       <button
                         type="submit"
                         disabled={status === "sending"}
-                        className="font-mono text-sm px-6 py-3 bg-accent text-white hover:bg-accent/90 disabled:opacity-60 transition-colors duration-200 rounded-xl dark:bg-accent-lavender dark:text-navy dark:hover:bg-accent-lavender/85"
+                        className="f-btn f-btn-butter !px-6 !py-3 disabled:opacity-60"
                       >
                         {status === "sending" ? "Sending…" : status === "sent" ? "Sent ✓" : "Send to My →"}
                       </button>
-                      <p className="font-mono text-xs text-muted dark:text-white/30">
+                      <p className="f-mono text-[var(--muted)]">
                         {status === "error" ? "Something went wrong — try again or email me directly." : "Sends straight to my inbox."}
                       </p>
                     </div>
@@ -374,16 +374,16 @@ export default function ConnectPage() {
 
           {/* Bottom banner */}
           <motion.div
-            className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-border dark:border-white/10 bg-card dark:bg-white/5 px-6 py-5"
+            className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl bg-[var(--sky)] px-6 py-5 text-[#20201E]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
           >
             <div className="flex items-center gap-3">
-              <SparkleIcon className="text-accent/70 shrink-0" />
-              <p className="font-body text-surface dark:text-white">If our paths cross, I&apos;d love to connect.</p>
+              <SparkleIcon className="shrink-0" />
+              <p className="f-type">If our paths cross, I&apos;d love to connect.</p>
             </div>
-            <p className="font-display italic text-lg text-accent dark:text-accent-lavender">Good people &gt; everything.</p>
+            <p className="f-hand text-2xl">good people &gt; everything.</p>
           </motion.div>
         </div>
       </div>

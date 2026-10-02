@@ -57,7 +57,7 @@ export default function BiographyPage() {
   }, [story.stage, zoomingIntoVietnam]);
 
   return (
-    <main className="min-h-screen bg-base dark:bg-navy">
+    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
       <Navbar />
       <JourneyTimelineRail activeIndex={railIndexFor(story.stage, story.chapterIndex)} />
 
@@ -73,22 +73,22 @@ export default function BiographyPage() {
               className="mx-auto grid min-h-[70vh] max-w-[1400px] items-center gap-10 lg:grid-cols-[0.85fr_1fr]"
             >
               <div className="order-2 lg:order-1">
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">{heroCopy.eyebrow}</p>
-                <h1 className="heading mt-4 whitespace-pre-line text-5xl leading-[0.95] md:text-6xl">
-                  {heroCopy.heading}
+                <p className="f-hand text-3xl text-[var(--blue)]" style={{ transform: "rotate(-2deg)", transformOrigin: "left" }}>{heroCopy.eyebrow.toLowerCase()}</p>
+                <h1 className="f-h1 mt-3 whitespace-pre-line">
+                  <span className="f-mark">{heroCopy.heading}</span>
                 </h1>
-                <p className="body-copy mt-5 max-w-md text-base leading-relaxed dark:text-white/60">
+                <p className="f-type mt-6 max-w-md text-base leading-relaxed text-[var(--muted)]">
                   {heroCopy.subheading}
                 </p>
                 <button
                   onClick={handleBeginJourney}
                   disabled={zoomingIntoVietnam}
-                  className="mt-7 inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 font-mono text-xs uppercase tracking-wider text-white transition-colors hover:bg-accent/90 disabled:opacity-70"
+                  className="f-btn f-btn-butter mt-7 disabled:opacity-70"
                 >
                   {heroCopy.cta}
                   <span aria-hidden="true">→</span>
                 </button>
-                <div className="mt-4 flex items-center gap-2 font-mono text-xs text-muted/70 dark:text-white/35">
+                <div className="mt-4 f-mono flex items-center gap-2 text-[var(--muted)]">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 5l-2 14" />
                   </svg>
@@ -127,7 +127,7 @@ export default function BiographyPage() {
                   wheelTriggeredRef.current = false;
                   story.back();
                 }}
-                className="mb-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:text-accent dark:text-white/40 dark:hover:text-accent"
+                className="f-mono mb-5 inline-flex items-center gap-1.5 text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
               >
                 ← Back to globe
               </button>
@@ -159,7 +159,7 @@ export default function BiographyPage() {
             >
               <button
                 onClick={story.back}
-                className="mb-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:text-accent dark:text-white/40 dark:hover:text-accent"
+                className="f-mono mb-5 inline-flex items-center gap-1.5 text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
               >
                 ← Back to {story.chapter.regionLabel}
               </button>

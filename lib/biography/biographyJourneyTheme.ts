@@ -75,108 +75,108 @@ type BiographyJourneyTheme = {
 
 const dark: BiographyJourneyTheme = {
   map: {
-    background: "#080D1B",
-    water: "#0A1020",
+    background: "#151412",
+    water: "#191816",
     // Same as `background` on purpose — the park layer is a new addition and must stay invisible
     // in dark mode so dark mode's rendered output is pixel-identical to before it existed.
-    park: "#080D1B",
-    waterway: "rgba(170,175,200,0.12)",
-    waterLabel: "rgba(190,190,210,0.24)",
-    boundaryCountry: "rgba(160,160,180,0.10)",
-    boundaryState: "rgba(160,160,180,0.08)",
-    roadMinor: "rgba(170,170,195,0.10)",
-    roadMedium: "rgba(190,188,210,0.15)",
-    roadMajor: "rgba(210,205,225,0.23)",
-    cityLabel: "rgba(225,220,235,0.32)",
-    majorGeoLabel: "rgba(235,230,242,0.48)",
-    labelHalo: "#080D1B",
+    park: "#151412",
+    waterway: "rgba(190,187,180,0.12)",
+    waterLabel: "rgba(204,202,196,0.24)",
+    boundaryCountry: "rgba(176,173,164,0.10)",
+    boundaryState: "rgba(176,173,164,0.08)",
+    roadMinor: "rgba(188,185,177,0.10)",
+    roadMedium: "rgba(203,201,195,0.15)",
+    roadMajor: "rgba(218,216,212,0.23)",
+    cityLabel: "rgba(229,228,226,0.32)",
+    majorGeoLabel: "rgba(245,240,227,0.48)",
+    labelHalo: "#151412",
     // Deliberately darker than `background` — the globe's sphere and the void around it (MapLibre's
     // "sky" in globe projection) must never share a color, or the sphere's edge disappears.
-    skyColor: "#03050D",
-    horizonColor: "#9480D8",
-    curatedLabel: "rgba(199,186,255,0.52)",
+    skyColor: "#0A0A09",
+    horizonColor: "#83B3D6",
+    curatedLabel: "rgba(244,218,123,0.52)",
   },
   route: {
-    core: { completed: "rgba(176,157,242,0.26)", current: "rgba(176,157,242,0.92)", future: "rgba(176,157,242,0.10)" },
-    glow: { completed: "rgba(142,115,230,0.05)", current: "rgba(142,115,230,0.20)", future: "rgba(142,115,230,0)" },
+    core: { completed: "rgba(244,218,123,0.26)", current: "rgba(244,218,123,0.92)", future: "rgba(244,218,123,0.10)" },
+    glow: { completed: "rgba(131,179,214,0.05)", current: "rgba(131,179,214,0.20)", future: "rgba(131,179,214,0)" },
   },
   transpacific: {
-    core: { current: "rgba(176,157,242,0.72)", transparent: "rgba(176,157,242,0)" },
-    glow: { current: "rgba(142,115,230,0.12)", transparent: "rgba(142,115,230,0)" },
+    core: { current: "rgba(244,218,123,0.72)", transparent: "rgba(244,218,123,0)" },
+    glow: { current: "rgba(131,179,214,0.12)", transparent: "rgba(131,179,214,0)" },
   },
   pin: {
-    activeFill: "#9A82E8",
-    activeStroke: "rgba(235,228,255,0.88)",
-    activeHalo: "rgba(154,130,232,0.18)",
+    activeFill: "#90BBDA",
+    activeStroke: "rgba(248,244,235,0.88)",
+    activeHalo: "rgba(144,187,218,0.18)",
     activeNumberText: "#FFFFFF",
-    inactiveFill: "#1B2340",
-    inactiveStroke: "rgba(180,165,225,0.56)",
-    inactiveNumberText: "rgba(235,230,245,0.76)",
-    titleText: "#F4F1FB",
-    subtitleText: "rgba(205,200,225,0.7)",
-    labelHalo: "#121A33",
+    inactiveFill: "#34332E",
+    inactiveStroke: "rgba(244,218,123,0.56)",
+    inactiveNumberText: "rgba(245,241,230,0.76)",
+    titleText: "#FAF8F2",
+    subtitleText: "rgba(215,214,210,0.7)",
+    labelHalo: "#282723",
   },
-  anchor: { glow: "#8E6BFF", ring: "#A98CFF", dot: "#F4F1FB" },
-  travelPoint: { dot: "#C3B2FF", glow: "rgba(163,138,255,0.40)" },
-  atmosphere: { inner: "rgba(210,225,255,0.42)", outer: "rgba(175,160,235,0.24)", outerFade: "rgba(135,110,225,0)" },
+  anchor: { glow: "#90BBDA", ring: "#F4DA7B", dot: "#FAF8F2" },
+  travelPoint: { dot: "#F4DA7B", glow: "rgba(244,218,123,0.40)" },
+  atmosphere: { inner: "rgba(243,237,222,0.42)", outer: "rgba(244,218,123,0.24)", outerFade: "rgba(124,175,211,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(4,7,18,0) 50%, rgba(4,7,18,0.10) 66%, rgba(4,7,18,0.30) 82%, rgba(3,5,14,0.58) 100%)",
-    side: "linear-gradient(to right, rgba(3,5,14,0.20) 0%, transparent 13%, transparent 87%, rgba(3,5,14,0.26) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(14,13,12,0) 50%, rgba(14,13,12,0.10) 66%, rgba(14,13,12,0.30) 82%, rgba(11,11,9,0.58) 100%)",
+    side: "linear-gradient(to right, rgba(11,11,9,0.20) 0%, transparent 13%, transparent 87%, rgba(11,11,9,0.26) 100%)",
   },
 };
 
 const light: BiographyJourneyTheme = {
   map: {
-    background: "#F1EFF7", // land tint
-    water: "#DCE6FA",
+    background: "#F8F5EE", // land tint
+    water: "#F4EFE2",
     park: "#E5EEDF",
-    waterway: "rgba(90,120,170,0.35)",
-    waterLabel: "rgba(62,90,130,0.60)",
-    boundaryCountry: "rgba(38,49,91,0.18)", // "stronger UI border" token, reused for country lines
-    boundaryState: "rgba(38,49,91,0.12)", // "subtle border" token
+    waterway: "rgba(139,134,121,0.35)",
+    waterLabel: "rgba(103,99,89,0.60)",
+    boundaryCountry: "rgba(74,72,64,0.18)", // "stronger UI border" token, reused for country lines
+    boundaryState: "rgba(74,72,64,0.12)", // "subtle border" token
     // Delicate white/pale-gray road network, per spec — visible against the land tint without
     // reading as a road ATLAS; opacity (not hue) is what separates the three tiers.
     roadMinor: "rgba(255,255,255,0.55)",
     roadMedium: "rgba(255,255,255,0.75)",
     roadMajor: "rgba(255,255,255,0.95)",
-    cityLabel: "#5E678D", // map labels
-    majorGeoLabel: "#3A446B", // large city labels
-    labelHalo: "#F1EFF7",
-    skyColor: "#F4F2F8", // page background tone — the void behind the sphere
-    horizonColor: "#B7AEF6", // secondary lavender line — the rim's only accent color
-    curatedLabel: "rgba(94,103,141,0.80)",
+    cityLabel: "#7E796D", // map labels
+    majorGeoLabel: "#58554D", // large city labels
+    labelHalo: "#F8F5EE",
+    skyColor: "#FAF7F0", // page background tone — the void behind the sphere
+    horizonColor: "#F4DA7B", // secondary lavender line — the rim's only accent color
+    curatedLabel: "rgba(126,121,109,0.80)",
   },
   route: {
     // Primary lavender at real opacity for completed/active; future/inactive drops to the secondary
     // lavender line color at low opacity — still lavender-family (per reference), just quiet.
-    core: { completed: "rgba(124,106,242,0.35)", current: "rgba(124,106,242,0.95)", future: "rgba(183,174,246,0.20)" },
-    glow: { completed: "rgba(124,106,242,0.08)", current: "rgba(124,106,242,0.22)", future: "rgba(183,174,246,0)" },
+    core: { completed: "rgba(134,181,215,0.35)", current: "rgba(134,181,215,0.95)", future: "rgba(244,218,123,0.20)" },
+    glow: { completed: "rgba(134,181,215,0.08)", current: "rgba(134,181,215,0.22)", future: "rgba(244,218,123,0)" },
   },
   transpacific: {
-    core: { current: "rgba(124,106,242,0.85)", transparent: "rgba(124,106,242,0)" },
-    glow: { current: "rgba(124,106,242,0.18)", transparent: "rgba(124,106,242,0)" },
+    core: { current: "rgba(134,181,215,0.85)", transparent: "rgba(134,181,215,0)" },
+    glow: { current: "rgba(134,181,215,0.18)", transparent: "rgba(134,181,215,0)" },
   },
   pin: {
-    activeFill: "#7C6AF2",
+    activeFill: "#86B5D7",
     activeStroke: "rgba(255,255,255,0.95)",
-    activeHalo: "rgba(124,106,242,0.18)", // exact "soft lavender glow" token
+    activeHalo: "rgba(134,181,215,0.18)", // exact "soft lavender glow" token
     activeNumberText: "#FFFFFF",
-    inactiveFill: "#FBFAFD", // elevated panel tone — pale, still visible against the land tint
-    inactiveStroke: "#B7AEF6", // secondary lavender line
-    inactiveNumberText: "#7C6AF2",
-    titleText: "#1D2340",
-    subtitleText: "rgba(79,87,120,0.85)",
-    labelHalo: "#F1EFF7",
+    inactiveFill: "#FDFCFA", // elevated panel tone — pale, still visible against the land tint
+    inactiveStroke: "#F4DA7B", // secondary lavender line
+    inactiveNumberText: "#86B5D7",
+    titleText: "#35342F",
+    subtitleText: "rgba(106,103,93,0.85)",
+    labelHalo: "#F8F5EE",
   },
-  anchor: { glow: "#7C6AF2", ring: "#B7AEF6", dot: "#1D2340" },
-  travelPoint: { dot: "#7C6AF2", glow: "rgba(124,106,242,0.35)" },
+  anchor: { glow: "#86B5D7", ring: "#F4DA7B", dot: "#35342F" },
+  travelPoint: { dot: "#86B5D7", glow: "rgba(134,181,215,0.35)" },
   // Soft diffused white-lavender mist, never a hard ring — the inner stop is the spec's own
   // "soft haze/mist overlay" white, fading through the secondary lavender line color to transparent.
-  atmosphere: { inner: "rgba(255,255,255,0.55)", outer: "rgba(183,174,246,0.20)", outerFade: "rgba(183,174,246,0)" },
+  atmosphere: { inner: "rgba(255,255,255,0.55)", outer: "rgba(244,218,123,0.20)", outerFade: "rgba(244,218,123,0)" },
   // White-lavender haze at the frame's edges — mist/fog, not a dark or neutral-gray vignette.
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(244,242,248,0) 50%, rgba(244,242,248,0.45) 78%, rgba(244,242,248,0.75) 100%)",
-    side: "linear-gradient(to right, rgba(244,242,248,0.30) 0%, transparent 15%, transparent 85%, rgba(244,242,248,0.35) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(250,247,240,0) 50%, rgba(250,247,240,0.45) 78%, rgba(250,247,240,0.75) 100%)",
+    side: "linear-gradient(to right, rgba(250,247,240,0.30) 0%, transparent 15%, transparent 85%, rgba(250,247,240,0.35) 100%)",
   },
 };
 

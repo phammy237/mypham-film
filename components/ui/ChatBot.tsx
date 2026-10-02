@@ -58,7 +58,7 @@ function BotAvatar() {
   return (
     <div
       className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-white text-xs font-display"
-      style={{ background: "linear-gradient(135deg, #F4D35E, #8DBCE0)" }}
+      style={{ background: "linear-gradient(135deg, #F4D35E, #92BDDB)" }}
     >
       M
     </div>
@@ -164,7 +164,7 @@ export function ChatBot() {
         <motion.button
           onClick={() => setOpen((o) => !o)}
           className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl shadow-accent/30"
-          style={{ background: "linear-gradient(135deg, #F4D35E, #8DBCE0)" }}
+          style={{ background: "linear-gradient(135deg, #F4D35E, #92BDDB)" }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -192,7 +192,7 @@ export function ChatBot() {
         {open && (
           <motion.div
             className="journey-chatbot-widget fixed bottom-24 right-6 z-50 w-[340px] max-h-[520px] rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-white/10 flex flex-col"
-            style={{ background: "#18233F" }}
+            style={{ background: "#32312C" }}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -201,7 +201,7 @@ export function ChatBot() {
             {/* Header */}
             <div
               className="flex items-center gap-3 px-4 py-3 border-b border-white/10"
-              style={{ background: "linear-gradient(135deg, #18233F, #18233F)" }}
+              style={{ background: "linear-gradient(135deg, #32312C, #32312C)" }}
             >
               <BotAvatar />
               <div className="flex-1">

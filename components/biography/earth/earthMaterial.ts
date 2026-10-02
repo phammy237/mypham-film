@@ -98,7 +98,7 @@ export const EarthMaterial = shaderMaterial(
 
 /** Restrained Fresnel rim-glow shell — no post-processing bloom pass needed. */
 export const AtmosphereMaterial = shaderMaterial(
-  { glowColor: new Color("#9B8BB5"), intensity: 1.3 },
+  { glowColor: new Color("#A7A399"), intensity: 1.3 },
   /* vertex */ `
     varying vec3 vNormal;
     void main() {

@@ -212,12 +212,12 @@ export function AbstractGlobeFallback({
       {/* wide soft halo */}
       <div
         className="pointer-events-none absolute -inset-10 opacity-0 blur-3xl dark:opacity-100"
-        style={{ background: "radial-gradient(circle, rgba(155,139,181,0.5), rgba(91,58,142,0.22) 45%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(167,163,153,0.5), rgba(65,103,136,0.22) 45%, transparent 70%)" }}
       />
       {/* tighter bright rim glow, close to the sphere's edge */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 blur-xl dark:opacity-90"
-        style={{ background: "radial-gradient(circle, transparent 58%, rgba(197,184,224,0.4) 68%, transparent 78%)" }}
+        style={{ background: "radial-gradient(circle, transparent 58%, rgba(208,206,200,0.4) 68%, transparent 78%)" }}
       />
       <svg
         width={size}
@@ -233,12 +233,12 @@ export function AbstractGlobeFallback({
       >
         <defs>
           <radialGradient id="globe-sphere-lit" cx="35%" cy="32%" r="75%">
-            <stop offset="0%" stopColor="#454A82" />
-            <stop offset="55%" stopColor="#262B54" />
-            <stop offset="100%" stopColor="#141B33" />
+            <stop offset="0%" stopColor="#6A675D" />
+            <stop offset="55%" stopColor="#46443D" />
+            <stop offset="100%" stopColor="#292824" />
           </radialGradient>
         </defs>
-        <circle cx={size / 2} cy={size / 2} r={(baseScale * scale)} className="fill-[#F1EAF7] dark:fill-[url(#globe-sphere-lit)]" />
+        <circle cx={size / 2} cy={size / 2} r={(baseScale * scale)} className="fill-[#F7F3EA] dark:fill-[url(#globe-sphere-lit)]" />
         {countries?.features.map((f, i) => {
           const id = String((f as { id?: string | number }).id ?? "");
           const isHighlighted = highlightSet.has(id);
@@ -250,8 +250,8 @@ export function AbstractGlobeFallback({
               strokeWidth={isHighlighted ? 1.2 : 0.6}
               className={
                 isHighlighted
-                  ? "fill-accent stroke-[#4A2F74] dark:fill-accent dark:stroke-accent-lavender dark:[filter:drop-shadow(0_0_6px_rgba(91, 58, 142,0.65))]"
-                  : "fill-accent-light stroke-[#C9BAD9] dark:fill-[#2B2347] dark:stroke-[#3D3560]"
+                  ? "fill-accent stroke-[#416788] dark:fill-accent dark:stroke-accent-lavender dark:[filter:drop-shadow(0_0_6px_rgba(65,103,136,0.65))]"
+                  : "fill-accent-light stroke-[#CDCBC6] dark:fill-[#3D3B35] dark:stroke-[#514F48]"
               }
             />
           );
@@ -267,10 +267,10 @@ export function AbstractGlobeFallback({
               strokeDasharray={1}
               strokeDashoffset={1}
               pathLength={1}
-              className="stroke-[#8A6FB0] dark:stroke-[#C9BAD9]"
+              className="stroke-[#979388] dark:stroke-[#CDCBC6]"
             />
             <g ref={planeRef} style={{ visibility: "hidden" }}>
-              <circle r={3.5} className="fill-accent dark:fill-[#F1EAF7]" />
+              <circle r={3.5} className="fill-accent dark:fill-[#F7F3EA]" />
             </g>
           </g>
         )}
@@ -281,7 +281,7 @@ export function AbstractGlobeFallback({
           fill="none"
           strokeWidth={1}
           opacity={0.5}
-          className="stroke-[#C9BAD9] dark:stroke-white/10"
+          className="stroke-[#CDCBC6] dark:stroke-white/10"
         />
       </svg>
 
