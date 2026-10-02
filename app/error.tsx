@@ -14,24 +14,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-base flex flex-col items-center justify-center px-[5vw] text-center">
-      <p className="eyebrow text-muted mb-4">
-        Something went wrong
-      </p>
-      <h1 className="font-display text-5xl text-surface mb-6">Error</h1>
-      <div className="flex gap-4">
-        <button
-          onClick={reset}
-          className="font-mono text-sm px-5 py-2.5 bg-accent text-white hover:bg-accent/90 transition-colors"
-        >
-          Try again
-        </button>
-        <Link
-          href="/"
-          className="font-mono text-sm px-5 py-2.5 border border-border text-muted hover:text-surface transition-colors"
-        >
-          Go home
-        </Link>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--paper)] px-[5vw] text-center text-[var(--ink)]">
+      <p className="f-hand mb-2 text-3xl text-[var(--blue)]" style={{ transform: "rotate(-3deg)" }}>the film jammed</p>
+      <h1 className="f-h1"><span className="f-mark">something went wrong</span></h1>
+      <p className="f-type mt-6 max-w-sm text-base text-[var(--muted)]">That one&apos;s on me. Try again, or head back to the start of the roll.</p>
+      <div className="mt-8 flex gap-3">
+        <button type="button" onClick={reset} className="f-btn f-btn-butter">try again</button>
+        <Link href="/" className="f-btn">go home</Link>
       </div>
     </div>
   );

@@ -57,8 +57,8 @@ const curiousQs = [
 function BotAvatar() {
   return (
     <div
-      className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-white text-xs font-display"
-      style={{ background: "linear-gradient(135deg, #F4D35E, #92BDDB)" }}
+      className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[#20201E] text-xs font-display"
+      style={{ background: "#F4D35E" }}
     >
       M
     </div>
@@ -79,7 +79,7 @@ function Bubble({ msg }: { msg: Msg }) {
         className={`max-w-[80%] font-body text-sm leading-relaxed px-3.5 py-2.5 rounded-2xl ${
           isBot
             ? "bg-navy text-white/85 rounded-tl-sm"
-            : "bg-accent text-white rounded-tr-sm"
+            : "bg-[#F4D35E] text-[#20201E] rounded-tr-sm"
         }`}
       >
         {msg.text}
@@ -163,8 +163,8 @@ export function ChatBot() {
       <div className="journey-chatbot-widget fixed bottom-6 right-6 z-50">
         <motion.button
           onClick={() => setOpen((o) => !o)}
-          className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl shadow-accent/30"
-          style={{ background: "linear-gradient(135deg, #F4D35E, #92BDDB)" }}
+          className="w-14 h-14 rounded-full flex items-center justify-center text-[#20201E] shadow-xl shadow-black/30 ring-1 ring-[#20201E]/20"
+          style={{ background: "#F4D35E" }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -183,7 +183,7 @@ export function ChatBot() {
 
         {/* Pulse ring when closed */}
         {!open && (
-          <span className="absolute inset-0 rounded-full animate-ping bg-accent/30 pointer-events-none" />
+          <span className="absolute inset-0 rounded-full animate-ping bg-[#F4D35E]/40 pointer-events-none" />
         )}
       </div>
 
@@ -192,7 +192,7 @@ export function ChatBot() {
         {open && (
           <motion.div
             className="journey-chatbot-widget fixed bottom-24 right-6 z-50 w-[340px] max-h-[520px] rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-white/10 flex flex-col"
-            style={{ background: "#32312C" }}
+            style={{ background: "#20201E" }}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -201,11 +201,11 @@ export function ChatBot() {
             {/* Header */}
             <div
               className="flex items-center gap-3 px-4 py-3 border-b border-white/10"
-              style={{ background: "linear-gradient(135deg, #32312C, #32312C)" }}
+              style={{ background: "#2A2A27" }}
             >
               <BotAvatar />
               <div className="flex-1">
-                <p className="font-body text-sm text-white font-medium">Chat with My</p>
+                <p className="font-type text-sm text-white font-bold">Chat with My</p>
                 <p className="font-mono text-[10px] text-white/40">Portfolio Assistant</p>
               </div>
               {tone && (
@@ -306,7 +306,7 @@ export function ChatBot() {
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-xs hover:bg-accent/80 transition-colors flex-shrink-0"
+                  className="w-8 h-8 rounded-full bg-[#F4D35E] flex items-center justify-center text-[#20201E] text-xs hover:bg-[#F4D35E]/80 transition-colors flex-shrink-0"
                 >
                   ↑
                 </button>
