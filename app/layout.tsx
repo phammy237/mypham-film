@@ -63,7 +63,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-base dark:bg-navy text-surface dark:text-white font-body antialiased min-h-screen">
+      <body suppressHydrationWarning className="bg-base dark:bg-navy text-surface dark:text-white font-body antialiased min-h-screen">
         <ThemeProvider>
           <CustomCursor />
           <PageTransitions />

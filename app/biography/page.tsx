@@ -20,6 +20,14 @@ export default function BiographyPage() {
   const [zoomingIntoVietnam, setZoomingIntoVietnam] = useState(false);
   const reducedMotion = !!useReducedMotion();
   const beginTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // the globe is 600px on desktop; on a phone it shrinks to fit the screen instead of running off the edge
+  const [globeSize, setGlobeSize] = useState(600);
+  useEffect(() => {
+    const fit = () => setGlobeSize(Math.max(260, Math.min(600, window.innerWidth - Math.round(window.innerWidth * 0.1))));
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
 
   useEffect(() => () => {
     if (beginTimerRef.current !== null) clearTimeout(beginTimerRef.current);
@@ -70,7 +78,7 @@ export default function BiographyPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className="mx-auto grid min-h-[70vh] max-w-[1400px] items-center gap-10 lg:grid-cols-[0.85fr_1fr]"
+              className="mx-auto grid min-h-[70vh] max-w-[1400px] items-center gap-10 grid-cols-[minmax(0,1fr)] lg:grid-cols-[0.85fr_1fr]"
             >
               <div className="order-2 lg:order-1">
                 <p className="f-hand text-3xl text-[var(--blue)]" style={{ transform: "rotate(-2deg)", transformOrigin: "left" }}>{heroCopy.eyebrow.toLowerCase()}</p>
@@ -105,7 +113,7 @@ export default function BiographyPage() {
                   zoomedIn={zoomingIntoVietnam}
                   interactive={!zoomingIntoVietnam}
                   ambient={false}
-                  size={600}
+                  size={globeSize}
                   ariaLabel="Interactive globe highlighting Vietnam"
                 />
               </div>

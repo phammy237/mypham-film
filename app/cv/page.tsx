@@ -11,6 +11,8 @@ import {
   awards,
   education,
   skills,
+  caseCompetitions,
+  earlyCareerPrograms,
   highSchoolEducation,
   highSchoolExperience,
   hobbies,
@@ -137,6 +139,24 @@ export default function CVPage() {
                       ))}
                     </div>
                   </div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Case competitions */}
+            <Section title="Case Competitions">
+              <div className="flex flex-wrap gap-2">
+                {caseCompetitions.map((c) => (
+                  <span key={c} className="f-chip !px-3 !py-1 !text-[11px]">{c}</span>
+                ))}
+              </div>
+            </Section>
+
+            {/* Early career programs */}
+            <Section title="Selected Early Career Programs">
+              <div className="flex flex-wrap gap-2">
+                {earlyCareerPrograms.map((p) => (
+                  <span key={p} className="f-chip border-transparent bg-[var(--butter)] text-[#20201E] !px-3 !py-1.5">{p}</span>
                 ))}
               </div>
             </Section>

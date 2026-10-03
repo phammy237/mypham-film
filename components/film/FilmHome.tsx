@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { allWork, type Project } from "@/data/projects";
-import { education, hobbies, leadership, skills } from "@/data/cv";
+import { education, hobbies, leadership, spokenLanguages } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
 import { FlipPhoto } from "@/components/film/FlipPhoto";
 import { ExperienceReel, ToolsShelf } from "@/components/film/ToolsAndExperience";
@@ -252,7 +252,7 @@ export function FilmHome() {
   const SHOWN_ROLES = ["UF Data Science & Informatics", "WingHacks", "Vietnamese International Student Association"];
   const roles = SHOWN_ROLES.map((c) => leadership.find((l) => l.company === c)).filter((l): l is (typeof leadership)[number] => !!l);
   const ed = education[0];
-  const languages = skills.Languages.map((l) => l.split(" ")[0]).join(" / ").replace("Russian", "Russian-ish");
+  const languages = spokenLanguages.map((l) => l.split(" ")[0]).join(" / ").replace("Russian", "Russian-ish");
 
   return (
     <div className={s.root}>
