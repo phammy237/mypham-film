@@ -179,6 +179,17 @@ export const leadership = [
   },
 ];
 
+/** awards and recognition, shown as their own section on the CV */
+export const awards = [
+  { title: "3rd Place Overall", event: "Code4Change" },
+  { title: "Best Finance Project", event: "SASEHacks 2026" },
+  { title: "Best Use of Tiger Data and AWS", event: "ShellHacks 2026" },
+  { title: "Emerging Gator Award", event: "2025" },
+  { title: "Dean’s List", event: "University of Florida" },
+  { title: "Top 20", event: "McKinsey Case Competition" },
+  { title: "Outstanding Award", event: "SCUDEM" },
+];
+
 export const education = [
   {
     degree: "Bachelor of Science in Data Science",
@@ -189,14 +200,6 @@ export const education = [
     details: [
       "Certificate in Artificial Intelligence Fundamentals and Applications",
       "Relevant Coursework: Calculus 3, Programming Fundamentals 2, R Programming, Computational Linear Algebra, Business Analytics & AI, Computational Math, Discrete Math, Probability, Regression Analysis, Linear Algebra for Data Science",
-    ],
-    honors: [
-      "Emerging Gator Award (2025)",
-      "Dean's List",
-      "Top 20 McKinsey Case Competition",
-      "SCUDEM Outstanding Award",
-      "3rd Place Overall Code4Change",
-      "Best Finance Project SASE Hacks 2026",
     ],
   },
 ];

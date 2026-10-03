@@ -8,6 +8,7 @@ import { SITE_EMAIL } from "@/lib/site";
 import {
   experience,
   leadership,
+  awards,
   education,
   skills,
   earlyCareerPrograms,
@@ -119,16 +120,6 @@ export default function CVPage() {
                   {edu.details.map((d, di) => (
                     <p key={di} className="text-sm mt-2 leading-relaxed text-[var(--muted)]">{d}</p>
                   ))}
-                  {edu.honors.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      <span className="f-mono text-[var(--muted)] mr-1">Honors:</span>
-                      {edu.honors.map((h) => (
-                        <span key={h} className="f-chip border-transparent bg-[var(--butter)] text-[#20201E]">
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               ))}
             </Section>
@@ -203,6 +194,21 @@ export default function CVPage() {
                   </motion.div>
                 ))}
               </div>
+            </Section>
+
+            {/* Awards */}
+            <Section title="Awards">
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {awards.map((a) => (
+                  <li key={a.title + a.event} className="f-card flex items-start gap-3" style={{ padding: 14 }}>
+                    <span aria-hidden="true" className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--butter)] text-sm text-[#20201E]">★</span>
+                    <div className="min-w-0">
+                      <p className="f-type font-bold leading-snug">{a.title}</p>
+                      <p className="f-mono mt-1 text-[var(--muted)]">{a.event}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </Section>
 
             {/* Skills */}
