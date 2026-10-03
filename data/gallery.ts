@@ -47,14 +47,12 @@ export const ROLLS: Roll[] = [
     srcs: ["/images/IMG_7605.JPG", "/images/photobooth-nyc.jpg", "/images/la-summer-2026.jpg", "/images/atlanta-coca-cola.jpg", "/images/IMG_3794.JPG"] },
   { id: "everyday", title: "everyday", speed: "200", color: "#8DBCE0", blurb: "Matcha, mirrors and golden hour.",
     srcs: ["/images/IMG_7729.JPG", "/images/IMG_4610.JPG", "/images/IMG_9501.JPG"] },
-  { id: "hackathons", title: "hackathons", speed: "3200", color: "#FBE7A1", blurb: "ShellHacks and the Best Finance Project win.",
+  { id: "hackathons", title: "hackathons", speed: "800", color: "#FBE7A1", blurb: "ShellHacks and the Best Finance Project win.",
     srcs: ["/images/shellhacks-team.jpg", "/involvements/dsi-5.jpg"] },
-  { id: "dsi", title: "DSI", speed: "400", color: "#E8DDC7", blurb: "UF Data Science & Informatics: symposium, events and the people.",
-    srcs: ["/involvements/dsi.jpg", "/involvements/dsi-2.jpg", "/involvements/dsi-3.jpg", "/involvements/dsi-4.jpg", "/involvements/dsi-6.jpg", "/involvements/dsi-7.jpg", "/involvements/dsi-8.jpg", "/involvements/dsi-9.jpg", "/involvements/dsi-10.jpg"] },
-  { id: "visa", title: "VISA", speed: "800", color: "#F6C9C2", blurb: "Vietnamese International Student Association nights and Tết.",
-    srcs: ["/involvements/visa.jpg", "/involvements/visa-2.jpg", "/involvements/visa-3.jpg", "/involvements/visa-5.jpg"] },
-  { id: "sase", title: "SASE and Product Space", speed: "1600", color: "#C6D9E8", blurb: "Mentors, mentees, fundraising and the Product Space fellows.",
-    srcs: ["/involvements/sase-mentor.jpg", "/involvements/sase-fundraising.jpg", "/images/sase-mentor-mentee.jpg", "/involvements/product-space.jpg", "/involvements/product-space-2.jpg", "/involvements/product-space-3.jpg"] },
+  { id: "orgs", title: "student orgs", speed: "400", color: "#E8DDC7", blurb: "DSI, VISA, SASE and Product Space: events, mentors, fundraising and the people.",
+    srcs: ["/involvements/dsi.jpg", "/involvements/dsi-2.jpg", "/involvements/dsi-3.jpg", "/involvements/dsi-4.jpg", "/involvements/dsi-6.jpg", "/involvements/dsi-7.jpg", "/involvements/dsi-8.jpg", "/involvements/dsi-9.jpg", "/involvements/dsi-10.jpg",
+      "/involvements/visa.jpg", "/involvements/visa-2.jpg", "/involvements/visa-3.jpg", "/involvements/visa-5.jpg",
+      "/involvements/sase-mentor.jpg", "/involvements/sase-fundraising.jpg", "/images/sase-mentor-mentee.jpg", "/involvements/product-space.jpg", "/involvements/product-space-2.jpg", "/involvements/product-space-3.jpg"] },
 ];
 
 export const ALL_PHOTOS: GalleryPhoto[] = [...FIRST_FRAMES, ...COLLAGE];
