@@ -41,18 +41,30 @@ function timeLine(): string {
   return "late-night debugging, send snacks";
 }
 
-function Currently() {
+const NOTE_COLORS = ["#FBE7A1", "#DCEBF6", "#F6C9C2", "#EDE3C9", "#F7E2A2"];
+
+/* a little stack of sticky notes: tap it and the note flips over to the next one */
+function StickyNotes() {
   const reduce = useReducedMotion();
   const [lines, setLines] = useState<string[]>(CURRENTLY);
   const [i, setI] = useState(0);
-  // after mount, lead with a line that fits the visitor's local time of day
+  // after mount, lead with a note that fits the visitor's local time of day
   useEffect(() => { const t = timeLine(); setLines([t, ...CURRENTLY.filter((l) => l !== t)]); setI(0); }, []);
-  useEffect(() => {
-    if (reduce) return;
-    const t = setInterval(() => setI((x) => (x + 1) % lines.length), 3800);
-    return () => clearInterval(t);
-  }, [reduce, lines.length]);
-  return <span className={s.noteLine} aria-live="polite">{lines[i % lines.length]}</span>;
+  const idx = i % lines.length;
+  const next = () => setI((x) => (x + 1) % lines.length);
+  return (
+    <aside className={`${s.note} ${s.hand}`} aria-label="Sticky notes" style={{ background: NOTE_COLORS[idx % NOTE_COLORS.length] }}>
+      <button type="button" className={s.noteBtn} onClick={next} data-cursor-hover aria-label={`Sticky note ${idx + 1} of ${lines.length}: ${lines[idx]}. Press for the next note.`}>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span key={idx} style={{ display: "block" }} aria-live="polite"
+            initial={reduce ? false : { rotateY: -90, opacity: 0 }} animate={{ rotateY: 0, opacity: 1 }} exit={reduce ? undefined : { rotateY: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+            currently:<br />{lines[idx]}<br />:)
+          </motion.span>
+        </AnimatePresence>
+        <span className={s.noteHint} aria-hidden="true">{idx + 1}/{lines.length} · tap ↻</span>
+      </button>
+    </aside>
+  );
 }
 
 /* ── frame viewer: a bottom sheet, with arrow-key paging and a shareable link ── */
@@ -253,7 +265,7 @@ export function FilmHome() {
         <nav className={s.places} aria-label="Places">
           <Link href="/biography/journey">HANOI →</Link><Link href="/biography/journey">GAINESVILLE →</Link><span>… ?</span>
         </nav>
-        <aside className={`${s.note} ${s.hand}`} aria-label="Currently">currently:<br /><Currently /><br />:)</aside>
+        <StickyNotes />
       </section>
 
       {/* lately, on film */}
