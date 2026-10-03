@@ -39,3 +39,23 @@ export const COLLAGE: GalleryPhoto[] = [
   { src: "/involvements/dsi-8.jpg", caption: "DSI", alt: "DSI photo", w: 1206, h: 904 },
   { src: "/involvements/dsi-9.jpg", caption: "DSI", alt: "DSI photo", w: 4284, h: 5712 },
 ];
+
+/** The Film page sorts every photo into a "roll". Each roll is drawn as a film canister (colour + ISO) that unrolls its strip. */
+export type Roll = { id: string; title: string; blurb: string; speed: string; color: string; srcs: string[] };
+export const ROLLS: Roll[] = [
+  { id: "places", title: "places", speed: "100", color: "#F4D35E", blurb: "New York, LA, Atlanta and the beach.",
+    srcs: ["/images/IMG_7605.JPG", "/images/photobooth-nyc.jpg", "/images/la-summer-2026.jpg", "/images/atlanta-coca-cola.jpg", "/images/IMG_3794.JPG"] },
+  { id: "everyday", title: "everyday", speed: "200", color: "#8DBCE0", blurb: "Matcha, mirrors and golden hour.",
+    srcs: ["/images/IMG_7729.JPG", "/images/IMG_4610.JPG", "/images/IMG_9501.JPG"] },
+  { id: "hackathons", title: "hackathons", speed: "3200", color: "#FBE7A1", blurb: "ShellHacks and the Best Finance Project win.",
+    srcs: ["/images/shellhacks-team.jpg", "/involvements/dsi-5.jpg"] },
+  { id: "dsi", title: "DSI", speed: "400", color: "#E8DDC7", blurb: "UF Data Science & Informatics: symposium, events and the people.",
+    srcs: ["/involvements/dsi.jpg", "/involvements/dsi-2.jpg", "/involvements/dsi-3.jpg", "/involvements/dsi-4.jpg", "/involvements/dsi-6.jpg", "/involvements/dsi-7.jpg", "/involvements/dsi-8.jpg", "/involvements/dsi-9.jpg", "/involvements/dsi-10.jpg"] },
+  { id: "visa", title: "VISA", speed: "800", color: "#F6C9C2", blurb: "Vietnamese International Student Association nights and Tết.",
+    srcs: ["/involvements/visa.jpg", "/involvements/visa-2.jpg", "/involvements/visa-3.jpg", "/involvements/visa-5.jpg"] },
+  { id: "sase", title: "SASE and Product Space", speed: "1600", color: "#C6D9E8", blurb: "Mentors, mentees, fundraising and the Product Space fellows.",
+    srcs: ["/involvements/sase-mentor.jpg", "/involvements/sase-fundraising.jpg", "/images/sase-mentor-mentee.jpg", "/involvements/product-space.jpg", "/involvements/product-space-2.jpg", "/involvements/product-space-3.jpg"] },
+];
+
+export const ALL_PHOTOS: GalleryPhoto[] = [...FIRST_FRAMES, ...COLLAGE];
+export const photosOf = (r: Roll): GalleryPhoto[] => r.srcs.map((src) => ALL_PHOTOS.find((p) => p.src === src)).filter((p): p is GalleryPhoto => !!p);
