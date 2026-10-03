@@ -11,10 +11,10 @@ import { NowPlaying } from "@/components/ui/NowPlaying";
 import s from "./film.module.css";
 
 /* ── frames: a photo or a project, resolved to one shape ── */
-type Frame = { key: string; src: string | null; alt: string; caption: string; project?: Project };
+type Frame = { key: string; src: string | null; alt: string; caption: string; project?: Project; pos?: string; portrait?: boolean };
 const bySlug = (slug: string) => allWork.find((p) => p.slug === slug);
 function resolve(ref: FrameRef): Frame | null {
-  if ("photo" in ref) { const p = PHOTOS[ref.photo]; return { key: ref.photo, src: p.src, alt: p.alt, caption: p.caption }; }
+  if ("photo" in ref) { const p = PHOTOS[ref.photo]; return { key: ref.photo, src: p.src, alt: p.alt, caption: p.caption, pos: "pos" in p ? p.pos : undefined, portrait: "portrait" in p ? p.portrait : undefined }; }
   const project = bySlug(ref.project);
   return project ? { key: project.slug, src: project.image ?? null, alt: project.title, caption: project.title, project } : null;
 }
@@ -86,7 +86,11 @@ function FrameSheet({ list, i, onNav, onClose }: { list: Frame[]; i: number; onN
         initial={{ y: "100%", x: "-50%" }} animate={{ y: 0, x: "-50%" }} exit={{ y: "100%", x: "-50%" }} transition={{ type: "spring", stiffness: 260, damping: 30 }}>
         <div className={s.grab} />
         <button ref={closeRef} className={s.sheetClose} onClick={onClose} aria-label="Close">✕</button>
-        {frame.src && <FlipPhoto key={frame.key} src={frame.src} alt={frame.alt} n={n} sizes="640px" aspect="3 / 2" note={p ? (p.hook ?? p.logline) : frame.caption} />}
+        {frame.src && (
+          <div style={frame.portrait ? { maxWidth: 380, margin: "0 auto" } : undefined}>
+            <FlipPhoto key={frame.key} src={frame.src} alt={frame.alt} n={n} sizes="640px" aspect={frame.portrait ? "4 / 5" : "3 / 2"} pos={frame.pos} note={p ? (p.hook ?? p.logline) : frame.caption} />
+          </div>
+        )}
         <div className={s.sheetNav}>
           <button type="button" className={s.btn} onClick={() => onNav(-1)} disabled={list.length < 2} aria-label="Previous frame">← prev</button>
           <span className={`${s.mono} ${s.muted}`}>frame {String(n).padStart(3, "0")}A · {n} of {list.length}</span>
@@ -146,7 +150,7 @@ function FilmStrip({ frames, onOpen, onPosition }: { frames: Frame[]; onOpen: (f
             {frames.map((f, i) => (
               <button key={f.key + i} type="button" data-cursor-photo className={s.frame} onClick={() => onOpen(f, i + 1)}>
                 <span className={s.photo} style={{ aspectRatio: "3 / 2" }}>
-                  {f.src && <Image src={f.src} alt={f.alt} fill sizes="300px" draggable={false} />}
+                  {f.src && <Image src={f.src} alt={f.alt} fill sizes="300px" draggable={false} style={f.pos ? { objectPosition: f.pos } : undefined} />}
                   <span className={s.fno}>{frameNo(i + 1)}</span>
                   <span className={s.view}>view frame ↗</span>
                 </span>
@@ -309,7 +313,7 @@ export function FilmHome() {
           <div className={`${s.grid} ${s.reticle}`}>
             {visible.map(({ m, f }, i) => (
               <button key={f.key + i} type="button" data-cursor-photo className={`${s.photo} ${s.tile} ${m.tall ? s.tall : ""}`} onClick={() => setOpen({ list: visible.map((v) => v.f), i })}>
-                <Image src={f.src!} alt={f.alt} fill sizes="(max-width: 600px) 50vw, 180px" />
+                <Image src={f.src!} alt={f.alt} fill sizes="(max-width: 600px) 50vw, 180px" style={f.pos ? { objectPosition: f.pos } : undefined} />
                 <span className={s.view}>view frame ↗</span>
               </button>
             ))}

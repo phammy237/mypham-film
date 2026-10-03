@@ -3,8 +3,8 @@ import { useState } from "react";
 import { FilmPhoto, frameNo } from "@/components/film/ui";
 
 /** a photo that flips over like the back of a Polaroid, with a handwritten note on the back */
-export function FlipPhoto({ src, alt, n, sizes, note, aspect = "4 / 5", className = "" }: {
-  src: string; alt: string; n?: number; sizes: string; note: string; aspect?: string; className?: string;
+export function FlipPhoto({ src, alt, n, sizes, note, aspect = "4 / 5", className = "", pos }: {
+  src: string; alt: string; n?: number; sizes: string; note: string; aspect?: string; className?: string; pos?: string;
 }) {
   const [flipped, setFlipped] = useState(false);
   const toggle = () => setFlipped((f) => !f);
@@ -23,7 +23,7 @@ export function FlipPhoto({ src, alt, n, sizes, note, aspect = "4 / 5", classNam
     >
       <span className="f-flip-inner" style={{ aspectRatio: aspect }}>
         <span className="f-flip-face">
-          <FilmPhoto src={src} alt={alt} n={n} sizes={sizes} style={{ position: "absolute", inset: 0 }} />
+          <FilmPhoto src={src} alt={alt} n={n} sizes={sizes} pos={pos} style={{ position: "absolute", inset: 0 }} />
         </span>
         <span className="f-flip-face f-flip-back">
           <span className="f-hand">{note}</span>

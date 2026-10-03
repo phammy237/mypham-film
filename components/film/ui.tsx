@@ -5,12 +5,12 @@ import type { Project } from "@/data/projects";
 export const frameNo = (n: number) => `MY ${String(n).padStart(3, "0")}A`;
 
 /** a photo with film grain and an optional frame number */
-export function FilmPhoto({ src, alt, n, sizes, className = "", priority = false, style }: {
-  src: string; alt: string; n?: number; sizes: string; className?: string; priority?: boolean; style?: React.CSSProperties;
+export function FilmPhoto({ src, alt, n, sizes, className = "", priority = false, style, pos }: {
+  src: string; alt: string; n?: number; sizes: string; className?: string; priority?: boolean; style?: React.CSSProperties; pos?: string;
 }) {
   return (
     <span className={`f-photo ${className}`} style={style}>
-      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} />
+      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} style={pos ? { objectPosition: pos } : undefined} />
       {n !== undefined && <span className="f-fno">{frameNo(n)}</span>}
     </span>
   );
