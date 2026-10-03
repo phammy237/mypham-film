@@ -180,7 +180,27 @@
 .sheetNav button:disabled { opacity: .4; cursor: default; }
 
 /* sticky notes: a stack that flips to the next note when tapped */
-.note { transition: background .35s ease; box-shadow: 0 14px 24px -14px rgba(0,0,0,.4), 7px 6px 0 -1px #DCEBF6, 13px 11px 0 -2px #F6C9C2; }
+/* sticky notes: the aside only positions the pad (and keeps the strip of tape on top); each sheet carries its own paper */
+.note { background: none; box-shadow: none; padding: 0; transition: none; }
+.noteStack { display: grid; }
+.noteSheet { grid-area: 1 / 1; position: relative; display: flex; transform: translate(calc(var(--d, 0) * 7px), calc(var(--d, 0) * 6px)); transition: transform .55s cubic-bezier(.3,1.7,.5,1); filter: drop-shadow(0 12px 12px rgba(0,0,0,.28)); will-change: transform; }
+/* the paper; --c is how far the corner has peeled */
+.noteFace { flex: 1; display: block; padding: 16px 16px 18px; color: #20201E; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--c, 0%)), calc(100% - var(--c, 0%)) 100%, 0 100%); }
+/* the underside of the curled corner, folded back over the sheet */
+.noteFlap { display: none; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,.7), var(--sheet) 42%, rgba(0,0,0,.18)); clip-path: polygon(100% calc(100% - var(--c, 0%)), calc(100% - var(--c, 0%)) 100%, calc(100% - var(--c, 0%)) calc(100% - var(--c, 0%))); }
+.notePeeling { transition: none; animation: notePeel .72s cubic-bezier(.45,0,.8,.5) forwards; pointer-events: none; }
+.notePeeling .noteFlap { display: block; }
+@keyframes notePeel {
+  0%   { --c: 0%;   transform: translate(0, 0) rotate(0); opacity: 1; }
+  55%  { --c: 58%;  transform: translate(-3px, -5px) rotate(-1.5deg); opacity: 1; }
+  100% { --c: 100%; transform: translate(-30px, -42px) rotate(-9deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .noteSheet { transition: none; } }
 .noteBtn { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; font: inherit; line-height: inherit; color: inherit; cursor: pointer; perspective: 700px; }
 .noteBtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 .noteHint { display: block; margin-top: 8px; font: 500 10px var(--font-jetbrains), monospace; letter-spacing: .08em; text-transform: uppercase; opacity: .55; }
+
+.icons { flex-wrap: wrap; }
+.icons a svg { width: 18px; height: 18px; }
+.icons a { transition: transform .15s, background .15s, color .15s; }
+.icons a:hover { transform: translateY(-2px) rotate(-6deg); background: var(--blue); }

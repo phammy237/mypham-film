@@ -52,12 +52,12 @@ function SpotifyIcon({ className = "" }: IconProps) {
 }
 
 export const socials = [
-  { label: "Facebook",  href: "https://www.facebook.com/pmyy237/",           icon: FacebookIcon  },
-  { label: "Instagram", href: "https://www.instagram.com/whyy.pmyy_/",       icon: InstagramIcon },
-  { label: "GitHub",    href: "https://github.com/phammy237",                 icon: GithubIcon    },
-  { label: "Gmail",     href: `mailto:${SITE_EMAIL}`,                         icon: EmailIcon     },
   { label: "LinkedIn",  href: "https://linkedin.com/in/mypham237",            icon: LinkedInIcon  },
+  { label: "GitHub",    href: "https://github.com/phammy237",                 icon: GithubIcon    },
+  { label: "Instagram", href: "https://www.instagram.com/whyy.pmyy_/",       icon: InstagramIcon },
+  { label: "Facebook",  href: "https://www.facebook.com/pmyy237/",           icon: FacebookIcon  },
   { label: "Spotify",   href: "https://open.spotify.com/user/phammy237",      icon: SpotifyIcon   },
+  { label: "Gmail",     href: `mailto:${SITE_EMAIL}`,                         icon: EmailIcon     },
 ];
 
 export function SocialLinks({ iconClass = "text-white/45 dark:text-white/45 hover:text-accent" }: { iconClass?: string }) {

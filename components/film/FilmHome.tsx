@@ -8,6 +8,7 @@ import { education, hobbies, leadership, skills } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
 import { FlipPhoto } from "@/components/film/FlipPhoto";
 import { NowPlaying } from "@/components/ui/NowPlaying";
+import { socials } from "@/components/ui/SocialLinks";
 import s from "./film.module.css";
 
 /* ── frames: a photo or a project, resolved to one shape ── */
@@ -20,7 +21,6 @@ function resolve(ref: FrameRef): Frame | null {
 }
 const frameNo = (n: number) => `MY ${String(n).padStart(3, "0")}A`;
 const shortOrg = (o: string) => o.replace(/ — .*/, "").replace("UF Data Science & Informatics", "DSI").replace("Vietnamese International Student Association", "VISA");
-const CONTACT = { email: "phamlehamy2307@gmail.com", linkedin: "https://linkedin.com/in/mypham237", github: "https://github.com/phammy237" };
 
 function Photo({ src, alt, n, sizes, className = "", priority = false }: { src: string; alt: string; n?: number; sizes: string; className?: string; priority?: boolean }) {
   return (
@@ -43,25 +43,40 @@ function timeLine(): string {
 
 const NOTE_COLORS = ["#FBE7A1", "#DCEBF6", "#F6C9C2", "#EDE3C9", "#F7E2A2"];
 
-/* a little stack of sticky notes: tap it and the note flips over to the next one */
+/* a pad of sticky notes: tap it and the top note peels off like a sticker. A corner lifts and curls over, the sheet
+   pulls away, and the next note stretches into place underneath. */
 function StickyNotes() {
   const reduce = useReducedMotion();
   const [lines, setLines] = useState<string[]>(CURRENTLY);
-  const [i, setI] = useState(0);
+  const [n, setN] = useState(0);              // how many notes have been peeled off so far
+  const [leaving, setLeaving] = useState<number[]>([]); // notes that are mid-peel
   // after mount, lead with a note that fits the visitor's local time of day
-  useEffect(() => { const t = timeLine(); setLines([t, ...CURRENTLY.filter((l) => l !== t)]); setI(0); }, []);
-  const idx = i % lines.length;
-  const next = () => setI((x) => (x + 1) % lines.length);
+  useEffect(() => { const t = timeLine(); setLines([t, ...CURRENTLY.filter((l) => l !== t)]); setN(0); setLeaving([]); }, []);
+  const total = lines.length;
+  const idx = n % total;
+  const peel = () => { if (!reduce) setLeaving((l) => [...l, n]); setN((x) => x + 1); };
+  const keys = [...leaving, n, n + 1, n + 2]; // peeling notes, the top one, and two more peeking out behind it
   return (
-    <aside className={`${s.note} ${s.hand}`} aria-label="Sticky notes" style={{ background: NOTE_COLORS[idx % NOTE_COLORS.length] }}>
-      <button type="button" className={s.noteBtn} onClick={next} data-cursor-hover aria-label={`Sticky note ${idx + 1} of ${lines.length}: ${lines[idx]}. Press for the next note.`}>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span key={idx} style={{ display: "block" }} aria-live="polite"
-            initial={reduce ? false : { rotateY: -90, opacity: 0 }} animate={{ rotateY: 0, opacity: 1 }} exit={reduce ? undefined : { rotateY: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-            currently:<br />{lines[idx]}<br />:)
-          </motion.span>
-        </AnimatePresence>
-        <span className={s.noteHint} aria-hidden="true">{idx + 1}/{lines.length} · tap ↻</span>
+    <aside className={`${s.note} ${s.hand}`} aria-label="Sticky notes">
+      <button type="button" className={s.noteBtn} onClick={peel} data-cursor-hover aria-label={`Sticky note ${idx + 1} of ${total}: ${lines[idx]}. Press to peel it off and see the next note.`}>
+        <span className={s.noteStack}>
+          {keys.map((k) => {
+            const going = leaving.includes(k);
+            const color = NOTE_COLORS[k % NOTE_COLORS.length];
+            const depth = Math.max(0, k - n);
+            return (
+              <span key={k} className={`${s.noteSheet} ${going ? s.notePeeling : ""}`} aria-hidden="true"
+                style={{ ["--sheet" as string]: color, ["--d" as string]: depth, zIndex: going ? 20 : 10 - depth }}
+                onAnimationEnd={going ? () => setLeaving((l) => l.filter((x) => x !== k)) : undefined}>
+                <span className={s.noteFace} style={{ background: color }}>
+                  currently:<br />{lines[k % total]}<br />:)
+                  <span className={s.noteHint}>{(k % total) + 1}/{total} · tap to peel ↻</span>
+                </span>
+                <span className={s.noteFlap} />
+              </span>
+            );
+          })}
+        </span>
       </button>
     </aside>
   );
@@ -375,9 +390,11 @@ export function FilmHome() {
           <div className={s.connect}>
             <p className={s.serif}>let&apos;s connect ✈</p>
             <div className={s.icons}>
-              <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
-              <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">gh</a>
-              <a href={`mailto:${CONTACT.email}`} aria-label="Email">@</a>
+              {socials.map(({ label, href, icon: Icon }) => (
+                <a key={label} href={href} aria-label={label} title={label} {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+                  <Icon />
+                </a>
+              ))}
             </div>
           </div>
         </div>

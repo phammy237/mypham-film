@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { YouAreHere, NextStop } from "@/components/layout/Wayfinding";
 import { SITE_EMAIL } from "@/lib/site";
 import { Guestbook } from "@/components/ui/Guestbook";
+import { socials } from "@/components/ui/SocialLinks";
 
 const fieldClass = "f-input f-type";
 
@@ -196,6 +197,12 @@ export default function ConnectPage() {
               <DocumentIcon className="text-[var(--blue)]" /> Resume
               <ArrowUpRightIcon className="text-[var(--muted)] group-hover:text-[var(--blue)] transition-colors" />
             </a>
+            {socials.filter((x) => ["GitHub", "Instagram", "Facebook", "Spotify"].includes(x.label)).map(({ label, href, icon: Icon }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2.5 f-type text-[var(--ink)] hover:text-[var(--blue)] transition-colors w-fit">
+                <span className="text-[var(--blue)] [&>svg]:h-[18px] [&>svg]:w-[18px]"><Icon /></span> {label}
+                <ArrowUpRightIcon className="text-[var(--muted)] group-hover:text-[var(--blue)] transition-colors" />
+              </a>
+            ))}
           </div>
 
           <div className="f-note mt-10 flex max-w-[300px] items-start gap-3 rounded-sm p-5">

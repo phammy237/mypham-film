@@ -352,3 +352,6 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-close { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(250,247,239,.92); color: #20201E; border: 0; cursor: pointer; z-index: 2; }
 .fg-close:hover { background: var(--butter); }
 @media (prefers-reduced-motion: reduce) { .fg-pola { transition: none; } }
+
+/* lets the sticky note's corner peel animate smoothly (components/film/film.module.css) */
+@property --c { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
