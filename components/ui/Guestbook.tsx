@@ -8,9 +8,9 @@ import { GOLD_DEFAULT, seasonOf, statsOf, type Gold, type Note, type Season, typ
    season, the owner's gold lock is pinned on top, and a visitor's own lock is remembered in their browser. */
 export type { Note };
 
-const LOCK_COLORS = ["#F4D35E", "#8DBCE0", "#E5675A", "#E8DDC7", "#E0A526"]; // the last one is the gold lock
-const COLOR_NAMES = ["butter", "sky", "coral", "cream"];
-const PAPER = ["#FBE7A1", "#DCEBF6", "#F6C9C2", "#F4EFE3", "#F7E2A2"];
+const LOCK_COLORS = ["#F4D35E", "#8DBCE0", "#416788", "#E8DDC7", "#DDB63F"]; // the last one is the gold lock
+const COLOR_NAMES = ["butter", "sky", "blue", "cream"];
+const PAPER = ["#FBE7A1", "#DCEBF6", "#C6D9E8", "#F4EFE3", "#F7E2A2"];
 const SHAPES = ["classic", "heart"];
 const SEASONS: Season[] = ["spring", "summer", "autumn", "winter"];
 const SEASON_NOTE: Record<Season, string> = { spring: "cherry blossoms", summer: "fireflies", autumn: "falling leaves", winter: "snow and lantern light" };
@@ -104,7 +104,7 @@ export function NoteDialog({ notes, index, onNav, onClose }: { notes: (Note & { 
 }
 
 /* petals / fireflies / leaves / snow: deterministic so server and browser agree */
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 10 }, (_, i) => ({
   x: (i * 53 + 7) % 100, del: -((i * 1.7) % 14), dur: 9 + (i % 5) * 2.2, sz: 6 + (i % 4) * 3, drift: 10 + (i % 3) * 8, y: (i * 37 + 11) % 86,
 }));
 
@@ -283,8 +283,12 @@ export function Guestbook({ initialNotes }: { initialNotes?: Note[] }) {
               ))}
             </div>
 
-            <div className="lw-plaque f-mono" aria-label={`${lockCount} locks from ${stats.cities} cities`}>
-              <b>{lockCount}</b> {lockCount === 1 ? "lock" : "locks"} · <b>{stats.cities}</b> {stats.cities === 1 ? "city" : "cities"}
+            <div className="lw-clap" role="img" aria-label={`${lockCount} ${lockCount === 1 ? "lock" : "locks"} from ${stats.cities} ${stats.cities === 1 ? "city" : "cities"}`}>
+              <div className="lw-clap-top" aria-hidden="true" />
+              <div className="lw-clap-body" aria-hidden="true">
+                <span><i>locks</i><b>{lockCount}</b></span>
+                <span><i>cities</i><b>{stats.cities}</b></span>
+              </div>
             </div>
 
             {/* the gold lock, pinned on top */}

@@ -399,3 +399,25 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .lw-city { font-size: 20px; opacity: .8; }
 .lw-pin-label { margin-bottom: 8px; opacity: .6; }
 @media (prefers-reduced-motion: reduce) { .lw-p, .lw-tag { animation: none !important; } .lw-p { display: none; } }
+
+/* ═══ The lock wall, on theme: sprocket rails, clapperboard counter, calmer seasons ═══ */
+.lw-fence { padding-top: 62px; padding-bottom: 56px; }
+.lw-fence::before, .lw-fence::after { height: 12px; left: 0; right: 0; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(250,247,239,.88) 9px 21px, transparent 21px 30px); box-shadow: none; }
+.lw-fence::before { top: 16px; } .lw-fence::after { bottom: 16px; }
+
+.lw-plaque { display: none; }
+.lw-clap { position: absolute; top: 32px; right: 16px; z-index: 3; width: 128px; transform: rotate(2.5deg); transform-origin: top right; filter: drop-shadow(0 5px 6px rgba(0,0,0,.55)); }
+.lw-clap-top { height: 15px; border-radius: 3px 3px 0 0; border: 1px solid #FAF7EF; background: repeating-linear-gradient(-55deg, #20201E 0 11px, #FAF7EF 11px 22px); transform: rotate(-4deg); transform-origin: left bottom; }
+.lw-clap-body { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 7px 9px 8px; border: 1px solid #FAF7EF; border-top: 0; border-radius: 0 0 3px 3px; background: #20201E; color: #FAF7EF; }
+.lw-clap-body span { display: grid; gap: 1px; }
+.lw-clap-body i { font: normal 500 8.5px var(--font-jetbrains), monospace; letter-spacing: .1em; text-transform: uppercase; color: #F4D35E; }
+.lw-clap-body b { font: 700 21px/1 var(--font-courier), monospace; }
+
+/* calmer weather: smaller, fainter, slower */
+.lw-p { opacity: .55; }
+.lw-spring .lw-p { width: calc(var(--sz) * .8); height: calc(var(--sz) * .8); }
+.lw-autumn .lw-p { background: #C98A4B; width: calc(var(--sz) * 1.05); height: calc(var(--sz) * 1.05); opacity: .5; }
+.lw-autumn .lw-p:nth-child(3n) { background: #A9553A; }
+.lw-winter .lw-p { background: rgba(244,239,227,.85); width: 2px; height: 2px; border-radius: 50%; filter: none; opacity: .55; animation: lw-fall calc(var(--dur) * 1.8) linear var(--del) infinite; }
+.lw-summer .lw-p { width: 46px; height: 46px; background: radial-gradient(circle, rgba(244,211,94,.34), rgba(244,211,94,0) 68%); box-shadow: none; opacity: .8; animation: lw-glow 5s ease-in-out var(--del) infinite alternate, lw-wander 14s ease-in-out var(--del) infinite alternate; }
+.lw-spring { --lw-glow: rgba(247,201,212,.09); } .lw-summer { --lw-glow: rgba(244,211,94,.09); } .lw-autumn { --lw-glow: rgba(217,142,67,.1); } .lw-winter { --lw-glow: rgba(141,188,224,.1); }
