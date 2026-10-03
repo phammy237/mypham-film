@@ -373,21 +373,24 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-frame .f-photo { border-radius: 3px; }
 @media (prefers-reduced-motion: reduce) { .fg-roll, .fg-can { transition: none; } }
 
-/* camera rig: cartridges on a shelf, a camera that takes the loaded roll, and the strip feeding out of it */
-.fg-rolls { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-@media (min-width: 900px) { .fg-rolls { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
-.fg-roll { padding: 12px 6px 10px; }
-.fg-can { width: 72px; }
-.fg-roll-title { font-size: 20px; }
-.fg-roll[aria-pressed="true"] { border-color: var(--butter); box-shadow: 0 0 0 2px var(--butter); }
-.fg-roll[aria-pressed="true"] .fg-can { opacity: .3; transform: translateY(-8px) rotate(-14deg); }
-.fg-cam { position: relative; width: min(380px, 80%); margin: 26px auto 0; z-index: 1; }
-.fg-cam-svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 14px rgba(0,0,0,.4)); }
-.fg-chamber { position: absolute; right: 7%; top: -10%; width: 15%; aspect-ratio: 1; display: grid; place-items: center; }
-.fg-chamber .f-mono { font-size: 10px; color: var(--muted); }
-.fg-flash { position: absolute; left: 50%; top: 56%; width: 30%; aspect-ratio: 1; margin: -15% 0 0 -15%; border-radius: 50%; background: #fff; filter: blur(6px); pointer-events: none; }
-.fg-feed { position: relative; margin-top: -10px; min-height: 64px; }
-.fg-feed::before { content: ""; position: absolute; left: 50%; top: -6px; width: 56px; height: 22px; margin-left: -28px; background: #0F0F0E; border-radius: 0 0 4px 4px; z-index: 2; }
-.fg-extend { overflow: hidden; padding-top: 14px; }
-.fg-extend .f-strip { padding: 28px 0; }
-.fg-hint { text-align: center; font-size: 24px; color: var(--muted); padding-top: 22px; transform: rotate(-1deg); }
+/* reels: a standing canister with its film strip pulled out to the side; opening one stretches the strip across the page */
+.fg-reels { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.fg-reel { --can: 84px; display: flex; align-items: center; min-width: 0; }
+.fg-reel-btn { flex: 0 0 var(--can); width: var(--can); background: none; border: 0; padding: 0; cursor: pointer; position: relative; z-index: 2; transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
+.fg-reel-btn:hover { transform: rotate(-4deg) scale(1.05); }
+.fg-reel-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 10px; }
+.fg-reel-can { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 8px rgba(0,0,0,.4)); }
+.fg-tongue { position: relative; margin-left: -8px; width: min(calc(100% - var(--can) + 8px), 400px); background: #2a1814; color: #FAF7EF; border-radius: 0 10px 10px 0; padding: 26px 18px; overflow: hidden; transition: width .85s cubic-bezier(.2,.8,.2,1); min-width: 0; }
+.fg-tongue::before, .fg-tongue::after { content: ""; position: absolute; left: 0; right: 0; height: 9px; background: repeating-linear-gradient(90deg, #E8DDC7 0 8px, transparent 8px 22px); opacity: .92; }
+.fg-tongue::before { top: 8px; } .fg-tongue::after { bottom: 8px; }
+.fg-reel.is-open .fg-tongue { width: calc(100% - var(--can) + 8px); }
+.fg-tongue-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.fg-tongue-title { font-size: 28px; line-height: 1; }
+.fg-tongue-meta { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #CDBFA7; }
+.fg-tongue-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .85s cubic-bezier(.2,.8,.2,1); }
+.fg-reel.is-open .fg-tongue-body { grid-template-rows: 1fr; }
+.fg-tongue-rail { min-height: 0; overflow: hidden; display: flex; gap: 10px; opacity: 0; transition: opacity .5s .25s; padding: 0; }
+.fg-reel.is-open .fg-tongue-rail { overflow-x: auto; opacity: 1; padding: 14px 0 6px; }
+.fg-tongue .fg-frame { flex: 0 0 auto; }
+@media (max-width: 640px) { .fg-reel { --can: 58px; } .fg-tongue { padding: 24px 12px; } .fg-tongue-title { font-size: 22px; } }
+@media (prefers-reduced-motion: reduce) { .fg-tongue, .fg-tongue-body, .fg-tongue-rail, .fg-reel-btn { transition: none; } }
