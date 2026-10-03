@@ -1,44 +1,34 @@
 import { createHash, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { hasRedis, rateLimit, redis } from "@/lib/upstash";
+import { GOLD_DEFAULT, clean, parseNote, pick, statsOf, type Gold, type Note } from "@/lib/guestbook";
 
 export const dynamic = "force-dynamic";
 
-const KEY = "guestbook:notes";
-const KEEP = 100; // newest notes kept
-const SHOW = 60;  // notes shown on the wall
+const KEY = "guestbook:notes";       // approved locks, newest first
+const PENDING = "guestbook:pending"; // waiting for approval, never shown publicly
+const GOLD = "guestbook:gold";       // the owner's pinned message
+const SHOW = 60;  // approved locks shown on the wall
 
-type Note = { id: string; name: string; text: string; color: number; shape: number; at: number };
-
-/** a whole number within [0, max], else a random one (the visitor picks the lock's colour and shape) */
-function pick(value: unknown, max: number): number {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= max ? value : Math.floor(Math.random() * (max + 1));
-}
-
-/** strip control characters / zero-width tricks and collapse whitespace; React escapes the rest on render */
-function clean(value: unknown, max: number): string {
-  if (typeof value !== "string") return "";
-  let out = "";
-  for (let i = 0; i < value.length; i++) {
-    const c = value.charCodeAt(i);
-    const bad = c < 32 || c === 127 || (c >= 0x200b && c <= 0x200f) || (c >= 0x2028 && c <= 0x202e);
-    out += bad ? " " : value[i];
-  }
-  return out.replace(/\s+/g, " ").trim().slice(0, max);
-}
 export async function GET() {
-  if (!hasRedis()) return NextResponse.json({ configured: false, notes: [] });
+  const empty = { configured: false, notes: [] as Note[], gold: GOLD_DEFAULT, stats: { locks: 0, cities: 0 } };
+  if (!hasRedis()) return NextResponse.json(empty);
   try {
-    const raw = await redis<string[]>(["LRANGE", KEY, 0, SHOW - 1]);
-    const notes = raw.map((r) => { try { return JSON.parse(r) as Note; } catch { return null; } }).filter((n): n is Note => !!n);
-    return NextResponse.json({ configured: true, notes });
+    const [raw, goldRaw] = await Promise.all([
+      redis<string[]>(["LRANGE", KEY, 0, SHOW - 1]),
+      redis<string | null>(["GET", GOLD]),
+    ]);
+    const notes = raw.map(parseNote).filter((n): n is Note => !!n);
+    let gold: Gold = GOLD_DEFAULT;
+    if (goldRaw) { try { const g = JSON.parse(goldRaw) as Gold; if (g?.text) gold = g; } catch { /* keep default */ } }
+    return NextResponse.json({ configured: true, notes, gold, stats: statsOf(notes) });
   } catch {
-    return NextResponse.json({ configured: true, notes: [], error: "Couldn't load the wall just now." }, { status: 503 });
+    return NextResponse.json({ ...empty, configured: true, error: "Couldn't load the wall just now." }, { status: 503 });
   }
 }
 
 export async function POST(req: Request) {
-  if (!hasRedis()) return NextResponse.json({ error: "The guestbook isn't switched on yet." }, { status: 503 });
+  if (!hasRedis()) return NextResponse.json({ error: "The lock wall isn't switched on yet." }, { status: 503 });
 
   let body: Record<string, unknown>;
   try {
@@ -55,9 +45,10 @@ export async function POST(req: Request) {
   if (clean(body.website, 100)) return NextResponse.json({ ok: true });
 
   const name = clean(body.name, 30) || "a friend";
+  const city = clean(body.city, 40);
   const text = clean(body.text, 200);
   if (text.length < 2) return NextResponse.json({ error: "Write at least a few words." }, { status: 400 });
-  if (/https?:\/\/|www\./i.test(text + " " + name)) return NextResponse.json({ error: "Please leave links out of the notes." }, { status: 400 });
+  if (/https?:\/\/|www\./i.test(`${text} ${name} ${city}`)) return NextResponse.json({ error: "Please leave links out of the notes." }, { status: 400 });
 
   try {
     const ip = (req.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
@@ -69,10 +60,11 @@ export async function POST(req: Request) {
     const wait = Math.max(perPerson, overall);
     if (wait > 0) return NextResponse.json({ error: "That's plenty for now. Try again a little later." }, { status: 429, headers: { "Retry-After": String(wait) } });
 
-    const note: Note = { id: randomUUID(), name, text, color: pick(body.color, 3), shape: pick(body.shape, 1), at: Date.now() };
-    await redis(["LPUSH", KEY, JSON.stringify(note)]);
-    await redis(["LTRIM", KEY, 0, KEEP - 1]);
-    return NextResponse.json({ ok: true, note });
+    const note: Note = { id: randomUUID(), name, text, color: pick(body.color, 3), shape: pick(body.shape, 1), ...(city ? { city } : {}), at: Date.now() };
+    // goes to the approval queue; it only appears on the wall once approved from /admin/locks
+    await redis(["LPUSH", PENDING, JSON.stringify(note)]);
+    await redis(["LTRIM", PENDING, 0, 199]);
+    return NextResponse.json({ ok: true, pending: true, note });
   } catch {
     return NextResponse.json({ error: "Couldn't save that just now. Try again in a moment." }, { status: 503 });
   }
