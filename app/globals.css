@@ -373,10 +373,21 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-frame .f-photo { border-radius: 3px; }
 @media (prefers-reduced-motion: reduce) { .fg-roll, .fg-can { transition: none; } }
 
-/* the open roll takes a whole row: canister on the left, its strip rolling out to the right */
-.fg-row-open { grid-column: 1 / -1; }
-.fg-row { display: flex; align-items: center; gap: 0; min-width: 0; }
-.fg-row .fg-roll { width: 168px; flex: 0 0 auto; align-self: stretch; border-radius: 16px 0 0 16px; }
-.fg-row .fg-extend { flex: 1 1 0; min-width: 0; margin: 0; padding: 0 0 0 4px; }
-.fg-row .fg-extend .f-strip { padding: 22px 0; }
-@media (max-width: 640px) { .fg-row .fg-roll { width: 104px; padding-inline: 6px; } .fg-row .fg-can { width: 72px; } .fg-row .fg-roll-title { font-size: 20px; } }
+/* camera rig: cartridges on a shelf, a camera that takes the loaded roll, and the strip feeding out of it */
+.fg-rolls { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 900px) { .fg-rolls { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.fg-roll { padding: 12px 6px 10px; }
+.fg-can { width: 72px; }
+.fg-roll-title { font-size: 20px; }
+.fg-roll[aria-pressed="true"] { border-color: var(--butter); box-shadow: 0 0 0 2px var(--butter); }
+.fg-roll[aria-pressed="true"] .fg-can { opacity: .3; transform: translateY(-8px) rotate(-14deg); }
+.fg-cam { position: relative; width: min(380px, 80%); margin: 26px auto 0; z-index: 1; }
+.fg-cam-svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 14px rgba(0,0,0,.4)); }
+.fg-chamber { position: absolute; right: 7%; top: -10%; width: 15%; aspect-ratio: 1; display: grid; place-items: center; }
+.fg-chamber .f-mono { font-size: 10px; color: var(--muted); }
+.fg-flash { position: absolute; left: 50%; top: 56%; width: 30%; aspect-ratio: 1; margin: -15% 0 0 -15%; border-radius: 50%; background: #fff; filter: blur(6px); pointer-events: none; }
+.fg-feed { position: relative; margin-top: -10px; min-height: 64px; }
+.fg-feed::before { content: ""; position: absolute; left: 50%; top: -6px; width: 56px; height: 22px; margin-left: -28px; background: #0F0F0E; border-radius: 0 0 4px 4px; z-index: 2; }
+.fg-extend { overflow: hidden; padding-top: 14px; }
+.fg-extend .f-strip { padding: 28px 0; }
+.fg-hint { text-align: center; font-size: 24px; color: var(--muted); padding-top: 22px; transform: rotate(-1deg); }

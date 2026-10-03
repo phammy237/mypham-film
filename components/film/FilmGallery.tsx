@@ -109,7 +109,7 @@ export function FilmGallery() {
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <h2 className="f-h2"><span className="f-mark">{view === "rolls" ? "the rolls" : "the rest of the roll"}</span></h2>
-                <p className="f-hand mt-1 text-2xl" style={{ transform: "rotate(-1.5deg)", transformOrigin: "left" }}>{view === "rolls" ? "tap a canister to unroll it" : "everything else on the table :)"}</p>
+                <p className="f-hand mt-1 text-2xl" style={{ transform: "rotate(-1.5deg)", transformOrigin: "left" }}>{view === "rolls" ? "load a roll into the camera" : "everything else on the table :)"}</p>
               </div>
               <div role="group" aria-label="View as" className="flex gap-1">
                 {(["rolls", "collage"] as const).map((v) => (
@@ -119,46 +119,84 @@ export function FilmGallery() {
             </div>
 
             {view === "rolls" ? (
-              <ul className="fg-rolls">
-                {ROLLS.map((r) => {
-                  const isOpen = rollId === r.id;
-                  return (
-                    <li key={r.id} className={isOpen ? "fg-row-open" : undefined}>
-                      <div className={isOpen ? "fg-row" : undefined}>
-                        <button type="button" className="fg-roll" aria-expanded={isOpen} onClick={() => setRollId(isOpen ? null : r.id)}
-                          data-cursor-photo data-cursor-label={isOpen ? "roll it back" : "unroll"}>
+              <div className="fg-rig">
+                <ul className="fg-rolls" aria-label="Rolls of film">
+                  {ROLLS.map((r) => {
+                    const loaded = rollId === r.id;
+                    return (
+                      <li key={r.id}>
+                        <button type="button" className="fg-roll" aria-pressed={loaded} onClick={() => setRollId(loaded ? null : r.id)}
+                          data-cursor-photo data-cursor-label={loaded ? "eject" : "load it"}>
                           <FilmMark className="fg-can" body={r.color} speed={r.speed} />
                           <span className="f-hand fg-roll-title">{r.title}</span>
-                          <span className="f-mono text-[var(--muted)]">{r.srcs.length} frames · ISO {r.speed}</span>
+                          <span className="f-mono text-[var(--muted)]">{r.srcs.length} frames</span>
                         </button>
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div className="fg-extend" aria-label={`${r.title} roll`}
-                              initial={reduce ? false : { clipPath: "inset(0 100% 0 0)" }} animate={{ clipPath: "inset(0 0% 0 0)" }}
-                              exit={reduce ? { opacity: 0 } : { clipPath: "inset(0 100% 0 0)" }} transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}>
-                              <p className="f-mono mb-1 text-[var(--muted)]">{r.blurb}</p>
-                              <div className="f-strip" tabIndex={0} role="region" aria-label={`${r.title}: scroll sideways`}>
-                                <div className="f-rail">
-                                  {rollPhotos.map((p, i) => (
-                                    <button key={p.src} type="button" className="fg-frame f-hoverable" data-cursor-photo data-cursor-label="view frame ↗" aria-label={`Open: ${p.caption}`} onClick={() => setOpen({ list: rollPhotos, i })}>
-                                      <span className="f-photo" style={{ width: Math.round((SHEET_H * p.w) / p.h), height: SHEET_H }}>
-                                        <Image src={p.src} alt={p.alt} fill sizes="320px" style={p.pos ? { objectPosition: p.pos } : undefined} />
-                                        <span className="f-fno">{frameNo(i + 1)}</span>
-                                        <span className="f-view">view frame ↗</span>
-                                      </span>
-                                      <span className="f-edge"><span>{String(i + 1).padStart(2, "0")}A ▸</span><span>{p.caption}</span></span>
-                                    </button>
-                                  ))}
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <div className="fg-cam" aria-live="polite">
+                  <svg viewBox="0 0 360 190" className="fg-cam-svg" role="img" aria-label="A film camera">
+                    <rect x="14" y="52" width="332" height="122" rx="16" fill="#20201E" />
+                    <path d="M14 68a16 16 0 0 1 16-16h300a16 16 0 0 1 16 16v26H14z" fill="#E8DDC7" />
+                    <rect x="48" y="30" width="62" height="28" rx="6" fill="#E8DDC7" />
+                    <rect x="56" y="36" width="46" height="16" rx="3" fill="#20201E" />
+                    <rect x="232" y="34" width="26" height="22" rx="4" fill="#B9B09B" />
+                    <rect x="238" y="22" width="14" height="14" rx="3" fill="#F4D35E" stroke="#20201E" strokeWidth="2" />
+                    <rect x="290" y="62" width="40" height="22" rx="4" fill="#20201E" opacity=".85" />
+                    <circle cx="180" cy="108" r="54" fill="#B9B09B" />
+                    <circle cx="180" cy="108" r="46" fill="#20201E" />
+                    <circle cx="180" cy="108" r="34" fill="#2c3f55" />
+                    <circle cx="180" cy="108" r="16" fill="#0F0F0E" />
+                    <ellipse cx="167" cy="94" rx="9" ry="5" fill="#fff" opacity=".35" transform="rotate(-30 167 94)" />
+                    <rect x="150" y="164" width="60" height="10" rx="3" fill="#0F0F0E" />
+                  </svg>
+                  <AnimatePresence>
+                    {roll && (
+                      <motion.span key={roll.id} className="fg-flash" aria-hidden="true" initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} transition={{ duration: 0.5 }} />
+                    )}
+                  </AnimatePresence>
+                  <AnimatePresence mode="wait">
+                    <motion.div key={roll ? roll.id : "none"} className="fg-chamber"
+                      initial={reduce ? false : { y: -40, rotate: -25, opacity: 0 }} animate={{ y: 0, rotate: 0, opacity: 1 }} exit={reduce ? { opacity: 0 } : { y: -40, rotate: 25, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 220, damping: 18 }}>
+                      {roll ? <FilmMark className="block h-full w-full" body={roll.color} speed={roll.speed} /> : <span className="f-mono">empty</span>}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                <div className="fg-feed">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {roll ? (
+                      <motion.div key={roll.id} className="fg-extend" aria-label={`${roll.title} roll`}
+                        initial={reduce ? false : { clipPath: "inset(0 50% 0 50%)" }} animate={{ clipPath: "inset(0 0% 0 0%)" }}
+                        exit={reduce ? { opacity: 0 } : { clipPath: "inset(0 50% 0 50%)" }} transition={{ duration: 0.75, ease: [0.2, 0.8, 0.2, 1] }}>
+                        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                          <p className="f-hand text-3xl">{roll.title}</p>
+                          <p className="f-mono text-[var(--muted)]">{roll.blurb}</p>
+                        </div>
+                        <div className="f-strip" tabIndex={0} role="region" aria-label={`${roll.title}: scroll sideways`}>
+                          <div className="f-rail">
+                            {rollPhotos.map((p, i) => (
+                              <button key={p.src} type="button" className="fg-frame f-hoverable" data-cursor-photo data-cursor-label="view frame ↗" aria-label={`Open: ${p.caption}`} onClick={() => setOpen({ list: rollPhotos, i })}>
+                                <span className="f-photo" style={{ width: Math.round((SHEET_H * p.w) / p.h), height: SHEET_H }}>
+                                  <Image src={p.src} alt={p.alt} fill sizes="320px" style={p.pos ? { objectPosition: p.pos } : undefined} />
+                                  <span className="f-fno">{frameNo(i + 1)}</span>
+                                  <span className="f-view">view frame ↗</span>
+                                </span>
+                                <span className="f-edge"><span>{String(i + 1).padStart(2, "0")}A ▸</span><span>{p.caption}</span></span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <p key="hint" className="f-hand fg-hint">pick a roll above and load it into the camera</p>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             ) : (
               <ul className="fg-collage">
                 {COLLAGE.map((p, i) => {
