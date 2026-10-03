@@ -394,3 +394,55 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-tongue .fg-frame { flex: 0 0 auto; }
 @media (max-width: 640px) { .fg-reel { --can: 58px; } .fg-tongue { padding: 24px 12px; } .fg-tongue-title { font-size: 22px; } }
 @media (prefers-reduced-motion: reduce) { .fg-tongue, .fg-tongue-body, .fg-tongue-rail, .fg-reel-btn { transition: none; } }
+.fg-tongue-body { grid-template-columns: minmax(0, 1fr); }
+.fg-reel.is-open .fg-tongue-rail { scrollbar-width: thin; scrollbar-color: #8A7F66 transparent; scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+.fg-tongue .fg-frame { scroll-snap-align: start; }
+.fg-tongue-rail.f-rail { width: auto; max-width: 100%; padding-left: 0; padding-right: 0; }
+.fg-tongue-rail.f-rail::before, .fg-tongue-rail.f-rail::after { content: none; }
+
+/* ═══ Connect page: the cinema ticket (app/connect/page.tsx) ═══ */
+.ct-ticket { display: grid; grid-template-columns: minmax(0, 1fr) 230px; filter: drop-shadow(0 18px 20px rgba(0,0,0,.4)); color: #20201E; }
+.ct-main { background: var(--butter); border-radius: 14px 0 0 14px; padding: 26px 28px 28px 32px; display: grid; gap: 16px; min-width: 0; }
+.ct-kicker { font: 500 10.5px var(--font-mono, "JetBrains Mono", monospace); letter-spacing: .12em; text-transform: uppercase; margin: 0; opacity: .75; }
+.ct-title { font-family: var(--font-display, "Instrument Serif", serif); font-weight: 400; font-size: clamp(40px, 7vw, 64px); line-height: .95; text-transform: uppercase; margin: 0; }
+.ct-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ct-mode { text-align: left; background: transparent; border: 2px solid #20201E; border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; cursor: pointer; transition: background .2s, color .2s, transform .2s; color: #20201E; }
+.ct-mode:hover { transform: translateY(-2px); }
+.ct-mode[aria-checked="true"] { background: #20201E; color: #F4EFE3; }
+.ct-mode-name { font-weight: 700; font-size: 17px; }
+.ct-mode-desc { font-size: 12.5px; opacity: .8; }
+.ct-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.ct-label { display: grid; gap: 2px; font: 500 10.5px var(--font-mono, "JetBrains Mono", monospace); letter-spacing: .1em; text-transform: uppercase; }
+.ct-field { width: 100%; background: transparent; border: 0; border-bottom: 2px solid #20201E; border-radius: 0; padding: 6px 0; font: 400 16px "Courier Prime", monospace; letter-spacing: 0; text-transform: none; color: #20201E; }
+.ct-field::placeholder { color: rgba(32,32,30,.5); }
+.ct-field:focus-visible { outline: none; border-bottom-width: 4px; }
+.ct-area { resize: none; }
+.ct-stub { position: relative; background: #F4EFE3; border-radius: 0 14px 14px 0; border-left: 2px dashed #20201E; padding: 24px 20px; display: grid; gap: 16px; align-content: space-between; text-align: center; }
+.ct-stub::before, .ct-stub::after { content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); }
+.ct-stub::before { top: -10px; } .ct-stub::after { bottom: -10px; }
+.ct-seat { font-size: 32px; line-height: 1; margin: 2px 0 0; }
+.ct-bars { height: 42px; background: repeating-linear-gradient(90deg, #20201E 0 2px, transparent 2px 5px, #20201E 5px 6px, transparent 6px 10px); }
+.ct-send { background: #20201E; color: #F4EFE3; border: 0; border-radius: 999px; padding: 12px 16px; font-weight: 700; cursor: pointer; transition: transform .2s; }
+.ct-send:hover { transform: translateY(-2px) rotate(-1deg); }
+.ct-send:disabled { opacity: .6; }
+.ct-send:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.ct-status { font-size: 12px; margin: 0; opacity: .75; }
+.ct-socials { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.ct-socials a { display: grid; place-items: center; width: 34px; height: 34px; border: 1.5px solid #20201E; border-radius: 50%; color: #20201E; transition: background .2s, color .2s, transform .2s; }
+.ct-socials a:hover { background: #20201E; color: #F4EFE3; transform: translateY(-2px); }
+.ct-socials svg { width: 16px; height: 16px; }
+@media (max-width: 720px) {
+  .ct-ticket { grid-template-columns: 1fr; }
+  .ct-main { border-radius: 14px 14px 0 0; padding: 22px 20px; }
+  .ct-fields, .ct-modes { grid-template-columns: 1fr; }
+  .ct-stub { border-left: 0; border-top: 2px dashed #20201E; border-radius: 0 0 14px 14px; }
+  .ct-stub::before, .ct-stub::after { top: -11px; bottom: auto; }
+  .ct-stub::before { left: -10px; } .ct-stub::after { left: auto; right: -10px; }
+}
+
+/* clickable skill chips: a little pop on click */
+.chip-hit { cursor: pointer; user-select: none; transition: background .2s, color .2s, border-color .2s; }
+.chip-hit:hover { border-color: var(--butter); }
+.chip-pop { animation: chipPop .45s cubic-bezier(.3,1.7,.5,1); background: var(--butter) !important; color: #20201E !important; border-color: var(--butter) !important; }
+@keyframes chipPop { 0% { transform: scale(1); } 35% { transform: scale(1.35) rotate(-4deg); } 70% { transform: scale(.94) rotate(2deg); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .chip-pop { animation: none; } }

@@ -205,20 +205,26 @@ export const education = [
 ];
 
 export const skills = {
-  "Product & Analytics": ["Figma", "Jira", "Productboard", "Miro", "Amplitude", "Mixpanel", "Tableau", "Google Analytics", "Notion"],
-  Programming: ["Python", "R", "JavaScript", "TypeScript", "C++", "Lua", "HTML"],
-  "Frameworks & Libraries": ["React.js", "Node.js", "Django", "Pandas", "PyTorch", "ggplot2", "Matplotlib"],
-  Technologies: ["GitHub", "Jupyter Notebook", "MongoDB", "PostgreSQL (basic)", "MATLAB"],
+  "Programming Languages": ["Python", "TypeScript", "JavaScript", "C++17", "R", "MATLAB"],
+  "Frontend Development": ["React", "React Native", "HTML/CSS", "Tailwind CSS", "Expo"],
+  "Backend & APIs": ["Node.js", "Express", "FastAPI", "REST APIs", "cpp-httplib", "Chrome Manifest V3"],
+  "Databases & Data Access": ["MongoDB", "PostgreSQL (basic)", "Mongoose", "Motor", "Knex.js"],
+  "Developer Tools & Testing": ["GitHub", "Vite", "Turborepo", "pnpm", "CMake", "Catch2", "Playwright", "Jupyter Notebook"],
+  "Data Science & Machine Learning": ["pandas", "scikit-learn", "Fairlearn", "Natural Language Processing", "Computer Vision", "Statistical Analysis", "Monte Carlo Simulation", "Mathematical Modeling", "Differential Equations", "Probability Theory"],
+  "AI & Conversational Products": ["Gemini 2.5 Flash", "Generative AI", "Chatbot Development", "AI UX"],
+  "Analytics & Visualization": ["Tableau", "Streamlit", "Leaflet.js", "Data Visualization", "3D Visualization", "Product Analytics"],
+  "Geospatial Technologies": ["OSRM", "OpenStreetMap", "Overpass API"],
+  "Product & Design": ["Figma", "Prototyping", "UX Design", "UX Research", "User Research", "MVP Planning", "Product Strategy"],
   Languages: ["English (Fluent)", "Vietnamese (Native)", "Russian (Conversational)"],
+  "Case Competitions": ["GatorBot - Deloitte Innovation Challenge: AI Solution for Campus Support", "2025 UAA Case Competition", "Savills Commercial Real Estate Analysis - ASA DataFest", "Luby Microgrant Pitch Competition", "Blackstone Launchpad", "McKinsey Case Competition", "SCUDEM X 2025", "Code4Good", "Bloomberg Bpuzzled", "COMAP Mathematical/Interdisciplinary Contest in Modeling", "Hacklytics 2026"],
+  "Early Career Programs": ["BCG Launch", "McKinsey Forward", "Forte Career Ready Certificate", "JPMorgan Chase Spring Insights", "Morgan Stanley Early Insights"],
 };
 
-export const earlyCareerPrograms = [
-  "BCG Launch",
-  "McKinsey Forward",
-  "Forte Career Ready Certificate",
-  "JPMorgan Chase Spring Insights",
-  "Morgan Stanley Early Insights",
-];
+/** The categories that are tools (shown as "tools" on the home page); the rest are languages, competitions and programs. */
+export const TOOL_CATEGORIES = [
+  "Programming Languages", "Frontend Development", "Backend & APIs", "Databases & Data Access", "Developer Tools & Testing",
+  "Data Science & Machine Learning", "AI & Conversational Products", "Analytics & Visualization", "Geospatial Technologies", "Product & Design",
+] as const;
 
 export const highSchoolEducation = [
   {

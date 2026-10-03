@@ -72,7 +72,7 @@ function Pola({ p, n, onOpen, className = "", style, sizes }: { p: GalleryPhoto;
         <span className="f-fno">{frameNo(n)}</span>
         <span className="f-view">view frame ↗</span>
       </span>
-      <span className="f-hand fg-label">{p.caption}</span>
+      <span className="f-hand fg-label">{p.short ?? p.caption}</span>
     </button>
   );
 }
@@ -162,7 +162,7 @@ export function FilmGallery() {
                                   <span className="f-fno">{frameNo(i + 1)}</span>
                                   <span className="f-view">view frame ↗</span>
                                 </span>
-                                <span className="f-edge"><span>{String(i + 1).padStart(2, "0")}A ▸</span><span>{p.caption}</span></span>
+                                <span className="f-edge"><span>{String(i + 1).padStart(2, "0")}A ▸</span><span>{p.short ?? p.caption}</span></span>
                               </button>
                             ))}
                           </div>

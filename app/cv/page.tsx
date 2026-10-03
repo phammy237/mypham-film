@@ -11,7 +11,6 @@ import {
   awards,
   education,
   skills,
-  earlyCareerPrograms,
   highSchoolEducation,
   highSchoolExperience,
   hobbies,
@@ -124,6 +123,24 @@ export default function CVPage() {
               ))}
             </Section>
 
+            {/* Skills */}
+            <Section title="Skills">
+              <div className="space-y-4">
+                {Object.entries(skills).map(([category, items]) => (
+                  <div key={category}>
+                    <p className="f-hand mb-2 text-2xl">{category.toLowerCase()}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map((skill) => (
+                        <span key={skill} className="f-chip chip-hit !px-3 !py-1 !text-[11px]" onClick={(e) => { const el = e.currentTarget; el.classList.remove("chip-pop"); void el.offsetWidth; el.classList.add("chip-pop"); }}>
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
             {/* Experience */}
             <Section title="Experience">
               <div className="relative">
@@ -211,34 +228,6 @@ export default function CVPage() {
               </ul>
             </Section>
 
-            {/* Skills */}
-            <Section title="Skills">
-              <div className="space-y-4">
-                {Object.entries(skills).map(([category, items]) => (
-                  <div key={category}>
-                    <p className="f-hand mb-2 text-2xl">{category.toLowerCase()}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {items.map((skill) => (
-                        <span key={skill} className="f-chip !px-3 !py-1 !text-[11px]">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Section>
-
-            {/* Early Career Programs */}
-            <Section title="Selected Early Career Programs">
-              <div className="flex flex-wrap gap-2">
-                {earlyCareerPrograms.map((p) => (
-                  <span key={p} className="f-chip border-transparent bg-[var(--butter)] text-[#20201E] !px-3 !py-1.5">
-                    {p}
-                  </span>
-                ))}
-              </div>
-            </Section>
           </motion.div>
         )}
 

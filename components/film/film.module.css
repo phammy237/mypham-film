@@ -204,3 +204,34 @@
 .icons a svg { width: 18px; height: 18px; }
 .icons a { transition: transform .15s, background .15s, color .15s; }
 .icons a:hover { transform: translateY(-2px) rotate(-6deg); background: var(--blue); }
+
+/* tools (canister shelf) + experience (reel timeline) on the home page */
+.tools, .exp { margin-top: 90px; }
+.secHead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.secHead h2 { font-size: clamp(32px, 4vw, 44px); }
+.shelf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.can { width: 100%; height: 100%; background: transparent; border: 1px solid var(--line); border-radius: 12px; padding: 12px 6px 10px; display: grid; justify-items: center; align-content: start; gap: 6px; text-align: center; cursor: pointer; color: var(--ink); font: 500 10px var(--font-jetbrains), monospace; letter-spacing: .06em; text-transform: uppercase; line-height: 1.3; transition: border-color .2s, box-shadow .2s; }
+.can:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.canSvg { width: 46px; height: 58px; transition: transform .3s cubic-bezier(.3,1.6,.5,1); filter: drop-shadow(0 5px 4px rgba(0,0,0,.35)); }
+.can:hover .canSvg { transform: rotate(-6deg) translateY(-3px); }
+.can[aria-pressed="true"] { border-color: var(--butter); box-shadow: 0 0 0 2px var(--butter); }
+.can[aria-pressed="true"] .canSvg { transform: rotate(-12deg) translateY(-5px); }
+.pull { margin-top: 18px; background: #2a1814; color: #FAF7EF; border-radius: 6px; padding: 28px 18px 26px; position: relative; min-height: 118px; }
+.pull::before, .pull::after { content: ""; position: absolute; left: 0; right: 0; height: 9px; background: repeating-linear-gradient(90deg, #E8DDC7 0 8px, transparent 8px 22px); opacity: .92; }
+.pull::before { top: 8px; } .pull::after { bottom: 8px; }
+.pullTitle { font-size: 28px; line-height: 1; margin: 0 0 10px; }
+.pullChips span { border-color: #6b4a42; color: #FAF7EF; cursor: pointer; }
+.reel { list-style: none; margin: 0; padding: 0 0 0 76px; display: grid; gap: 12px; position: relative; }
+.reel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 56px; background: #0F0F0E; border-radius: 4px; }
+.reel::after { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 8px; background: repeating-linear-gradient(0deg, #E8DDC7 0 9px, transparent 9px 22px); opacity: .9; }
+.reelFrame { position: relative; display: grid; gap: 4px; width: 100%; text-align: left; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color .2s; }
+.reelFrame::before { content: attr(data-n); position: absolute; left: -66px; top: 14px; width: 44px; text-align: right; font: 700 10px var(--font-jetbrains), monospace; color: var(--butter); }
+.reelFrame:hover { border-color: var(--muted); }
+.reelFrame[aria-expanded="true"] { border-color: var(--butter); }
+.reelFrame:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.reelRole { font-size: 17px; }
+.reelRole span { color: var(--muted); }
+.reelMore { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 72ch; padding-top: 4px; }
+@media (max-width: 900px) { .shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); } .reel { padding-left: 62px; } .reel::before { width: 44px; } .reel::after { left: 6px; } .reelFrame::before { left: -56px; width: 36px; } }
+@media (prefers-reduced-motion: reduce) { .canSvg { transition: none; } }

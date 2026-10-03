@@ -7,6 +7,7 @@ import { allWork, type Project } from "@/data/projects";
 import { education, hobbies, leadership, skills } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
 import { FlipPhoto } from "@/components/film/FlipPhoto";
+import { ExperienceReel, ToolsShelf } from "@/components/film/ToolsAndExperience";
 import { NowPlaying } from "@/components/ui/NowPlaying";
 import { socials } from "@/components/ui/SocialLinks";
 import s from "./film.module.css";
@@ -294,6 +295,60 @@ export function FilmHome() {
       <FilmStrip frames={lately} onOpen={(_frame, n) => setOpen({ list: lately, i: n - 1 })} onPosition={onPosition} />
       <p className={`${s.wrap} ${s.mono} ${s.muted} ${s.hint}`}>drag, swipe, or use ← → · tap a frame to view it<button type="button" onClick={toggleSound} aria-pressed={sound} className={s.soundBtn}>shutter sound: {sound ? "on" : "off"} ♪</button></p>
 
+      {/* about */}
+      <section className={`${s.wrap} ${s.about}`} id="about">
+        <div>
+          <h2 className={s.serif}>about me</h2>
+          <div className={s.portrait}>
+            <Photo src={PHOTOS.glow.src} alt={PHOTOS.glow.alt} sizes="(max-width: 900px) 100vw, 360px" />
+            <span className={`${s.hand} ${s.portraitNote}`}>a little bit about me</span>
+          </div>
+        </div>
+        <div>
+          <p className={s.bio}>I&apos;m My — a Data Science student at the {ed.school} who likes turning ideas into real things. I work across product, operations, and decision systems.</p>
+          <p className={s.factsHead}>quick facts:</p>
+          <ul className={s.facts}>
+            {[["⌖", "Hanoi, Vietnam → Gainesville, FL"], ["✎", `Data Science @ UF (${ed.period.replace("Expected ", "")})`], ["◌", languages], ["☕", "matcha > coffee"],
+              ["♪", hobbies.slice(0, 4).map((h) => h.split(" (")[0].toLowerCase()).join(", ")]].map(([i, t]) => (
+              <li key={t}><span className={s.ic} aria-hidden="true">{i}</span>{t}</li>
+            ))}
+          </ul>
+          <p style={{ marginTop: 22, display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <Link className={s.btn} href="/biography/journey">the full journey →</Link>
+            <Link className={s.btn} href="/cv">resume</Link>
+          </p>
+        </div>
+        <div>
+          <div className={s.stack}>
+            {(["beach", "matcha", "mirror"] as const).map((k, i) => (
+              <motion.div key={k} className={s.pola} drag dragMomentum={false} dragElastic={0.12}
+                dragConstraints={{ left: -140, right: 140, top: -80, bottom: 160 }}
+                style={{ rotate: [-4, 5, -1][i] }} whileDrag={{ scale: 1.06, rotate: 0, zIndex: 20 }}
+                onDragStart={() => { dragMoved.current = true; }}
+                onDragEnd={() => { setTimeout(() => { dragMoved.current = false; }, 0); }}
+                onClickCapture={(e) => { if (dragMoved.current) { e.stopPropagation(); e.preventDefault(); } }}>
+                <FlipPhoto src={PHOTOS[k].src} alt={PHOTOS[k].alt} n={i + 1} sizes="240px" note={PHOTOS[k].caption} />
+              </motion.div>
+            ))}
+          </div>
+          <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
+          <div className={s.connect}>
+            <p className={s.serif}>let&apos;s connect ✈</p>
+            <div className={s.icons}>
+              {socials.map(({ label, href, icon: Icon }) => (
+                <a key={label} href={href} aria-label={label} title={label} {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+                  <Icon />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ToolsShelf />
+
+      <ExperienceReel />
+
       {/* featured + communities */}
       <section className={`${s.wrap} ${s.feat}`}>
         <div>
@@ -347,56 +402,6 @@ export function FilmHome() {
             ))}
           </div>
           <p style={{ marginTop: 22 }}><Link className={s.btn} href="/film">see the whole roll →</Link></p>
-        </div>
-      </section>
-
-      {/* about */}
-      <section className={`${s.wrap} ${s.about}`} id="about">
-        <div>
-          <h2 className={s.serif}>about me</h2>
-          <div className={s.portrait}>
-            <Photo src={PHOTOS.glow.src} alt={PHOTOS.glow.alt} sizes="(max-width: 900px) 100vw, 360px" />
-            <span className={`${s.hand} ${s.portraitNote}`}>a little bit about me</span>
-          </div>
-        </div>
-        <div>
-          <p className={s.bio}>I&apos;m My — a Data Science student at the {ed.school} who likes turning ideas into real things. I work across product, operations, and decision systems.</p>
-          <p className={s.factsHead}>quick facts:</p>
-          <ul className={s.facts}>
-            {[["⌖", "Hanoi, Vietnam → Gainesville, FL"], ["✎", `Data Science @ UF (${ed.period.replace("Expected ", "")})`], ["◌", languages], ["☕", "matcha > coffee"],
-              ["♪", hobbies.slice(0, 4).map((h) => h.split(" (")[0].toLowerCase()).join(", ")]].map(([i, t]) => (
-              <li key={t}><span className={s.ic} aria-hidden="true">{i}</span>{t}</li>
-            ))}
-          </ul>
-          <p style={{ marginTop: 22, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <Link className={s.btn} href="/biography/journey">the full journey →</Link>
-            <Link className={s.btn} href="/cv">resume</Link>
-          </p>
-        </div>
-        <div>
-          <div className={s.stack}>
-            {(["beach", "matcha", "mirror"] as const).map((k, i) => (
-              <motion.div key={k} className={s.pola} drag dragMomentum={false} dragElastic={0.12}
-                dragConstraints={{ left: -140, right: 140, top: -80, bottom: 160 }}
-                style={{ rotate: [-4, 5, -1][i] }} whileDrag={{ scale: 1.06, rotate: 0, zIndex: 20 }}
-                onDragStart={() => { dragMoved.current = true; }}
-                onDragEnd={() => { setTimeout(() => { dragMoved.current = false; }, 0); }}
-                onClickCapture={(e) => { if (dragMoved.current) { e.stopPropagation(); e.preventDefault(); } }}>
-                <FlipPhoto src={PHOTOS[k].src} alt={PHOTOS[k].alt} n={i + 1} sizes="240px" note={PHOTOS[k].caption} />
-              </motion.div>
-            ))}
-          </div>
-          <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
-          <div className={s.connect}>
-            <p className={s.serif}>let&apos;s connect ✈</p>
-            <div className={s.icons}>
-              {socials.map(({ label, href, icon: Icon }) => (
-                <a key={label} href={href} aria-label={label} title={label} {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
-                  <Icon />
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
