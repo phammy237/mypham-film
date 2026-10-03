@@ -8,7 +8,12 @@ const KEY = "guestbook:notes";
 const KEEP = 100; // newest notes kept
 const SHOW = 60;  // notes shown on the wall
 
-type Note = { id: string; name: string; text: string; color: number; at: number };
+type Note = { id: string; name: string; text: string; color: number; shape: number; at: number };
+
+/** a whole number within [0, max], else a random one (the visitor picks the lock's colour and shape) */
+function pick(value: unknown, max: number): number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= max ? value : Math.floor(Math.random() * (max + 1));
+}
 
 /** strip control characters / zero-width tricks and collapse whitespace; React escapes the rest on render */
 function clean(value: unknown, max: number): string {
@@ -64,7 +69,7 @@ export async function POST(req: Request) {
     const wait = Math.max(perPerson, overall);
     if (wait > 0) return NextResponse.json({ error: "That's plenty for now. Try again a little later." }, { status: 429, headers: { "Retry-After": String(wait) } });
 
-    const note: Note = { id: randomUUID(), name, text, color: Math.floor(Math.random() * 4), at: Date.now() };
+    const note: Note = { id: randomUUID(), name, text, color: pick(body.color, 3), shape: pick(body.shape, 1), at: Date.now() };
     await redis(["LPUSH", KEY, JSON.stringify(note)]);
     await redis(["LTRIM", KEY, 0, KEEP - 1]);
     return NextResponse.json({ ok: true, note });
