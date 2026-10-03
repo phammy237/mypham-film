@@ -19,11 +19,11 @@ export const PHOTOS = {
   visa: { src: "/involvements/visa-2.jpg", caption: "VISA night", alt: "VISA event night" },
   ps: { src: "/involvements/product-space.jpg", caption: "Product Space", alt: "Product Space group photo" },
   sase: { src: "/involvements/sase-mentor.jpg", caption: "SASE", alt: "SASE friends at night" },
-  shellhacks: { src: "/images/shellhacks-team.jpg", caption: "ShellHacks, transPEAKtation team", alt: "Four teammates at ShellHacks holding laptops that show the transPEAKtation architecture diagram and title screen", pos: "50% 55%" },
-  booth: { src: "/images/photobooth.jpg", caption: "photo booth", alt: "Black and white photo booth strip of four poses", pos: "50% 30%", portrait: true },
-  kitchen: { src: "/images/friends-night-in.jpg", caption: "friends, night in", alt: "Four friends posing in a kitchen, one standing behind making a heart with her hands", pos: "50% 40%" },
-  palms: { src: "/images/palms-sunflare.jpg", caption: "palm trees and sun flare", alt: "Leaning on a curb on a street lined with tall palm trees, sun flaring above", pos: "50% 62%", portrait: true },
-  coke: { src: "/images/coca-cola-museum.jpg", caption: "cheers at the Coca-Cola museum", alt: "Posing with a bronze statue that holds out a cup, in front of red Coca-Cola signs", pos: "50% 55%", portrait: true },
+  shellhacks: { src: "/images/shellhacks-team.jpg", caption: "transPEAKtation at ShellHacks", alt: "The transPEAKtation team at ShellHacks holding laptops that show the project's architecture diagram and title screen", pos: "50% 55%" },
+  nycBooth: { src: "/images/photobooth-nyc.jpg", caption: "photo booth, NYC", alt: "Black and white photo booth strip of four poses, taken in New York City", pos: "50% 30%", portrait: true },
+  saseMentees: { src: "/images/sase-mentor-mentee.jpg", caption: "SASE mentor and mentee", alt: "A SASE mentor and mentees posing together in a kitchen, one standing behind making a heart with her hands", pos: "50% 40%" },
+  laSummer: { src: "/images/la-summer-2026.jpg", caption: "LA, summer 2026", alt: "Leaning on a curb on a street lined with tall palm trees in Los Angeles, sun flaring above", pos: "50% 62%", portrait: true },
+  atlanta: { src: "/images/atlanta-coca-cola.jpg", caption: "Atlanta, Coca-Cola museum", alt: "In Atlanta at the Coca-Cola museum, posing with a bronze statue that holds out a cup in front of red Coca-Cola signs", pos: "50% 55%", portrait: true },
 } satisfies Record<string, FilmPhoto>;
 
 export type PhotoKey = keyof typeof PHOTOS;
@@ -34,9 +34,9 @@ export type GridFilter = "projects" | "leadership" | "travel" | "friends" | "ran
 
 /** "lately, on film" — life and work, interleaved */
 export const LATELY: FrameRef[] = [
-  { photo: "nyc" }, { photo: "matcha" }, { project: "transpeaktation" }, { photo: "shellhacks" }, { photo: "mirror" }, { photo: "win" }, { photo: "palms" }, { photo: "beach" },
-  { project: "kite" }, { photo: "tet" }, { photo: "booth" }, { photo: "dsi" }, { project: "cartcoach" }, { photo: "glow" }, { photo: "kitchen" }, { photo: "ps" },
-  { photo: "coke" }, { project: "wnba-simulator" }, { photo: "sase" },
+  { photo: "nyc" }, { photo: "matcha" }, { project: "transpeaktation" }, { photo: "shellhacks" }, { photo: "mirror" }, { photo: "win" }, { photo: "laSummer" }, { photo: "beach" },
+  { project: "kite" }, { photo: "tet" }, { photo: "nycBooth" }, { photo: "dsi" }, { project: "cartcoach" }, { photo: "glow" }, { photo: "saseMentees" }, { photo: "ps" },
+  { photo: "atlanta" }, { project: "wnba-simulator" }, { photo: "sase" },
 ];
 
 /** "more on film" — the filterable grid */
@@ -47,8 +47,8 @@ export const MORE: (FrameRef & { filter: GridFilter; tall?: boolean })[] = [
   { photo: "ps", filter: "leadership", tall: true }, { photo: "mirror", filter: "random" }, { photo: "dsiTower", filter: "leadership" },
   { photo: "visa", filter: "friends" }, { project: "campus-compass", filter: "projects" }, { photo: "glow", filter: "random" },
   { project: "wnba-simulator", filter: "projects" },
-  { photo: "shellhacks", filter: "projects" }, { photo: "booth", filter: "random", tall: true }, { photo: "kitchen", filter: "friends" },
-  { photo: "palms", filter: "travel", tall: true }, { photo: "coke", filter: "travel" },
+  { photo: "shellhacks", filter: "projects" }, { photo: "nycBooth", filter: "travel", tall: true }, { photo: "saseMentees", filter: "leadership" },
+  { photo: "laSummer", filter: "travel", tall: true }, { photo: "atlanta", filter: "travel" },
 ];
 
 export const FEATURED = ["transpeaktation", "cartcoach", "kite"];
