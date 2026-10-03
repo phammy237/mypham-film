@@ -372,3 +372,11 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-frame { flex: 0 0 auto; text-align: left; color: #FAF7EF; border: 0; background: none; cursor: pointer; scroll-snap-align: start; }
 .fg-frame .f-photo { border-radius: 3px; }
 @media (prefers-reduced-motion: reduce) { .fg-roll, .fg-can { transition: none; } }
+
+/* the open roll takes a whole row: canister on the left, its strip rolling out to the right */
+.fg-row-open { grid-column: 1 / -1; }
+.fg-row { display: flex; align-items: center; gap: 0; min-width: 0; }
+.fg-row .fg-roll { width: 168px; flex: 0 0 auto; align-self: stretch; border-radius: 16px 0 0 16px; }
+.fg-row .fg-extend { flex: 1 1 0; min-width: 0; margin: 0; padding: 0 0 0 4px; }
+.fg-row .fg-extend .f-strip { padding: 22px 0; }
+@media (max-width: 640px) { .fg-row .fg-roll { width: 104px; padding-inline: 6px; } .fg-row .fg-can { width: 72px; } .fg-row .fg-roll-title { font-size: 20px; } }
