@@ -62,34 +62,35 @@ export const EarthMaterial = shaderMaterial(
       float sunFactor = dot(n, normalize(sunDirection));
       float dayMix = smoothstep(-0.15, 0.22, sunFactor);
 
-      // dark side stays readable — a soft deep-navy floor instead of true black, so ocean/land
+      // dark side stays readable — a soft warm film-black floor instead of true black, so ocean/land
       // relief and city light halos remain visible across the whole night hemisphere
-      vec3 nightBase = mix(vec3(0.015, 0.022, 0.05), dayColor * 0.18, nightFloor);
-      vec3 nightSide = nightBase + nightColor * nightIntensity;
+      vec3 nightBase = mix(vec3(0.05, 0.045, 0.036), dayColor * 0.18, nightFloor);
+      // city lights glow amber, like tungsten in a film still
+      vec3 nightSide = nightBase + nightColor * vec3(1.0, 0.78, 0.45) * nightIntensity;
       vec3 color = mix(nightSide, dayColor, dayMix);
       color *= mix(0.9, 1.0, relief);
 
       vec3 viewDir = normalize(cameraPosition - vWorldPosition);
       vec3 halfDir = normalize(normalize(sunDirection) + viewDir);
       float specHighlight = pow(max(dot(n, halfDir), 0.0), 70.0) * spec * dayMix;
-      color += vec3(0.5, 0.55, 0.62) * specHighlight * 0.22;
+      color += vec3(0.62, 0.55, 0.44) * specHighlight * 0.22;
 
       // faint terminator warmth, purely atmospheric/artistic
       float terminator = 1.0 - smoothstep(0.0, 0.35, abs(sunFactor));
-      color += vec3(0.18, 0.09, 0.22) * terminator * 0.12;
+      color += vec3(0.24, 0.13, 0.04) * terminator * 0.12;
 
       // restrained warm halo over the focus city (e.g. Hanoi) so it reads clearly on the dark side
       float focusDist = distance(vObjectNormal, normalize(focusPoint));
       float focusHalo = smoothstep(0.2, 0.0, focusDist) * focusGlow * (1.0 - dayMix * 0.7);
       color += vec3(1.0, 0.82, 0.52) * focusHalo * 0.4;
 
-      // brand grade: slight desaturation + slightly lowered contrast + a soft navy overlay, so the
-      // globe reads as part of this site's navy/purple palette rather than a stock-photorealistic
-      // Earth render
+      // film grade: warm sepia toning + slightly lowered contrast + a soft film-black overlay, so the
+      // globe reads as part of this site's cream / butter / film-black palette rather than a
+      // stock-photorealistic Earth render
       float luma = dot(color, vec3(0.299, 0.587, 0.114));
-      color = mix(color, vec3(luma), 0.14);
-      color = mix(vec3(0.5), color, 0.88);
-      color = mix(color, vec3(0.094, 0.137, 0.247), 0.16);
+      color = mix(color, luma * vec3(1.14, 1.0, 0.78), 0.62);
+      color = mix(vec3(0.5), color, 0.9);
+      color = mix(color, vec3(0.125, 0.125, 0.118), 0.14);
 
       gl_FragColor = vec4(color, 1.0);
     }
@@ -98,7 +99,7 @@ export const EarthMaterial = shaderMaterial(
 
 /** Restrained Fresnel rim-glow shell — no post-processing bloom pass needed. */
 export const AtmosphereMaterial = shaderMaterial(
-  { glowColor: new Color("#A7A399"), intensity: 1.3 },
+  { glowColor: new Color("#E8DDC7"), intensity: 1.3 },
   /* vertex */ `
     varying vec3 vNormal;
     void main() {
