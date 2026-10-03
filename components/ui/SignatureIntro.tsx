@@ -14,10 +14,10 @@ const SIGNATURE_LINE = `M284 481C367.1 479.5 449.7 470.7 532.8 467.8C560.8 466.9
 /** pen line, in the 2000 x 896 box (about 3px at full size) */
 const LINE_WIDTH = 4.5;
 
-const DRAW_DURATION = 6;
-const HOLD = 0.5;
-const SIG_FADE = 1.1;
-const BG_FADE = 1.4;
+const DRAW_DURATION = 3.2;
+const HOLD = 0.35;
+const SIG_FADE = 0.8;
+const BG_FADE = 1.0;
 const TOTAL_MS = (DRAW_DURATION + HOLD + SIG_FADE) * 1000;
 
 export default function SignatureIntro() {

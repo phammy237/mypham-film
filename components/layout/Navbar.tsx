@@ -4,17 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/components/layout/ThemeProvider";
+import { FilmMark } from "@/components/layout/FilmMark";
 
 /* A strip of film across the top: sprocket holes along both edges, each page is a numbered frame, and the frame
    you're on is lit in butter. The strip is always film-black, so it reads the same over the hero, the maps and
    the cream pages. */
 const navLinks = [
   ["About", "/#about"],
-  ["Biography", "/biography/journey"],
   ["Work", "/projects"],
-  ["Film", "/film"],
   ["Involvements", "/involvements"],
   ["CV", "/cv"],
+  ["Biography", "/biography/journey"],
+  ["Film", "/film"],
 ] as [string, string][];
 
 const frameNo = (i: number) => `${String(i + 1).padStart(2, "0")}A`;
@@ -76,7 +77,7 @@ export function Navbar() {
             </button>
             <Link
               href="/"
-              className="hidden h-9 w-9 shrink-0 text-[#FAF7EF] transition-colors hover:text-[#F4D35E] lg:block"
+              className="block h-10 w-10 shrink-0"
               aria-label="My Pham home (replays my signature)"
               data-cursor-label="replay signature ✎"
               data-cursor-photo
@@ -89,19 +90,7 @@ export function Navbar() {
                 }
               }}
             >
-              <span
-                className="block h-full w-full bg-current"
-                style={{
-                  WebkitMaskImage: "url(/logo.png)",
-                  maskImage: "url(/logo.png)",
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
-                }}
-              />
+              <FilmMark className="block h-full w-full transition-transform duration-300 hover:-rotate-6 hover:scale-110" />
             </Link>
             <Link href="/" className="f-mono text-[13px] font-medium tracking-[0.14em] text-[#FAF7EF] transition-colors hover:text-[#F4D35E]">
               MY PHAM

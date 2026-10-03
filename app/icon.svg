@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <rect width="48" height="48" rx="10" fill="#20201E"/>
+  <g transform="translate(1.5 1.5) scale(.94)">
+    <path d="M17 31c-1.5 7 3 11 11 10" stroke="#E8DDC7" stroke-width="6.4" stroke-linecap="round"/>
+    <path d="M17 31c-1.5 7 3 11 11 10" stroke="#20201E" stroke-width="2.2" stroke-dasharray="1.5 2.6" stroke-dashoffset="1"/>
+    <g transform="rotate(-24 24 24)">
+      <rect x="12" y="14" width="27" height="19" rx="3.2" fill="#F4D35E" stroke="#0F0F0E" stroke-width="1.6"/>
+      <rect x="7.5" y="12.2" width="7" height="22.6" rx="2.6" fill="#0F0F0E"/>
+      <rect x="39" y="18" width="4.2" height="11" rx="1.6" fill="#0F0F0E"/>
+      <text x="26.8" y="27.2" text-anchor="middle" font-family="Courier New, monospace" font-weight="700" font-size="9.5" fill="#20201E">400</text>
+    </g>
+  </g>
+</svg>
