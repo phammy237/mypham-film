@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import type { Project } from "@/data/projects";
 import { ProjectArt } from "@/components/film/ui";
 
@@ -22,6 +22,10 @@ export function ProjectDetailClient({
 }) {
   const hasMedia = !!(project.video || project.slides || project.paper || project.liveUrl);
   const [tab, setTab] = useState<Tab>("overview");
+  // the cover slowly pushes in as you scroll, like a film push-in
+  const { scrollY } = useScroll();
+  const coverY = useTransform(scrollY, [0, 600], [0, 50]);
+  const coverScale = useTransform(scrollY, [0, 600], [1, 1.08]);
   const realAward = !!project.award && project.award !== "Participant";
 
   const links = [
@@ -56,9 +60,11 @@ export function ProjectDetailClient({
             </motion.div>
           )}
         </div>
+        <motion.div style={{ y: coverY, scale: coverScale }}>
         <motion.div initial={{ opacity: 0, rotate: 3, y: 20 }} animate={{ opacity: 1, rotate: 1.5, y: 0 }} transition={{ delay: 0.2, type: "spring", stiffness: 90, damping: 18 }} className="f-pola">
           <ProjectArt project={project} n={1} sizes="(max-width: 768px) 100vw, 480px" className="aspect-[4/3]" priority />
           <p className="f-hand mt-3 text-center text-xl text-[#20201E]">{project.hook ?? project.title}</p>
+        </motion.div>
         </motion.div>
       </section>
 
@@ -100,7 +106,7 @@ export function ProjectDetailClient({
                     <h2 className="f-h2 mt-14"><span className="f-mark">what I did</span></h2>
                     <ol className="mt-8 space-y-6">
                       {project.bullets.map((bullet, i) => (
-                        <motion.li key={i} className="grid grid-cols-[44px_1fr] items-start gap-3" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
+                        <motion.li key={i} className="grid grid-cols-[44px_1fr] items-start gap-3" initial={{ opacity: 0, x: -14 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: 0.04 }}>
                           <span className="f-fno" style={{ position: "static", color: "var(--blue)", textShadow: "none" }}>{String(i + 1).padStart(2, "0")}A</span>
                           <span className="text-[16px] leading-relaxed">{bullet}</span>
                         </motion.li>

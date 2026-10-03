@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Caveat, Courier_Prime, DM_Serif_Display, Instrument_Serif, Inter, JetBrains_Mono, Roboto } from "next/font/google";
 import { CustomCursor } from "@/components/layout/CustomCursor";
+import { Easter } from "@/components/ui/Easter";
+import { Shortcuts } from "@/components/ui/Shortcuts";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import "./globals.css";
 import { PageTransitions } from "@/components/layout/PageTransitions";
@@ -67,6 +69,8 @@ export default function RootLayout({
           <PageTransitions />
           {children}
           <ChatBot />
+          <Easter />
+          <Shortcuts />
         </ThemeProvider>
       </body>
     </html>

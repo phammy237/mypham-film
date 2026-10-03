@@ -7,6 +7,7 @@ import { allWork, type Project } from "@/data/projects";
 import { education, hobbies, leadership, skills } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
 import { FlipPhoto } from "@/components/film/FlipPhoto";
+import { NowPlaying } from "@/components/ui/NowPlaying";
 import s from "./film.module.css";
 
 /* ── frames: a photo or a project, resolved to one shape ── */
@@ -31,26 +32,52 @@ function Photo({ src, alt, n, sizes, className = "", priority = false }: { src: 
 }
 
 /* ── the rotating "currently:" note ── */
-function Currently() {
-  const reduce = useReducedMotion();
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (reduce) return;
-    const t = setInterval(() => setI((x) => (x + 1) % CURRENTLY.length), 3800);
-    return () => clearInterval(t);
-  }, [reduce]);
-  return <span className={s.noteLine} aria-live="polite">{CURRENTLY[i]}</span>;
+function timeLine(): string {
+  const h = new Date().getHours();
+  if (h < 5) return "still up, still building";
+  if (h < 12) return "drinking matcha (it's morning)";
+  if (h < 17) return "somewhere between Figma and FastAPI";
+  if (h < 22) return "probably building something I don't need";
+  return "late-night debugging, send snacks";
 }
 
-/* ── frame viewer: a bottom sheet ── */
-function FrameSheet({ frame, n, onClose }: { frame: Frame; n: number; onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
+function Currently() {
+  const reduce = useReducedMotion();
+  const [lines, setLines] = useState<string[]>(CURRENTLY);
+  const [i, setI] = useState(0);
+  // after mount, lead with a line that fits the visitor's local time of day
+  useEffect(() => { const t = timeLine(); setLines([t, ...CURRENTLY.filter((l) => l !== t)]); setI(0); }, []);
   useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    if (reduce) return;
+    const t = setInterval(() => setI((x) => (x + 1) % lines.length), 3800);
+    return () => clearInterval(t);
+  }, [reduce, lines.length]);
+  return <span className={s.noteLine} aria-live="polite">{lines[i % lines.length]}</span>;
+}
+
+/* ── frame viewer: a bottom sheet, with arrow-key paging and a shareable link ── */
+function FrameSheet({ list, i, onNav, onClose }: { list: Frame[]; i: number; onNav: (d: number) => void; onClose: () => void }) {
+  const frame = list[i];
+  const n = i + 1;
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => { closeRef.current?.focus(); }, []);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onNav(1);
+      if (e.key === "ArrowLeft") onNav(-1);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, onNav]);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(`${location.origin}${location.pathname}?frame=${frame.key}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch { /* clipboard can be blocked */ }
+  };
   const p = frame.project;
   return (
     <>
@@ -59,8 +86,12 @@ function FrameSheet({ frame, n, onClose }: { frame: Frame; n: number; onClose: (
         initial={{ y: "100%", x: "-50%" }} animate={{ y: 0, x: "-50%" }} exit={{ y: "100%", x: "-50%" }} transition={{ type: "spring", stiffness: 260, damping: 30 }}>
         <div className={s.grab} />
         <button ref={closeRef} className={s.sheetClose} onClick={onClose} aria-label="Close">✕</button>
-        {frame.src && <FlipPhoto src={frame.src} alt={frame.alt} n={n} sizes="640px" aspect="3 / 2" note={p ? (p.hook ?? p.logline) : frame.caption} />}
-        <p className={`${s.mono} ${s.muted}`} style={{ marginTop: 14 }}>frame {String(n).padStart(3, "0")}A</p>
+        {frame.src && <FlipPhoto key={frame.key} src={frame.src} alt={frame.alt} n={n} sizes="640px" aspect="3 / 2" note={p ? (p.hook ?? p.logline) : frame.caption} />}
+        <div className={s.sheetNav}>
+          <button type="button" className={s.btn} onClick={() => onNav(-1)} disabled={list.length < 2} aria-label="Previous frame">← prev</button>
+          <span className={`${s.mono} ${s.muted}`}>frame {String(n).padStart(3, "0")}A · {n} of {list.length}</span>
+          <button type="button" className={s.btn} onClick={() => onNav(1)} disabled={list.length < 2} aria-label="Next frame">next →</button>
+        </div>
         <h3>{p ? p.title : frame.caption}</h3>
         {p && (
           <>
@@ -71,9 +102,12 @@ function FrameSheet({ frame, n, onClose }: { frame: Frame; n: number; onClose: (
               <div><span>type</span>{p.category}</div>
               {p.award && p.award !== "Participant" && <div><span>result</span>🏆 {p.award}</div>}
             </div>
-            <p style={{ marginTop: 18 }}><Link className={`${s.btn} ${s.btnButter}`} href={`/projects/${p.slug}`}>view project →</Link></p>
           </>
         )}
+        <p style={{ marginTop: 18, display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {p && <Link className={`${s.btn} ${s.btnButter}`} href={`/projects/${p.slug}`}>view project →</Link>}
+          <button type="button" className={s.btn} onClick={copy}>{copied ? "link copied ✓" : "copy link to this frame"}</button>
+        </p>
       </motion.div>
     </>
   );
@@ -144,7 +178,8 @@ function shutterClick(ctx: AudioContext) {
 
 /* ── page ── */
 export function FilmHome() {
-  const [open, setOpen] = useState<{ frame: Frame; n: number } | null>(null);
+  const [open, setOpen] = useState<{ list: Frame[]; i: number } | null>(null);
+  const dragMoved = useRef(false);
   const [filter, setFilter] = useState<"all" | GridFilter>("all");
   const [at, setAt] = useState(1);
   const [sound, setSound] = useState(false);
@@ -166,8 +201,21 @@ export function FilmHome() {
     setSound((v) => { if (!v && audio.current) shutterClick(audio.current); return !v; });
   };
   const close = useCallback(() => setOpen(null), []);
+  const nav = useCallback((d: number) => setOpen((o) => (o ? { ...o, i: (o.i + d + o.list.length) % o.list.length } : o)), []);
   const lately = LATELY.map(resolve).filter((f): f is Frame => !!f && !!f.src);
   const more = MORE.map((m) => ({ m, f: resolve(m) })).filter((x): x is { m: (typeof MORE)[number]; f: Frame } => !!x.f && !!x.f.src);
+  const visible = more.filter(({ m }) => filter === "all" || m.filter === filter);
+  // a shared link (?frame=…) opens straight onto that frame
+  useEffect(() => {
+    const key = new URLSearchParams(window.location.search).get("frame");
+    if (!key) return;
+    const inLately = lately.findIndex((f) => f.key === key);
+    if (inLately >= 0) { setOpen({ list: lately, i: inLately }); return; }
+    const all = more.map((x) => x.f);
+    const inMore = all.findIndex((f) => f.key === key);
+    if (inMore >= 0) setOpen({ list: all, i: inMore });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const featured = FEATURED.map(bySlug).filter((p): p is Project => !!p);
   const roles = leadership.slice(0, 3);
   const ed = education[0];
@@ -177,13 +225,18 @@ export function FilmHome() {
     <div className={s.root}>
       {/* hero */}
       <section className={s.hero}>
-        <div data-cursor-photo data-cursor-label="view frame ↗" className={`${s.heroBg} ${s.reticle}`} onClick={() => setOpen({ frame: { key: "nyc", ...PHOTOS.nyc }, n: 1 })}>
+        <div data-cursor-photo data-cursor-label="view frame ↗" className={`${s.heroBg} ${s.reticle}`} onClick={() => setOpen({ list: [{ key: "nyc", ...PHOTOS.nyc }], i: 0 })}>
           <Photo src={PHOTOS.nyc.src} alt={PHOTOS.nyc.alt} sizes="100vw" priority className="" />
         </div>
         <div className={`${s.wrap} ${s.heroCopy}`}>
           <h1 className={s.serif}>
             My Pham
-            <svg className={s.star} viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 1 2.6 7.4L22 9l-6 4.8L18.2 22 12 17.6 5.8 22 8 13.8 2 9l7.4-.6Z" /></svg>
+            <button type="button" className={s.starBtn} aria-label="Celebrate with confetti" data-cursor-hover onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              window.dispatchEvent(new CustomEvent("film-confetti", { detail: { x: r.left + r.width / 2, y: r.top + r.height / 2 } }));
+            }}>
+              <svg className={s.star} viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 1 2.6 7.4L22 9l-6 4.8L18.2 22 12 17.6 5.8 22 8 13.8 2 9l7.4-.6Z" /></svg>
+            </button>
           </h1>
           <p className={s.lede}>I make things and collect stories along the way.</p>
           <div className={s.acts}>
@@ -206,7 +259,7 @@ export function FilmHome() {
           <span key={at} className={s.count}>{String(at).padStart(2, "0")} / {String(lately.length).padStart(2, "0")}</span>
         </div>
       </div>
-      <FilmStrip frames={lately} onOpen={(frame, n) => setOpen({ frame, n })} onPosition={onPosition} />
+      <FilmStrip frames={lately} onOpen={(_frame, n) => setOpen({ list: lately, i: n - 1 })} onPosition={onPosition} />
       <p className={`${s.wrap} ${s.mono} ${s.muted} ${s.hint}`}>drag, swipe, or use ← → · tap a frame to view it<button type="button" onClick={toggleSound} aria-pressed={sound} className={s.soundBtn}>shutter sound: {sound ? "on" : "off"} ♪</button></p>
 
       {/* featured + communities */}
@@ -254,8 +307,8 @@ export function FilmHome() {
             <p className={`${s.hand} ${s.moreNote}`}>good people,<br />good problems &lt;3</p>
           </div>
           <div className={`${s.grid} ${s.reticle}`}>
-            {more.filter(({ m }) => filter === "all" || m.filter === filter).map(({ m, f }, i) => (
-              <button key={f.key + i} type="button" data-cursor-photo className={`${s.photo} ${s.tile} ${m.tall ? s.tall : ""}`} onClick={() => setOpen({ frame: f, n: i + 1 })}>
+            {visible.map(({ m, f }, i) => (
+              <button key={f.key + i} type="button" data-cursor-photo className={`${s.photo} ${s.tile} ${m.tall ? s.tall : ""}`} onClick={() => setOpen({ list: visible.map((v) => v.f), i })}>
                 <Image src={f.src!} alt={f.alt} fill sizes="(max-width: 600px) 50vw, 180px" />
                 <span className={s.view}>view frame ↗</span>
               </button>
@@ -289,9 +342,18 @@ export function FilmHome() {
         </div>
         <div>
           <div className={s.stack}>
-            {(["beach", "matcha", "mirror"] as const).map((k, i) => <div key={k} className={s.pola}><FlipPhoto src={PHOTOS[k].src} alt={PHOTOS[k].alt} n={i + 1} sizes="240px" note={PHOTOS[k].caption} /></div>)}
+            {(["beach", "matcha", "mirror"] as const).map((k, i) => (
+              <motion.div key={k} className={s.pola} drag dragMomentum={false} dragElastic={0.12}
+                dragConstraints={{ left: -140, right: 140, top: -80, bottom: 160 }}
+                style={{ rotate: [-4, 5, -1][i] }} whileDrag={{ scale: 1.06, rotate: 0, zIndex: 20 }}
+                onDragStart={() => { dragMoved.current = true; }}
+                onDragEnd={() => { setTimeout(() => { dragMoved.current = false; }, 0); }}
+                onClickCapture={(e) => { if (dragMoved.current) { e.stopPropagation(); e.preventDefault(); } }}>
+                <FlipPhoto src={PHOTOS[k].src} alt={PHOTOS[k].alt} n={i + 1} sizes="240px" note={PHOTOS[k].caption} />
+              </motion.div>
+            ))}
           </div>
-          <p className={`${s.hand} ${s.stackNote}`}>places that made me :)</p>
+          <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
           <div className={s.connect}>
             <p className={s.serif}>let&apos;s connect ✈</p>
             <div className={s.icons}>
@@ -306,9 +368,10 @@ export function FilmHome() {
       <footer className={s.end}>
         <span className={s.hand} style={{ fontSize: 24 }}>mypham.space</span>
         <span className={s.type} style={{ fontSize: 13 }}>built with lots of matcha and questionable decisions ♡</span>
+        <NowPlaying className={s.muted} />
       </footer>
 
-      <AnimatePresence>{open && <FrameSheet frame={open.frame} n={open.n} onClose={close} />}</AnimatePresence>
+      <AnimatePresence>{open && <FrameSheet list={open.list} i={open.i} onNav={nav} onClose={close} />}</AnimatePresence>
     </div>
   );
 }

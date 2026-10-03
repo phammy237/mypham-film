@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE_EMAIL } from "@/lib/site";
+import { NowPlaying } from "@/components/ui/NowPlaying";
 
 export function Footer() {
   return (
@@ -55,6 +56,8 @@ export function Footer() {
         <p className="font-mono text-xs text-muted/40 dark:text-white/20">
           © 2026 My Pham · Built with Next.js &amp; Framer Motion
         </p>
+        <NowPlaying className="mt-3 text-muted/70 dark:text-white/40" />
+        <p className="font-mono text-xs text-muted/40 dark:text-white/25 mt-2">press ? for keyboard shortcuts</p>
       </div>
     </footer>
   );

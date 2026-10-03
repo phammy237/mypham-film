@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
@@ -102,6 +102,14 @@ const MODAL_TABS: { key: Tab; label: string }[] = [
 /* ─── Modal: the frame viewer ──────────────────────── */
 function ProjectModal({ project, n, initialTab, onClose }: { project: Project; n: number; initialTab: Tab; onClose: () => void }) {
   const [tab, setTab] = useState<Tab>(initialTab);
+  const [copied, setCopied] = useState(false);
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(`${location.origin}/projects?open=${project.slug}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch { /* clipboard can be blocked */ }
+  };
   const hasMedia = !!(project.video || project.slides || project.paper);
   const visibleTabs = MODAL_TABS.filter((t) => t.key !== "media" || hasMedia);
 
@@ -126,6 +134,7 @@ function ProjectModal({ project, n, initialTab, onClose }: { project: Project; n
         <div className="mt-4 flex flex-wrap gap-2">
           {links.map((l) => <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="f-btn text-[13px]">{l.label} ↗</a>)}
           <Link href={`/projects/${project.slug}`} className="f-btn f-btn-butter text-[13px]">full story →</Link>
+          <button type="button" onClick={copyLink} className="f-btn text-[13px]">{copied ? "link copied ✓" : "copy link"}</button>
         </div>
       </div>
 
@@ -234,9 +243,14 @@ function WorkCard({ project, n, onSelect }: { project: Project; n: number; onSel
   );
 }
 
-/* ─── "Now showing": selected work on a film strip ─── */
+/* ─── "Now showing": selected work on a film strip, with a draggable scrubber ─── */
 function NowShowing({ onSelect }: { onSelect: (p: Project, t: Tab) => void }) {
+  const strip = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState(0);
   if (selectedWork.length === 0) return null;
+  const maxScroll = () => { const el = strip.current; return el ? Math.max(1, el.scrollWidth - el.clientWidth) : 1; };
+  const scrubTo = (v: number) => { const el = strip.current; if (el) el.scrollLeft = (v / 1000) * maxScroll(); };
+  const jumpTo = (i: number) => strip.current?.scrollTo({ left: (i / Math.max(1, selectedWork.length - 1)) * maxScroll(), behavior: "smooth" });
   return (
     <section aria-label="Selected work" className="overflow-hidden py-6">
       <div className="f-wrap mb-3 flex flex-wrap items-end justify-between gap-3">
@@ -244,7 +258,8 @@ function NowShowing({ onSelect }: { onSelect: (p: Project, t: Tab) => void }) {
         <span className="f-mono text-[var(--muted)]">the ones I&apos;d show you first</span>
       </div>
       <div className="f-tilt" style={{ padding: "26px 0" }}>
-        <div className="f-strip" tabIndex={0} role="region" aria-label="Selected work: scroll sideways">
+        <div ref={strip} className="f-strip" tabIndex={0} role="region" aria-label="Selected work: scroll sideways"
+          onScroll={(e) => setPos(e.currentTarget.scrollLeft / maxScroll())}>
           <div className="f-rail">
             {selectedWork.map((p, i) => (
               <button key={p.slug} type="button" data-cursor-photo data-cursor-label="view frame ↗" onClick={() => onSelect(p, "overview")} className="f-hoverable relative w-[300px] shrink-0 text-left text-[#FAF7EF] md:w-[340px]" style={{ scrollSnapAlign: "start" }}>
@@ -256,7 +271,36 @@ function NowShowing({ onSelect }: { onSelect: (p: Project, t: Tab) => void }) {
           </div>
         </div>
       </div>
+      <div className="f-wrap">
+        <input type="range" min={0} max={1000} value={Math.round(pos * 1000)} onChange={(e) => scrubTo(Number(e.target.value))} aria-label="Scrub through the selected work" className="f-scrub" />
+        <div className="mt-1 flex justify-between">
+          {selectedWork.map((p, i) => (
+            <button key={p.slug} type="button" onClick={() => jumpTo(i)} className="f-mono text-[10px] text-[var(--muted)] hover:text-[var(--ink)]" aria-label={`Jump to ${p.title}`}>{String(i + 1).padStart(2, "0")}A</button>
+          ))}
+        </div>
+      </div>
     </section>
+  );
+}
+
+/* ─── Contact sheet: every project as a tiny frame, circled in red grease pencil when it's a pick ─── */
+function SheetGrid({ items, onSelect }: { items: Project[]; onSelect: (p: Project, t: Tab) => void }) {
+  return (
+    <motion.ul className="mt-8 grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4 lg:grid-cols-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      {items.map((p, i) => (
+        <li key={p.slug}>
+          <button type="button" data-cursor-photo data-cursor-label="pick this frame" onClick={() => onSelect(p, "overview")} className="group f-hoverable block w-full text-left" aria-label={`Open ${p.title}`}>
+            <span className="relative block">
+              <ProjectArt project={p} n={i + 1} sizes="200px" className="aspect-[3/2]" />
+              <svg className="f-circle" data-on={isRealAward(p.award)} viewBox="0 0 100 66" preserveAspectRatio="none" aria-hidden="true">
+                <ellipse cx="50" cy="33" rx="48" ry="31" pathLength={1} fill="none" stroke="#E5483B" strokeWidth="2.4" strokeLinecap="round" vectorEffect="non-scaling-stroke" transform="rotate(-3 50 33)" />
+              </svg>
+            </span>
+            <span className="f-mono mt-1.5 block truncate text-[10px] text-[var(--ink)]">{p.title}</span>
+          </button>
+        </li>
+      ))}
+    </motion.ul>
   );
 }
 
@@ -266,6 +310,13 @@ export default function WorkPage() {
   const [activeCategory, setActiveCategory] = useState<Cat>("All");
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("");
+  const [view, setView] = useState<"cards" | "sheet">("cards");
+  // a shared link (?open=slug) opens that project straight away
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("open");
+    const p = slug ? displayWork.find((x) => x.slug === slug) : undefined;
+    if (p) setSelected({ project: p, n: 1, tab: "overview" });
+  }, []);
   const q = query.trim().toLowerCase();
   const items = visibleWork(activeCategory).filter((p) =>
     (!year || p.month.includes(year) || p.year === year) &&
@@ -309,12 +360,17 @@ export default function WorkPage() {
               </select>
             </label>
             {(query || year) && <button type="button" onClick={() => { setQuery(""); setYear(""); }} className="f-mono px-3">clear ✕</button>}
+            <div className="flex gap-1" role="group" aria-label="View as">
+              {([["cards", "cards"], ["sheet", "contact sheet"]] as const).map(([v, label]) => (
+                <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className="f-tab shrink-0 !text-[13px]">{label}</button>
+              ))}
+            </div>
           </div>
 
-          {items.length ? (
+          {items.length ? (view === "sheet" ? <SheetGrid items={items} onSelect={open} /> : (
             <motion.div key={activeCategory + q + year} className="mt-8 grid grid-cols-1 gap-4 text-[var(--ink)] sm:grid-cols-2 lg:grid-cols-3" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 120, damping: 20 }}>
               {items.map((p, i) => <WorkCard key={p.slug} project={p} n={i + 1} onSelect={open} />)}
-            </motion.div>
+            </motion.div>)
           ) : (
             <p className="f-type mt-10 text-sm">no frames match that. try another word or clear the filters.</p>
           )}

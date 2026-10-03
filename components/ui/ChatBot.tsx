@@ -97,6 +97,11 @@ export function ChatBot() {
   const [input, setInput] = useState("");
   const router = useRouter();
   const jump = (href: string) => { router.push(href); setOpen(false); };
+  useEffect(() => {
+    const openChat = () => setOpen(true);
+    window.addEventListener("open-chat", openChat);
+    return () => window.removeEventListener("open-chat", openChat);
+  }, []);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

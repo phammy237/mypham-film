@@ -158,22 +158,18 @@ export function Navbar() {
             );
           })}
           <button
+            type="button"
+            role="switch"
+            aria-checked={theme === "dark"}
+            aria-label="Night mode"
+            title={theme === "dark" ? "Switch to day" : "Switch to night"}
             onClick={toggle}
-            aria-label="Toggle theme"
-            className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors duration-200 ${
-              lightText ? "text-white/50 hover:text-white" : "text-muted hover:text-surface"
-            }`}
+            className={`relative h-7 w-14 shrink-0 rounded-full border transition-colors duration-300 ${lightText ? "border-white/40 text-white/70" : "border-current text-muted"}`}
           >
-            {theme === "dark" ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-              </svg>
-            )}
+            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-between px-2 text-[11px] leading-none">
+              <span>☀</span><span>☾</span>
+            </span>
+            <span aria-hidden="true" className="absolute top-[3px] h-5 w-5 rounded-full bg-[#F4D35E] shadow ring-1 ring-black/20 transition-[left] duration-500 ease-[cubic-bezier(.3,1.4,.5,1)]" style={{ left: theme === "dark" ? "calc(100% - 1.4rem)" : "3px" }} />
           </button>
           <Link href="/connect"
             className={`font-mono text-xs border px-3 py-1.5 transition-colors duration-200 ${

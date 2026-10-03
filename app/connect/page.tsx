@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { YouAreHere, NextStop } from "@/components/layout/Wayfinding";
 import { SITE_EMAIL } from "@/lib/site";
+import { Guestbook } from "@/components/ui/Guestbook";
 
 const fieldClass = "f-input f-type";
 
@@ -387,6 +388,8 @@ export default function ConnectPage() {
           </motion.div>
         </div>
       </div>
+
+      <Guestbook />
 
       <NextStop from="Connect" />
       <Footer />

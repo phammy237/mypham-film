@@ -23,6 +23,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggle = () => {
     const next = theme === "light" ? "dark" : "light";
+    // ease the colours across instead of snapping
+    const root = document.documentElement;
+    root.classList.add("theme-fade");
+    window.setTimeout(() => root.classList.remove("theme-fade"), 800);
     setTheme(next);
     localStorage.setItem("theme", next);
     document.documentElement.classList.toggle("dark", next === "dark");
