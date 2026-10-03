@@ -310,3 +310,8 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .f-circle ellipse { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .6s ease; }
 .f-circle[data-on="true"], .group:hover .f-circle, .group:focus-visible .f-circle { opacity: 1; }
 .f-circle[data-on="true"] ellipse, .group:hover .f-circle ellipse, .group:focus-visible .f-circle ellipse { stroke-dashoffset: 0; }
+
+/* ═══ Navbar: a strip of film (components/layout/Navbar.tsx) ═══ */
+.film-nav::before, .film-nav::after { content: ""; position: absolute; left: 0; right: 0; height: 5px; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(250,247,239,.5) 9px 17px, transparent 17px 26px); }
+.film-nav::before { top: 3px; } .film-nav::after { bottom: 3px; }
+.film-nav-panel { background-image: repeating-linear-gradient(0deg, transparent 0 9px, rgba(250,247,239,.4) 9px 17px, transparent 17px 26px); background-size: 5px 100%; background-repeat: repeat-y; background-position: 5px 0; }

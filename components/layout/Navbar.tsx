@@ -5,6 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/components/layout/ThemeProvider";
 
+/* A strip of film across the top: sprocket holes along both edges, each page is a numbered frame, and the frame
+   you're on is lit in butter. The strip is always film-black, so it reads the same over the hero, the maps and
+   the cream pages. */
 const navLinks = [
   ["About", "/#about"],
   ["Biography", "/biography/journey"],
@@ -13,20 +16,19 @@ const navLinks = [
   ["CV", "/cv"],
 ] as [string, string][];
 
+const frameNo = (i: number) => `${String(i + 1).padStart(2, "0")}A`;
+
 export function Navbar() {
   const [visible, setVisible] = useState(true);
   const [lastY, setLastY] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
   const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
       setVisible(y < lastY || y < 50);
-      setScrolled(y > 50);
       setLastY(y);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -48,142 +50,108 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  // The journey page is one continuous full-bleed map background for its whole length (not just an
-  // above-the-fold hero like the home page), so it keeps the transparent/subtle treatment
-  // regardless of scroll position rather than switching to a solid bar once scrolled. It must still
-  // respect the actual site theme, though — the journey supports both dark AND light mode now, and
-  // forcing the "light text over a dark hero" treatment unconditionally (as if the journey page were
-  // always dark) left the nav nearly invisible (white text on a pale background) whenever the site
-  // was actually in light mode.
-  const isJourneyPage = pathname === "/biography/journey";
-  // the film home is light paper in light mode, so only its dark mode gets the light-text treatment
-  const isDark = (isHome && !scrolled && theme === "dark") || (isJourneyPage && theme === "dark");
-  const solidBg = scrolled && isHome;
-  const lightText = isDark && !solidBg;
-  // Scopes the reference mockup's active-nav underline + rounded Connect button to the journey
-  // page's own light mode specifically — every other page/state keeps its existing nav exactly.
-  const isJourneyLight = isJourneyPage && theme === "light";
+  const isActive = (href: string) => pathname === href || (href !== "/" && href !== "/#about" && pathname.startsWith(href));
 
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 py-3 transition-all duration-300 ${
-          isJourneyPage
-            ? theme === "dark"
-              ? "bg-transparent border-b border-[rgba(255,255,255,0.05)]"
-              : "bg-transparent border-b border-[rgba(20,20,40,0.06)]"
-            : isHome
-            ? isDark
-              ? "bg-transparent"
-              : "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-film-black/10 dark:border-white/10"
-            : solidBg
-            ? "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-border dark:border-white/10"
-            : isDark
-            ? "bg-transparent"
-            : "bg-film-cream/90 dark:bg-film-black/90 backdrop-blur-sm border-b border-border dark:border-white/10"
-        }`}
+        className="film-nav fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[var(--film)] text-[#FAF7EF]"
         animate={{ y: visible ? 0 : -80 }}
         transition={{ type: "spring", stiffness: 200, damping: 30 }}
         // its own view-transition layer, so page-to-page zooms move the content while the navbar holds still
         style={{ viewTransitionName: "site-nav" }}
       >
-      <Link
-        href="/"
-        className="absolute left-4 top-1/2 hidden -translate-y-1/2 md:block"
-        aria-label="My Pham home (replays my signature)"
-        data-cursor-label="replay signature ✎"
-        data-cursor-photo
-        onClick={(e) => {
-          try { sessionStorage.setItem("replay-intro", "1"); } catch { /* storage can be blocked */ }
-          if (pathname === "/") {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            window.dispatchEvent(new Event("replay-intro"));
-          }
-        }}
-      >
-        <span
-          className={`block h-10 w-10 bg-current transition-colors duration-300 ${lightText ? "text-white" : "text-surface dark:text-white"}`}
-          style={{
-            WebkitMaskImage: "url(/logo.png)",
-            maskImage: "url(/logo.png)",
-            WebkitMaskSize: "contain",
-            maskSize: "contain",
-            WebkitMaskRepeat: "no-repeat",
-            maskRepeat: "no-repeat",
-            WebkitMaskPosition: "center",
-            maskPosition: "center",
-          }}
-        />
-      </Link>
-      <div className="mx-auto flex max-w-[1680px] items-center justify-between px-4 sm:px-6 lg:px-20 xl:px-24">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setMobileOpen((o) => !o)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors duration-200 md:hidden ${
-              lightText ? "text-white/70 hover:text-white" : "text-muted hover:text-surface"
-            }`}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              {mobileOpen ? (
-                <path d="M18 6 6 18M6 6l12 12" />
-              ) : (
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              )}
-            </svg>
-          </button>
-          <Link href="/" className={`font-mono text-sm font-medium tracking-wider transition-colors duration-300 ${lightText ? "text-white" : "text-surface dark:text-white"}`}>
-            MY PHAM
-          </Link>
+        <div className="mx-auto flex h-[60px] max-w-[1680px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMobileOpen((o) => !o)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#FAF7EF]/80 transition-colors hover:text-[#F4D35E] md:hidden"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {mobileOpen ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
+              </svg>
+            </button>
+            <Link
+              href="/"
+              className="hidden h-9 w-9 shrink-0 text-[#FAF7EF] transition-colors hover:text-[#F4D35E] md:block"
+              aria-label="My Pham home (replays my signature)"
+              data-cursor-label="replay signature ✎"
+              data-cursor-photo
+              onClick={(e) => {
+                try { sessionStorage.setItem("replay-intro", "1"); } catch { /* storage can be blocked */ }
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  window.dispatchEvent(new Event("replay-intro"));
+                }
+              }}
+            >
+              <span
+                className="block h-full w-full bg-current"
+                style={{
+                  WebkitMaskImage: "url(/logo.png)",
+                  maskImage: "url(/logo.png)",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskPosition: "center",
+                }}
+              />
+            </Link>
+            <Link href="/" className="f-mono text-[13px] font-medium tracking-[0.14em] text-[#FAF7EF] transition-colors hover:text-[#F4D35E]">
+              MY PHAM
+            </Link>
+          </div>
+
+          <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+            {navLinks.map(([label, href], i) => {
+              const active = isActive(href);
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group flex items-baseline gap-1.5 rounded-[3px] px-2.5 py-1.5 transition-colors duration-200 ${
+                    active ? "bg-[#F4D35E] text-[#20201E]" : "text-[#FAF7EF]/85 hover:bg-white/10 hover:text-[#FAF7EF]"
+                  }`}
+                >
+                  <span className={`f-mono !text-[9.5px] ${active ? "text-[#20201E]/70" : "text-[#F4D35E]"}`}>{frameNo(i)}</span>
+                  <span className="f-mono !text-[12px] tracking-[0.12em]">{label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={theme === "dark"}
+              aria-label="Night mode"
+              title={theme === "dark" ? "Switch to day" : "Switch to night"}
+              onClick={toggle}
+              className="relative h-7 w-14 shrink-0 rounded-full border border-white/35 text-[#FAF7EF]/70 transition-colors duration-300"
+            >
+              <span aria-hidden="true" className="absolute inset-0 flex items-center justify-between px-2 text-[11px] leading-none">
+                <span>☀</span><span>☾</span>
+              </span>
+              <span aria-hidden="true" className="absolute top-[3px] h-5 w-5 rounded-full bg-[#F4D35E] shadow ring-1 ring-black/20 transition-[left] duration-500 ease-[cubic-bezier(.3,1.4,.5,1)]" style={{ left: theme === "dark" ? "calc(100% - 1.4rem)" : "3px" }} />
+            </button>
+            <Link
+              href="/connect"
+              aria-current={pathname.startsWith("/connect") ? "page" : undefined}
+              className={`f-mono !text-[12px] rounded-full border px-3.5 py-1.5 tracking-[0.1em] transition-colors duration-200 max-[399px]:hidden ${
+                pathname.startsWith("/connect") ? "border-transparent bg-[#F4D35E] text-[#20201E]" : "border-[#F4D35E] text-[#F4D35E] hover:bg-[#F4D35E] hover:text-[#20201E]"
+              }`}
+            >
+              CONNECT
+            </Link>
+          </div>
         </div>
-        <nav className="flex items-center gap-6">
-          {navLinks.map(([label, href]) => {
-            const isActive = pathname === href || (href !== "/" && href !== "/#about" && pathname.startsWith(href));
-            return (
-              <Link key={label} href={href}
-                className={`font-mono text-xs tracking-wider uppercase transition-colors duration-200 hidden md:block ${
-                  isActive
-                    ? isJourneyLight
-                      ? "border-b-2 border-journey-violet pb-0.5 text-journey-violet"
-                      : "text-[var(--blue)]"
-                    : lightText
-                    ? "text-white/70 hover:text-white"
-                    : "text-surface/80 dark:text-white/50 hover:text-surface dark:hover:text-white"
-                }`}
-              >
-                {label}
-              </Link>
-            );
-          })}
-          <button
-            type="button"
-            role="switch"
-            aria-checked={theme === "dark"}
-            aria-label="Night mode"
-            title={theme === "dark" ? "Switch to day" : "Switch to night"}
-            onClick={toggle}
-            className={`relative h-7 w-14 shrink-0 rounded-full border transition-colors duration-300 ${lightText ? "border-white/40 text-white/70" : "border-current text-muted"}`}
-          >
-            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-between px-2 text-[11px] leading-none">
-              <span>☀</span><span>☾</span>
-            </span>
-            <span aria-hidden="true" className="absolute top-[3px] h-5 w-5 rounded-full bg-[#F4D35E] shadow ring-1 ring-black/20 transition-[left] duration-500 ease-[cubic-bezier(.3,1.4,.5,1)]" style={{ left: theme === "dark" ? "calc(100% - 1.4rem)" : "3px" }} />
-          </button>
-          <Link href="/connect"
-            className={`font-mono text-xs border px-3 py-1.5 transition-colors duration-200 ${
-              isJourneyLight
-                ? "rounded-md border-[rgba(38,49,91,0.18)] bg-[#FBFAFD] text-journey-ink hover:border-journey-violet focus-visible:border-journey-violet"
-                : lightText
-                ? "border-white/30 text-white hover:bg-white hover:text-navy"
-                : "rounded-full border-film-black/70 dark:border-white/50 text-surface dark:text-white hover:bg-film-butter hover:border-transparent hover:text-film-black"
-            }`}
-          >
-            Connect
-          </Link>
-        </nav>
-      </div>
       </motion.header>
 
       <AnimatePresence>
@@ -195,27 +163,33 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
-              className="fixed top-16 left-0 right-0 z-40 bg-film-cream dark:bg-film-black border-b border-border dark:border-white/10 shadow-xl md:hidden"
+              className="film-nav-panel fixed left-0 right-0 top-[60px] z-40 border-b border-white/10 bg-[var(--film)] text-[#FAF7EF] shadow-xl md:hidden"
               initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
               transition={{ type: "spring", stiffness: 260, damping: 26 }}
             >
-              <nav className="flex flex-col px-[5vw] py-4">
-                {navLinks.map(([label, href]) => {
-                  const isActive = pathname === href || (href !== "/" && href !== "/#about" && pathname.startsWith(href));
+              <nav aria-label="Main" className="flex flex-col px-[5vw] py-3">
+                {navLinks.map(([label, href], i) => {
+                  const active = isActive(href);
                   return (
-                    <Link key={label} href={href} onClick={() => setMobileOpen(false)}
-                      className={`font-mono text-sm tracking-wider uppercase py-3 border-b border-border dark:border-white/10 last:border-b-0 transition-colors duration-200 ${
-                        isActive ? "text-[var(--blue)]" : "text-surface/80 dark:text-white/60 hover:text-surface dark:hover:text-white"
-                      }`}
+                    <Link
+                      key={label}
+                      href={href}
+                      onClick={() => setMobileOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={`flex items-baseline gap-3 border-b border-white/10 px-1 py-3 transition-colors last:border-b-0 ${active ? "text-[#F4D35E]" : "text-[#FAF7EF]/90 hover:text-[#F4D35E]"}`}
                     >
-                      {label}
+                      <span className="f-mono !text-[11px] text-[#F4D35E]">{frameNo(i)}</span>
+                      <span className="f-serif text-[30px] leading-none">{label}</span>
                     </Link>
                   );
                 })}
-                <Link href="/connect" onClick={() => setMobileOpen(false)}
-                  className="font-mono text-sm tracking-wider uppercase py-3 text-[var(--blue)]"
+                <Link
+                  href="/connect"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-3 flex items-center justify-between rounded-full bg-[#F4D35E] px-5 py-3 text-[#20201E]"
                 >
-                  Connect
+                  <span className="f-mono !text-[12px] tracking-[0.12em] !text-[#20201E]">CONNECT</span>
+                  <span aria-hidden="true">→</span>
                 </Link>
               </nav>
             </motion.div>
