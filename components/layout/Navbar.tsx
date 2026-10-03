@@ -12,6 +12,7 @@ const navLinks = [
   ["About", "/#about"],
   ["Biography", "/biography/journey"],
   ["Work", "/projects"],
+  ["Film", "/film"],
   ["Involvements", "/involvements"],
   ["CV", "/cv"],
 ] as [string, string][];
@@ -67,7 +68,7 @@ export function Navbar() {
               onClick={() => setMobileOpen((o) => !o)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-[#FAF7EF]/80 transition-colors hover:text-[#F4D35E] md:hidden"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#FAF7EF]/80 transition-colors hover:text-[#F4D35E] lg:hidden"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 {mobileOpen ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
@@ -75,7 +76,7 @@ export function Navbar() {
             </button>
             <Link
               href="/"
-              className="hidden h-9 w-9 shrink-0 text-[#FAF7EF] transition-colors hover:text-[#F4D35E] md:block"
+              className="hidden h-9 w-9 shrink-0 text-[#FAF7EF] transition-colors hover:text-[#F4D35E] lg:block"
               aria-label="My Pham home (replays my signature)"
               data-cursor-label="replay signature ✎"
               data-cursor-photo
@@ -107,7 +108,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+          <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
             {navLinks.map(([label, href], i) => {
               const active = isActive(href);
               return (
@@ -119,7 +120,7 @@ export function Navbar() {
                     active ? "bg-[#F4D35E] text-[#20201E]" : "text-[#FAF7EF]/85 hover:bg-white/10 hover:text-[#FAF7EF]"
                   }`}
                 >
-                  <span className={`f-mono !text-[9.5px] ${active ? "text-[#20201E]/70" : "text-[#F4D35E]"}`}>{frameNo(i)}</span>
+                  <span className={`f-mono hidden !text-[9.5px] xl:inline ${active ? "text-[#20201E]/70" : "text-[#F4D35E]"}`}>{frameNo(i)}</span>
                   <span className="f-mono !text-[12px] tracking-[0.12em]">{label}</span>
                 </Link>
               );
@@ -158,12 +159,12 @@ export function Navbar() {
         {mobileOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
-              className="film-nav-panel fixed left-0 right-0 top-[60px] z-40 border-b border-white/10 bg-[var(--film)] text-[#FAF7EF] shadow-xl md:hidden"
+              className="film-nav-panel fixed left-0 right-0 top-[60px] z-40 border-b border-white/10 bg-[var(--film)] text-[#FAF7EF] shadow-xl lg:hidden"
               initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
               transition={{ type: "spring", stiffness: 260, damping: 26 }}
             >

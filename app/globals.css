@@ -315,3 +315,31 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .film-nav::before, .film-nav::after { content: ""; position: absolute; left: 0; right: 0; height: 5px; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(250,247,239,.5) 9px 17px, transparent 17px 26px); }
 .film-nav::before { top: 3px; } .film-nav::after { bottom: 3px; }
 .film-nav-panel { background-image: repeating-linear-gradient(0deg, transparent 0 9px, rgba(250,247,239,.4) 9px 17px, transparent 17px 26px); background-size: 5px 100%; background-repeat: repeat-y; background-position: 5px 0; }
+
+/* ═══ Film page: a few frames, then a collage (components/film/FilmGallery.tsx) ═══ */
+.fg-first { list-style: none; margin: 0; padding: 20px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 36px 30px; }
+.fg-pola { display: block; text-align: left; padding: 8px 8px 12px; border: 0; cursor: pointer; transition: transform .25s cubic-bezier(.3,1.4,.5,1), box-shadow .25s; }
+.fg-first .fg-pola { width: calc(var(--h) * var(--ar) + 16px); max-width: 100%; }
+.fg-pola:hover, .fg-pola:focus-visible { transform: rotate(0deg) scale(1.05) !important; z-index: 3; box-shadow: 0 18px 28px -14px rgba(0,0,0,.6); outline: none; }
+.fg-pola:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.fg-pola .f-photo { width: 100%; }
+.fg-label { display: block; margin-top: 8px; font-size: 21px; color: #20201E; text-align: center; line-height: 1.1; overflow-wrap: anywhere; }
+.fg-collage { list-style: none; margin: 0; padding: 10px 0 0; column-count: 2; column-gap: 22px; }
+@media (min-width: 700px) { .fg-collage { column-count: 3; } }
+@media (min-width: 1024px) { .fg-collage { column-count: 4; } }
+.fg-item { break-inside: avoid; margin: 0 0 26px; position: relative; display: block; }
+.fg-item .fg-pola { width: 100%; }
+.fg-tape { position: relative; display: block; width: 62px; height: 20px; margin: 0 auto -11px; background: rgba(244,211,94,.72); transform: rotate(-4deg); z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,.25); } /* in the flow, not absolute: absolute children misplace themselves inside CSS columns */
+.fg-back { position: fixed; inset: 0; z-index: 9984; background: rgba(15,15,14,.9); display: grid; place-items: center; padding: 16px; }
+.fg-dialog { position: relative; width: min(94vw, 1100px); }
+.fg-stage { position: relative; width: 100%; height: min(74vh, 760px); }
+.fg-full { object-fit: contain; }
+.fg-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; color: #FAF7EF; flex-wrap: wrap; }
+.fg-bar .f-btn { border-color: rgba(250,247,239,.5); color: #FAF7EF; }
+.fg-bar .f-btn:disabled { opacity: .4; }
+.fg-cap { display: grid; text-align: center; gap: 2px; margin: 0; flex: 1; min-width: 140px; }
+.fg-cap .f-hand { font-size: 24px; }
+.fg-cap .f-mono { color: rgba(250,247,239,.6); }
+.fg-close { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(250,247,239,.92); color: #20201E; border: 0; cursor: pointer; z-index: 2; }
+.fg-close:hover { background: var(--butter); }
+@media (prefers-reduced-motion: reduce) { .fg-pola { transition: none; } }

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const GO: Record<string, [string, string]> = {
   h: ["/", "Home"],
   w: ["/projects", "Work"],
+  f: ["/film", "Film"],
   i: ["/involvements", "Involvements"],
   b: ["/biography/journey", "Biography"],
   v: ["/cv", "CV"],
@@ -53,7 +54,7 @@ export function Shortcuts() {
         {pending && (
           <motion.div aria-live="polite" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="f-mono fixed bottom-6 left-1/2 z-[9960] -translate-x-1/2 rounded-full bg-[#20201E] px-4 py-2 text-[#FAF7EF] shadow-lg">
-            g ▸ <span className="text-[#F4D35E]">h</span>ome · <span className="text-[#F4D35E]">w</span>ork · <span className="text-[#F4D35E]">i</span>nvolvements · <span className="text-[#F4D35E]">b</span>iography · c<span className="text-[#F4D35E]">v</span> · <span className="text-[#F4D35E]">c</span>onnect
+            g ▸ <span className="text-[#F4D35E]">h</span>ome · <span className="text-[#F4D35E]">w</span>ork · <span className="text-[#F4D35E]">f</span>ilm · <span className="text-[#F4D35E]">i</span>nvolvements · <span className="text-[#F4D35E]">b</span>iography · c<span className="text-[#F4D35E]">v</span> · <span className="text-[#F4D35E]">c</span>onnect
           </motion.div>
         )}
       </AnimatePresence>
