@@ -265,3 +265,28 @@ body.journey-today-in-view .journey-chatbot-widget:hover {
 .f-edge span:last-child { color: rgba(250,247,239,.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .f-tilt { transform: rotate(-1.2deg); margin: 0 -24px; }
 @media (prefers-reduced-motion: reduce) { .f-btn, .f-hover-lift, .f-view { transition: none; } }
+
+/* ═══ Interactive film touches ═══ */
+/* 1. photos "develop" on hover: they rest slightly grainy and desaturated, then come up to full colour with a flash */
+.f-photo::before { content: ""; position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 3; }
+@keyframes f-flash { 0% { opacity: .5; } 100% { opacity: 0; } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .f-photo img { filter: grayscale(.55) sepia(.2) contrast(.96); transition: filter .7s ease, transform .5s ease; }
+  .f-card:hover .f-photo img, .f-hoverable:hover .f-photo img, .f-hoverable:focus-visible .f-photo img, .f-flip:hover .f-photo img, .f-photo:hover img { filter: none; }
+  .f-hoverable:hover .f-photo img, .f-card:hover .f-photo img { transform: scale(1.04); }
+  .f-card:hover .f-photo::before, .f-hoverable:hover .f-photo::before, .f-flip:hover .f-photo::before { animation: f-flash .55s ease-out; }
+}
+.f-pola .f-photo img, [role="dialog"] .f-photo img { filter: none; }
+
+/* 2. flip a photo over like the back of a Polaroid */
+.f-flip { display: block; perspective: 900px; cursor: pointer; outline-offset: 4px; }
+.f-flip-inner { display: block; position: relative; width: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3,.7,.2,1); }
+.f-flip[data-flipped="true"] .f-flip-inner { transform: rotateY(180deg); }
+.f-flip-face { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.f-flip-back { transform: rotateY(180deg); display: flex !important; flex-direction: column; justify-content: space-between; padding: 14px; background: var(--note); color: #20201E; }
+.f-flip-back .f-hand { font-size: clamp(20px, 2.2vw, 28px); }
+@media (prefers-reduced-motion: reduce) { .f-flip-inner { transition: none; } }
+
+/* 6. a faint shutter mark where you click */
+.film-cursor-mark { position: fixed; z-index: 9990; width: 38px; height: 38px; margin: -19px 0 0 -19px; pointer-events: none; border: 1.5px solid #F4D35E; border-radius: 50%; box-shadow: 0 0 0 1px rgba(32,32,30,.35), inset 0 0 0 1px rgba(32,32,30,.2); animation: film-mark .9s ease-out forwards; }
+@keyframes film-mark { 0% { opacity: .95; transform: scale(.5); } 100% { opacity: 0; transform: scale(1.6); } }

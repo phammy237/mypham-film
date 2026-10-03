@@ -52,17 +52,32 @@ export default function SignatureIntro() {
     return () => controls.stop();
   }, [visible]);
 
-  const dismiss = useCallback(() => setVisible(false), []);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismiss = useCallback(() => { if (timer.current) clearTimeout(timer.current); setVisible(false); }, []);
+  const show = useCallback(() => {
+    if (timer.current) clearTimeout(timer.current);
+    setVisible(true);
+    timer.current = setTimeout(dismiss, TOTAL_MS);
+  }, [dismiss]);
 
   useEffect(() => {
-    if (sessionStorage.getItem("intro-seen")) return;
-    sessionStorage.setItem("intro-seen", "1");
-    setVisible(true);
-    const t = setTimeout(dismiss, TOTAL_MS);
+    // plays once per tab, and again whenever the visitor clicks the logo ("replay-intro")
+    const replay = sessionStorage.getItem("replay-intro");
+    if (replay) sessionStorage.removeItem("replay-intro");
+    if (replay || !sessionStorage.getItem("intro-seen")) {
+      sessionStorage.setItem("intro-seen", "1");
+      show();
+    }
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") dismiss(); };
+    const onReplay = () => show();
     window.addEventListener("keydown", onKey);
-    return () => { clearTimeout(t); window.removeEventListener("keydown", onKey); };
-  }, [dismiss]);
+    window.addEventListener("replay-intro", onReplay);
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("replay-intro", onReplay);
+    };
+  }, [show, dismiss]);
 
   return (
     <AnimatePresence>

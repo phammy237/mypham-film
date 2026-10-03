@@ -26,6 +26,8 @@ export function CustomCursor() {
   const [visible, setVisible] = useState(false);
   const [state, setState] = useState<{ mode: Mode; label: string }>({ mode: "idle", label: "" });
   const [flash, setFlash] = useState(0);
+  const [marks, setMarks] = useState<{ id: number; x: number; y: number }[]>([]);
+  const markId = useRef(0);
 
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -38,7 +40,13 @@ export function CustomCursor() {
     };
     const onOver = (e: MouseEvent) => setState(modeFor(e.target));
     const onOut = (e: MouseEvent) => { if (!e.relatedTarget) setVisible(false); };
-    const onDown = () => setFlash((n) => n + 1);
+    const onDown = (e: MouseEvent) => {
+      setFlash((n) => n + 1);
+      if (reduce) return;
+      const id = ++markId.current;
+      setMarks((m) => [...m.slice(-4), { id, x: e.clientX, y: e.clientY }]);
+      setTimeout(() => setMarks((m) => m.filter((k) => k.id !== id)), 950);
+    };
 
     window.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseover", onOver);
@@ -51,14 +59,15 @@ export function CustomCursor() {
       document.removeEventListener("mouseout", onOut);
       document.removeEventListener("mousedown", onDown);
     };
-  }, []);
+  }, [reduce]);
 
   if (!fine) return null;
   const { mode, label } = state;
-  const half = mode === "focus" ? 11 : mode === "photo" ? 20 : 16;
+  const half = mode === "focus" ? 11 : mode === "photo" ? 28 : 16;
   const hidden = !visible || mode === "text";
 
   return (
+    <>
     <div ref={rootRef} aria-hidden="true" className="pointer-events-none fixed left-0 top-0 z-[9999]" style={{ willChange: "transform" }}>
       <div className="film-cursor-box" data-mode={mode} data-still={reduce ? "" : undefined}
         style={{ ["--half" as string]: `${half}px`, opacity: hidden ? 0 : 1 }}>
@@ -68,5 +77,7 @@ export function CustomCursor() {
         {flash > 0 && !reduce && <em key={flash} className="film-cursor-flash" />}
       </div>
     </div>
+    {marks.map((m) => <span key={m.id} aria-hidden="true" className="film-cursor-mark" style={{ left: m.x, top: m.y }} />)}
+    </>
   );
 }

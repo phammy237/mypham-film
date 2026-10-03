@@ -157,3 +157,17 @@
   .stack { height: 300px; }
 }
 @media (prefers-reduced-motion: reduce) { .frame .photo img, .pcard, .btn, .noteLine { transition: none; } }
+
+/* ── interactive touches ── */
+.photo::before { content: ""; position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 3; }
+@keyframes flash { 0% { opacity: .5; } 100% { opacity: 0; } }
+@keyframes tick { 0% { transform: translateY(-6px); opacity: .3; } 100% { transform: none; opacity: 1; } }
+.count { display: inline-block; animation: tick .25s ease-out; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .photo img { filter: grayscale(.55) sepia(.2) contrast(.96); transition: filter .7s ease, transform .4s; }
+  .heroBg .photo img, .sheet .photo img, .portrait .photo img { filter: none; }
+  .frame:hover .photo img, .frame:focus-visible .photo img, .tile:hover img, .tile:focus-visible img, .pcard:hover .photo img { filter: none; }
+  .frame:hover .photo::before, .tile:hover::before, .pcard:hover .photo::before { animation: flash .55s ease-out; }
+}
+.soundBtn { margin-left: 14px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: pointer; }
+.soundBtn[aria-pressed="true"] { background: var(--butter); color: #20201E; border-color: transparent; }

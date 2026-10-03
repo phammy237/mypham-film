@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { getStageById } from "@/lib/biography/journeyStages";
 import { rampDownTo } from "@/lib/biography/journeyMotion";
 import { journeyHeroContent } from "@/lib/biography/journeyHeroContent";
+import type { JourneyChapterId } from "@/lib/biography/journeyTypes";
 
 export type JourneyHeroContentHandle = {
   /** ref-driven, safe to call every scroll tick — no React state involved */
@@ -23,10 +24,13 @@ export function JourneyHeroContent({
   handleRef,
   reducedMotion,
   onBeginJourney,
+  onJump,
 }: {
   handleRef: React.MutableRefObject<JourneyHeroContentHandle | null>;
   reducedMotion: boolean;
   onBeginJourney: () => void;
+  /** jump straight to a chapter instead of scrolling there */
+  onJump?: (id: JourneyChapterId) => void;
 }) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   // Disables the CTA the instant it's clicked, independent of the progress-driven fade below (which
@@ -89,6 +93,14 @@ export function JourneyHeroContent({
           →
         </span>
       </button>
+      {onJump && (
+        <p className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-muted dark:text-[rgba(218,216,212,0.5)]">
+          <span>or jump to</span>
+          <button type="button" onClick={() => onJump("hanoi")} className="text-journey-ink underline-offset-4 hover:underline dark:text-journey-paper">Hanoi</button>
+          <button type="button" onClick={() => onJump("us")} className="text-journey-ink underline-offset-4 hover:underline dark:text-journey-paper">Gainesville</button>
+          <button type="button" onClick={() => onJump("today")} className="text-journey-ink underline-offset-4 hover:underline dark:text-journey-paper">Today</button>
+        </p>
+      )}
     </div>
   );
 }

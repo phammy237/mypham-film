@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { SITE_EMAIL } from "@/lib/site";
 
 type Tone = "friend" | "curious" | null;
@@ -94,6 +95,8 @@ export function ChatBot() {
   const [tone, setTone] = useState<Tone>(null);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const router = useRouter();
+  const jump = (href: string) => { router.push(href); setOpen(false); };
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -275,6 +278,14 @@ export function ChatBot() {
                     <Bubble key={i} msg={m} />
                   ))}
 
+                  {/* Jump straight to a page */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {([["best project", "/projects/transpeaktation"], ["all work", "/projects"], ["leadership", "/involvements"], ["resume", "/cv"], ["say hi", "/connect"]] as const).map(([label, href]) => (
+                      <button key={label} type="button" onClick={() => jump(href)} className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/15 text-[#F4D35E] hover:bg-[#F4D35E] hover:text-[#20201E] transition-colors">
+                        → {label}
+                      </button>
+                    ))}
+                  </div>
                   {/* Suggested questions */}
                   <div className="space-y-1.5 pt-2">
                     {questions.map((item) => (

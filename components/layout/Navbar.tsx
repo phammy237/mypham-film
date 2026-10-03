@@ -87,7 +87,21 @@ export function Navbar() {
         // its own view-transition layer, so page-to-page zooms move the content while the navbar holds still
         style={{ viewTransitionName: "site-nav" }}
       >
-      <Link href="/" className="absolute left-4 top-1/2 hidden -translate-y-1/2 md:block" aria-label="My Pham home">
+      <Link
+        href="/"
+        className="absolute left-4 top-1/2 hidden -translate-y-1/2 md:block"
+        aria-label="My Pham home (replays my signature)"
+        data-cursor-label="replay signature ✎"
+        data-cursor-photo
+        onClick={(e) => {
+          try { sessionStorage.setItem("replay-intro", "1"); } catch { /* storage can be blocked */ }
+          if (pathname === "/") {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.dispatchEvent(new Event("replay-intro"));
+          }
+        }}
+      >
         <span
           className={`block h-10 w-10 bg-current transition-colors duration-300 ${lightText ? "text-white" : "text-surface dark:text-white"}`}
           style={{

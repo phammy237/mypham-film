@@ -404,6 +404,19 @@ export function GeographicJourney() {
     [scrollToStageStart, scrollToTodaySection]
   );
 
+  // arrow keys step through the chapters, like advancing a roll of film
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (isStoryModalOpen || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+      if (e.key === "ArrowRight" && activeChapterIndex < journeyChapters.length - 1) navigateToChapter(journeyChapters[activeChapterIndex + 1].id);
+      if (e.key === "ArrowLeft" && activeChapterIndex > 0) navigateToChapter(journeyChapters[activeChapterIndex - 1].id);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isStoryModalOpen, activeChapterIndex, navigateToChapter]);
+
   // pin clicks only ever request a scroll — the existing applyProgress engine is what actually
   // recomputes camera, route, pin statuses, and story panel visibility as it animates there. This
   // is the single source of truth the whole journey shares: scroll progress. A click never sets
@@ -487,7 +500,7 @@ export function GeographicJourney() {
             onFinishHanoiChapter={goToStage("hanoi-complete")}
             onFinishUsChapter={goToStage("us-complete")}
           />
-          <JourneyHeroContent handleRef={heroHandleRef} reducedMotion={reducedMotion} onBeginJourney={beginJourneyTransition} />
+          <JourneyHeroContent handleRef={heroHandleRef} reducedMotion={reducedMotion} onBeginJourney={beginJourneyTransition} onJump={navigateToChapter} />
           <JourneyHanoiIntroPanel
             handleRef={hanoiIntroHandleRef}
             reducedMotion={reducedMotion}
@@ -567,6 +580,20 @@ export function GeographicJourney() {
           onNavigate={navigateToChapter}
         />
       )}
+
+      {/* "next frame": advance to the following chapter without hunting for the rail */}
+      {activeStage.id !== "today-ahead" &&
+        !isStoryModalOpen &&
+        !INTERLUDE_STAGE_IDS.has(activeStage.id) &&
+        activeChapterIndex < journeyChapters.length - 1 && (
+          <button
+            type="button"
+            onClick={() => navigateToChapter(journeyChapters[activeChapterIndex + 1].id)}
+            className="f-mono fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--card)] px-4 py-2 text-[var(--ink)] shadow-md transition-transform hover:-translate-y-0.5 hover:bg-[var(--butter)] hover:text-[#20201E] md:flex"
+          >
+            next frame ▸ {journeyChapters[activeChapterIndex + 1].label}
+          </button>
+        )}
 
       {/* Extremely low priority — visible ONLY on the three intro/overview beats (Earth, Hanoi,
           U.S.); hidden everywhere else (stories, chapter-complete, interlude, Today) so it never

@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { allWork, type Project } from "@/data/projects";
 import { education, hobbies, leadership, skills } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
+import { FlipPhoto } from "@/components/film/FlipPhoto";
 import s from "./film.module.css";
 
 /* ── frames: a photo or a project, resolved to one shape ── */
@@ -58,7 +59,7 @@ function FrameSheet({ frame, n, onClose }: { frame: Frame; n: number; onClose: (
         initial={{ y: "100%", x: "-50%" }} animate={{ y: 0, x: "-50%" }} exit={{ y: "100%", x: "-50%" }} transition={{ type: "spring", stiffness: 260, damping: 30 }}>
         <div className={s.grab} />
         <button ref={closeRef} className={s.sheetClose} onClick={onClose} aria-label="Close">✕</button>
-        {frame.src && <Photo src={frame.src} alt={frame.alt} n={n} sizes="640px" />}
+        {frame.src && <FlipPhoto src={frame.src} alt={frame.alt} n={n} sizes="640px" aspect="3 / 2" note={p ? (p.hook ?? p.logline) : frame.caption} />}
         <p className={`${s.mono} ${s.muted}`} style={{ marginTop: 14 }}>frame {String(n).padStart(3, "0")}A</p>
         <h3>{p ? p.title : frame.caption}</h3>
         {p && (
@@ -125,11 +126,45 @@ function FilmStrip({ frames, onOpen, onPosition }: { frames: Frame[]; onOpen: (f
   );
 }
 
+/* soft shutter click, synthesized (no audio file) — only plays when the visitor turns sound on */
+function shutterClick(ctx: AudioContext) {
+  const len = Math.floor(ctx.sampleRate * 0.05);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const f = ctx.createBiquadFilter();
+  f.type = "bandpass"; f.frequency.value = 2400; f.Q.value = 0.8;
+  const g = ctx.createGain();
+  g.gain.value = 0.25;
+  src.connect(f); f.connect(g); g.connect(ctx.destination);
+  src.start();
+}
+
 /* ── page ── */
 export function FilmHome() {
   const [open, setOpen] = useState<{ frame: Frame; n: number } | null>(null);
   const [filter, setFilter] = useState<"all" | GridFilter>("all");
   const [at, setAt] = useState(1);
+  const [sound, setSound] = useState(false);
+  const audio = useRef<AudioContext | null>(null);
+  const lastAt = useRef(1);
+  const onPosition = useCallback((n: number) => {
+    setAt(n);
+    if (n !== lastAt.current) {
+      lastAt.current = n;
+      if (sound && audio.current) shutterClick(audio.current);
+    }
+  }, [sound]);
+  const toggleSound = () => {
+    if (!audio.current) {
+      const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      audio.current = new AC();
+    }
+    void audio.current.resume();
+    setSound((v) => { if (!v && audio.current) shutterClick(audio.current); return !v; });
+  };
   const close = useCallback(() => setOpen(null), []);
   const lately = LATELY.map(resolve).filter((f): f is Frame => !!f && !!f.src);
   const more = MORE.map((m) => ({ m, f: resolve(m) })).filter((x): x is { m: (typeof MORE)[number]; f: Frame } => !!x.f && !!x.f.src);
@@ -168,11 +203,11 @@ export function FilmHome() {
         <h2 className={s.serif}>lately, on film →</h2>
         <div style={{ display: "flex", gap: 18, alignItems: "center", flexWrap: "wrap" }}>
           <span className={`${s.mono} ${s.muted}`}>a mix of places, people, projects, and everything in between.</span>
-          <span className={s.count}>{String(at).padStart(2, "0")} / {String(lately.length).padStart(2, "0")}</span>
+          <span key={at} className={s.count}>{String(at).padStart(2, "0")} / {String(lately.length).padStart(2, "0")}</span>
         </div>
       </div>
-      <FilmStrip frames={lately} onOpen={(frame, n) => setOpen({ frame, n })} onPosition={setAt} />
-      <p className={`${s.wrap} ${s.mono} ${s.muted} ${s.hint}`}>drag, swipe, or use ← → · tap a frame to view it</p>
+      <FilmStrip frames={lately} onOpen={(frame, n) => setOpen({ frame, n })} onPosition={onPosition} />
+      <p className={`${s.wrap} ${s.mono} ${s.muted} ${s.hint}`}>drag, swipe, or use ← → · tap a frame to view it<button type="button" onClick={toggleSound} aria-pressed={sound} className={s.soundBtn}>shutter sound: {sound ? "on" : "off"} ♪</button></p>
 
       {/* featured + communities */}
       <section className={`${s.wrap} ${s.feat}`}>
@@ -254,7 +289,7 @@ export function FilmHome() {
         </div>
         <div>
           <div className={s.stack}>
-            {(["beach", "matcha", "mirror"] as const).map((k) => <div key={k} className={s.pola}><Photo src={PHOTOS[k].src} alt={PHOTOS[k].alt} sizes="240px" /></div>)}
+            {(["beach", "matcha", "mirror"] as const).map((k, i) => <div key={k} className={s.pola}><FlipPhoto src={PHOTOS[k].src} alt={PHOTOS[k].alt} n={i + 1} sizes="240px" note={PHOTOS[k].caption} /></div>)}
           </div>
           <p className={`${s.hand} ${s.stackNote}`}>places that made me :)</p>
           <div className={s.connect}>
