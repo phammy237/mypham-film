@@ -319,6 +319,7 @@ export function FilmHome() {
               </button>
             ))}
           </div>
+          <p style={{ marginTop: 22 }}><Link className={s.btn} href="/film">see the whole roll →</Link></p>
         </div>
       </section>
 

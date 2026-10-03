@@ -40,15 +40,11 @@ export const LATELY: FrameRef[] = [
 ];
 
 /** "more on film" — the filterable grid */
+/** "more on film": just a taste, one or two per filter. The whole roll lives on the Film page. */
 export const MORE: (FrameRef & { filter: GridFilter; tall?: boolean })[] = [
-  { photo: "nyc", filter: "travel", tall: true }, { photo: "beach", filter: "travel" }, { photo: "dsi", filter: "leadership" },
-  { project: "transpeaktation", filter: "projects" }, { photo: "tet", filter: "friends", tall: true }, { photo: "matcha", filter: "random" },
-  { photo: "win", filter: "projects" }, { photo: "sase", filter: "friends" }, { project: "kite", filter: "projects" },
-  { photo: "ps", filter: "leadership", tall: true }, { photo: "mirror", filter: "random" }, { photo: "dsiTower", filter: "leadership" },
-  { photo: "visa", filter: "friends" }, { project: "campus-compass", filter: "projects" }, { photo: "glow", filter: "random" },
-  { project: "wnba-simulator", filter: "projects" },
-  { photo: "shellhacks", filter: "projects" }, { photo: "nycBooth", filter: "travel", tall: true }, { photo: "saseMentees", filter: "leadership" },
-  { photo: "laSummer", filter: "travel", tall: true }, { photo: "atlanta", filter: "travel" },
+  { photo: "nyc", filter: "travel", tall: true }, { photo: "shellhacks", filter: "projects" }, { photo: "dsi", filter: "leadership" },
+  { photo: "tet", filter: "friends", tall: true }, { photo: "matcha", filter: "random" }, { photo: "atlanta", filter: "travel" },
+  { photo: "saseMentees", filter: "leadership" }, { photo: "win", filter: "projects" },
 ];
 
 export const FEATURED = ["transpeaktation", "cartcoach", "kite"];
