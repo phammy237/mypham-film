@@ -221,7 +221,8 @@ export function FilmHome() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const featured = FEATURED.map(bySlug).filter((p): p is Project => !!p);
-  const roles = leadership.slice(0, 3);
+  const SHOWN_ROLES = ["UF Data Science & Informatics", "WingHacks", "Vietnamese International Student Association"];
+  const roles = SHOWN_ROLES.map((c) => leadership.find((l) => l.company === c)).filter((l): l is (typeof leadership)[number] => !!l);
   const ed = education[0];
   const languages = skills.Languages.map((l) => l.split(" ")[0]).join(" / ").replace("Russian", "Russian-ish");
 

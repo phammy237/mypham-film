@@ -72,9 +72,19 @@ export const experience = [
 
 export const leadership = [
   {
+    role: "Fellow",
+    company: "Product Space",
+    period: "2026 — Present",
+    description: "I work as a selected fellow on real product strategy challenges for live clients.",
+    bullets: [
+      "Working as a product strategy fellow on live client projects (Lattéra, Gator Creek LLC).",
+      "Designing MVP pilot measurement systems and go-to-market strategies.",
+    ],
+  },
+  {
     role: "External Vice President",
     company: "UF Data Science & Informatics",
-    period: "Apr 2025 — Present",
+    period: "May 2025 — Present",
     description: "I lead external partnerships and career-focused initiatives for one of UF's largest data science organizations, working with companies, research labs, startups, and university partners to create more opportunities for students beyond regular club programming.",
     bullets: [
       "Built relationships with organizations including AIIRI, Google, Microsoft, Deloitte, startups, and UF Career Connections Center, helping secure funding, launch student-facing projects, and develop career-readiness programming.",
@@ -96,6 +106,16 @@ export const leadership = [
     ],
   },
   {
+    role: "Events & Operations Director",
+    company: "Society of Software Developers",
+    period: "Apr 2025 — Present",
+    description: "I run events and operations for UF’s software development community, from budgets to logistics.",
+    bullets: [
+      "Manage a $20K+ annual budget for technical workshops, career events, and student programming, overseeing funding allocation and event logistics.",
+      "Lead end-to-end event operations, coordinating timelines, vendors, venues, and cross-functional teams to deliver programming for UF’s software development community.",
+    ],
+  },
+  {
     role: "Treasurer",
     company: "Vietnamese International Student Association",
     period: "May 2025 — Present",
@@ -105,6 +125,56 @@ export const leadership = [
       "Secured $5,000+ in sponsorships, supporting programming while working with external partners and internal teams to balance event ambitions with available resources.",
       "Helped lead planning and execution for large-scale cultural events including Tết Festival with 300+ attendees, coordinating logistics, vendors, supplies, budgeting, and resource allocation.",
       "Worked across committees to support programming throughout the year, helping ensure events remained financially feasible while maintaining a strong experience for members and attendees.",
+    ],
+  },
+  {
+    role: "Vice President",
+    company: "AI Security & Risk Association",
+    period: "2025 — Present",
+    description: "I lead AI security and risk discussions at UF.",
+    bullets: [
+      "Lead an organization focused on AI safety, security, and ethical risk management.",
+      "Organize events and workshops on responsible AI development.",
+    ],
+  },
+  {
+    role: "Mentor",
+    company: "Society of Asian Scientists and Engineers (SASE)",
+    period: "2025 — Present",
+    description: "I mentor underclassmen in career and academic development.",
+    bullets: [
+      "Provide career guidance and mentorship to underclassmen.",
+      "Support students with internship applications, interview prep, and networking.",
+    ],
+  },
+  {
+    role: "Mentor",
+    company: "GatorAI",
+    period: "2025 — Present",
+    description: "I mentor students in AI/ML skill-building at UF.",
+    bullets: [
+      "Provide mentorship on AI/ML concepts and projects.",
+      "Support students building technical and career readiness in AI.",
+    ],
+  },
+  {
+    role: "Member",
+    company: "Gator Student Consulting Organization",
+    period: "2025 — Present",
+    description: "I consult on real business problems for local organizations.",
+    bullets: [
+      "Engage in consulting case work and professional development.",
+      "Work with local businesses and nonprofits on strategic challenges.",
+    ],
+  },
+  {
+    role: "Fundraising Committee Intern",
+    company: "Society of Asian Scientists and Engineers (SASE)",
+    period: "2025",
+    description: "I supported fundraising efforts and sponsor outreach.",
+    bullets: [
+      "Assisted with fundraising strategy and sponsor outreach.",
+      "Contributed to event planning and execution.",
     ],
   },
 ];

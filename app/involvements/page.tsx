@@ -28,6 +28,18 @@ type Involvement = {
 
 const involvements: Involvement[] = [
   {
+    role: "Events & Operations Director",
+    org: "Society of Software Developers",
+    period: "Apr 2025 — Present",
+    type: "Leadership",
+    description: "Running events and operations for UF’s software development community.",
+    bullets: [
+      "Manage a $20K+ annual budget for technical workshops, career events, and student programming, overseeing funding allocation and event logistics.",
+      "Lead end-to-end event operations, coordinating timelines, vendors, venues, and cross-functional teams to deliver programming for UF’s software development community.",
+    ],
+    awards: [],
+  },
+  {
     role: "External Vice President",
     org: "UF Data Science & Informatics Club",
     period: "May 2025 — Present",
