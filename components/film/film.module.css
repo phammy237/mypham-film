@@ -129,10 +129,11 @@
 .stack .pola:nth-child(2) { right: 0; top: 8%; transform: rotate(5deg); }
 .stack .pola:nth-child(3) { left: 14%; top: 38%; transform: rotate(-1deg); z-index: 2; }
 .stackNote { font-size: 24px; text-align: right; transform: rotate(-6deg); margin-top: 8px; }
-.connect { background: var(--note); color: #20201E; border-radius: 18px; padding: 20px 22px 22px; margin-top: 14px; width: fit-content; max-width: 100%; }
-.connect p { font-size: 30px; white-space: nowrap; margin: 0; }
-.icons { display: grid; grid-template-columns: repeat(3, 42px); gap: 10px; margin-top: 14px; width: fit-content; }
-.icons a { width: 42px; height: 42px; border-radius: 50%; background: #20201E; color: #FAF7EF; display: grid; place-items: center; font: 600 13px var(--font-inter), sans-serif; }
+/* let's connect: one line of social icons under the portrait */
+.connect { margin-top: 18px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.connect p { font-size: 26px; white-space: nowrap; margin: 0; }
+.icons { display: flex; gap: 8px; }
+.icons a { width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font: 600 13px var(--font-inter), sans-serif; }
 .end { margin-top: 96px; padding: 28px 20px 48px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
 /* ── bottom sheet ── */

@@ -303,6 +303,16 @@ export function FilmHome() {
             <Photo src={PHOTOS.glow.src} alt={PHOTOS.glow.alt} sizes="(max-width: 900px) 100vw, 360px" />
             <span className={`${s.hand} ${s.portraitNote}`}>a little bit about me</span>
           </div>
+          <div className={s.connect}>
+            <p className={s.serif}>let&apos;s connect ✈</p>
+            <div className={s.icons}>
+              {socials.map(({ label, href, icon: Icon }) => (
+                <a key={label} href={href} aria-label={label} title={label} {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+                  <Icon />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
         <div>
           <p className={s.bio}>I&apos;m My — a Data Science student at the {ed.school} who likes turning ideas into real things. I work across product, operations, and decision systems.</p>
@@ -332,16 +342,6 @@ export function FilmHome() {
             ))}
           </div>
           <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
-          <div className={s.connect}>
-            <p className={s.serif}>let&apos;s connect ✈</p>
-            <div className={s.icons}>
-              {socials.map(({ label, href, icon: Icon }) => (
-                <a key={label} href={href} aria-label={label} title={label} {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
-                  <Icon />
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
