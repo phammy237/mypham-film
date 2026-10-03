@@ -603,7 +603,7 @@ export function GeographicJourney() {
         <button
           type="button"
           onClick={scrollToTodaySection}
-          className="fixed right-4 top-[76px] z-[25] font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-paper dark:opacity-[.35] dark:hover:opacity-70 md:right-8 md:top-[72px]"
+          className="fixed right-4 top-[76px] z-[25] font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-paper dark:opacity-[.35] md:right-8 md:top-[72px]"
         >
           Skip Journey
         </button>
@@ -616,23 +616,23 @@ export function GeographicJourney() {
       <section
         ref={todaySectionRef}
         aria-label="Today & Ahead"
-        className="relative z-10 min-h-screen overflow-hidden bg-[#FAF7F0] dark:bg-[#151412]"
+        className="relative z-10 min-h-screen overflow-hidden bg-film-cream dark:bg-film-black"
       >
         <div className="absolute left-6 bottom-[15vh] flex w-[calc(100%-48px)] max-w-[520px] flex-col items-start gap-4 md:left-[clamp(72px,7vw,120px)] md:bottom-[16vh]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-journey-muted dark:text-[rgba(244,218,123,0.72)]">Today / 2026</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-journey-muted dark:text-journey-glow">Today / 2026</p>
           <h2 className="font-display text-[46px] leading-[1.05] text-journey-ink dark:text-journey-paper md:text-[56px]">
             Still becoming.
           </h2>
-          <p className="max-w-[470px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
+          <p className="max-w-[470px] font-body text-[16px] leading-[1.6] text-journey-body dark:text-journey-paper">
             Hanoi, Rivermont, Gainesville — the map ends here for now. The rest is still being written.
           </p>
           <Link
             href="/connect"
-            className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-[#F4DA7B]"
+            className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-journey-glow"
           >
             Let&apos;s Connect →
           </Link>
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.28]">
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-journey-muted dark:text-journey-muted-dark">
             More places · More people · More to come
           </p>
         </div>

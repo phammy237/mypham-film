@@ -17,14 +17,14 @@ export function StorySection({
   loadMedia?: boolean;
 }) {
   return (
-    <div className="border-t border-border py-8 first:border-t-0 first:pt-0 dark:border-white/10 md:py-10">
+    <div className="border-t border-border py-8 first:border-t-0 first:pt-0 dark:border-journey-paper/30 md:py-10">
       <div className="flex items-baseline gap-3">
-        <span className="font-mono text-xs text-accent/60">{String(index + 1).padStart(2, "0")}</span>
+        <span className="font-mono text-xs text-accent">{String(index + 1).padStart(2, "0")}</span>
         <h3 className="heading text-xl md:text-2xl">{section.heading}</h3>
       </div>
       <div className="mt-3 flex max-w-2xl flex-col gap-3">
         {section.body.map((paragraph, i) => (
-          <p key={i} className="body-copy text-sm leading-relaxed dark:text-white/60">
+          <p key={i} className="body-copy text-sm leading-relaxed dark:text-journey-paper">
             {paragraph}
           </p>
         ))}

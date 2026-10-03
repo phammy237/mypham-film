@@ -37,7 +37,7 @@ export function RegionOverview({
   }, [countryFeature, chapter.globeTarget]);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-base dark:border-white/10 dark:bg-navy" style={{ minHeight: height }}>
+    <div className="relative w-full overflow-hidden rounded-3xl border border-border bg-base dark:border-journey-paper/30 dark:bg-navy" style={{ minHeight: height }}>
       <div
         className="pointer-events-none absolute -left-16 -bottom-16 h-72 w-72 rounded-full opacity-0 blur-3xl dark:opacity-100"
         style={{ background: "radial-gradient(circle, rgba(65,103,136,0.2), transparent 70%)" }}
@@ -48,7 +48,7 @@ export function RegionOverview({
             <motion.path
               d={path}
               strokeWidth={1.4}
-              className="fill-accent-light stroke-accent dark:fill-[#3D3B35] dark:stroke-accent-lavender"
+              className="fill-accent-light stroke-accent dark:fill-navy-mid dark:stroke-accent-lavender"
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
@@ -64,7 +64,7 @@ export function RegionOverview({
                 animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0, 0.3] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
               />
-              <circle r={6} fill="#416788" strokeWidth={2} className="stroke-white dark:stroke-navy dark:[filter:drop-shadow(0_0_5px_rgba(65,103,136,0.8))]" />
+              <circle r={6} fill="#416788" strokeWidth={2} className="fill-journey-violet dark:fill-journey-glow stroke-film-cream dark:stroke-navy dark:[filter:drop-shadow(0_0_5px_rgba(244,211,94,0.8))]" />
             </g>
           )}
         </svg>
@@ -75,17 +75,17 @@ export function RegionOverview({
       </p>
 
       <motion.div
-        className="absolute left-4 top-6 w-[calc(100%-2rem)] max-w-[360px] rounded-2xl border border-border bg-white/95 p-6 shadow-lg backdrop-blur dark:border-white/10 dark:bg-navy-mid/90 md:left-8 md:top-8"
+        className="absolute left-4 top-6 w-[calc(100%-2rem)] max-w-[360px] rounded-2xl border border-border bg-card/95 p-6 shadow-lg backdrop-blur dark:border-journey-paper/30 dark:bg-navy-mid/90 md:left-8 md:top-8"
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.15, duration: 0.5 }}
       >
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted dark:text-white/40">{chapter.eyebrow}</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted dark:text-journey-muted-dark">{chapter.eyebrow}</p>
         <h2 className="heading mt-2 text-2xl">{chapter.title}</h2>
         {chapter.tagline && (
-          <p className="mt-2 font-body text-sm italic leading-relaxed text-surface/80 dark:text-white/70">{chapter.tagline}</p>
+          <p className="mt-2 font-body text-sm italic leading-relaxed text-surface/80 dark:text-journey-paper">{chapter.tagline}</p>
         )}
-        <p className="body-copy mt-3 text-sm leading-relaxed dark:text-white/60">{chapter.intro}</p>
+        <p className="body-copy mt-3 text-sm leading-relaxed dark:text-journey-paper">{chapter.intro}</p>
         {chapter.transitionLine && (
           <p className="mt-3 font-mono text-xs uppercase tracking-wider text-accent">{chapter.transitionLine}</p>
         )}
@@ -101,7 +101,7 @@ export function RegionOverview({
           {chapter.skipCta && onSkip && (
             <button
               onClick={onSkip}
-              className="font-mono text-xs uppercase tracking-wider text-muted underline-offset-4 transition-colors hover:text-accent hover:underline dark:text-white/40"
+              className="font-mono text-xs uppercase tracking-wider text-muted underline-offset-4 transition-colors hover:text-accent hover:underline dark:text-journey-muted-dark"
             >
               {chapter.skipCta}
             </button>
@@ -109,7 +109,7 @@ export function RegionOverview({
         </div>
 
         {chapter.instruction && (
-          <p className="mt-4 font-mono text-[11px] text-muted/70 dark:text-white/35">{chapter.instruction}</p>
+          <p className="mt-4 font-mono text-[11px] text-muted dark:text-journey-muted-dark">{chapter.instruction}</p>
         )}
       </motion.div>
     </div>

@@ -175,14 +175,14 @@ export function JourneyStoryModal({
       <div
         aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 bg-[rgba(14,14,12,0.62)] backdrop-blur-[8px] dark:bg-[rgba(14,14,12,0.62)]"
+        className="absolute inset-0 bg-[rgba(15,15,14,0.62)] backdrop-blur-[8px] dark:bg-[rgba(15,15,14,0.62)]"
       />
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={data.title}
-        className={`relative flex h-full w-full flex-col overflow-hidden border-[rgba(244,218,123,0.16)] bg-white shadow-[0_30px_90px_rgba(0,0,0,0.48)] transition-all dark:bg-[rgba(24,24,21,0.97)] md:h-[min(780px,81vh)] md:w-[min(940px,78vw)] md:flex-row md:rounded-[28px] md:border ${
+        className={`relative flex h-full w-full flex-col overflow-hidden border-journey-ink/40 bg-card dark:border-journey-glow/40 shadow-[0_30px_90px_rgba(0,0,0,0.48)] transition-all dark:bg-navy-mid md:h-[min(780px,81vh)] md:w-[min(940px,78vw)] md:flex-row md:rounded-[28px] md:border ${
           reducedMotion
             ? open
               ? "opacity-100"
@@ -201,7 +201,7 @@ export function JourneyStoryModal({
           aria-label="Close story"
           className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center md:right-4 md:top-4"
         >
-          <span className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.2)] text-white/90 transition-colors hover:bg-white/10 md:border-black/10 md:text-muted md:hover:bg-black/5 md:dark:border-[rgba(255,255,255,0.2)] md:dark:text-white/60 md:dark:hover:bg-white/10">
+          <span className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.2)] text-white/90 transition-colors hover:bg-white/10 md:border-black/10 md:text-muted md:hover:bg-black/5 md:dark:border-[rgba(255,255,255,0.2)] md:dark:text-journey-paper md:dark:hover:bg-white/10">
             <span aria-hidden="true" className="text-[17px] leading-none">
               ✕
             </span>
@@ -277,7 +277,7 @@ export function JourneyStoryModal({
                 className="h-full w-full"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-accent-light/40 font-mono text-xs uppercase tracking-wider text-muted dark:bg-white/[0.04] dark:text-white/30">
+              <div className="flex h-full w-full items-center justify-center bg-accent-light/40 font-mono text-xs uppercase tracking-wider text-muted dark:bg-journey-paper/10 dark:text-journey-muted-dark">
                 No photos yet
               </div>
             )}
@@ -312,12 +312,12 @@ export function JourneyStoryModal({
             exact modal width. */}
         <div className={`flex min-h-0 flex-1 flex-col ${contentFadeClass}`}>
           <div className="shrink-0 px-[30px] pt-[36px] md:px-[32px]">
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted dark:text-white/50">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted dark:text-journey-muted-dark">
               {String(data.index + 1).padStart(2, "0")} / {String(data.total).padStart(2, "0")} · {data.metaLabel}
             </p>
             <h2 className="heading mt-2 max-w-[420px] text-[34px] leading-[1.05]">{data.title}</h2>
             <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-accent dark:text-journey-glow">{data.theme}</p>
-            <div className="mt-5 flex gap-5 border-b border-border dark:border-white/10">
+            <div className="mt-5 flex gap-5 border-b border-border dark:border-journey-paper/30">
               {(["overview", "media"] as const).map((t) => (
                 <button
                   key={t}
@@ -326,7 +326,7 @@ export function JourneyStoryModal({
                   className={`pb-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
                     tab === t
                       ? "border-b-2 border-journey-glow text-journey-glow"
-                      : "border-b-2 border-transparent text-muted/70 hover:text-surface dark:text-white/45 dark:hover:text-white/70"
+                      : "border-b-2 border-transparent text-muted hover:text-surface dark:text-journey-muted-dark dark:hover:text-journey-paper"
                   }`}
                 >
                   {t}
@@ -346,7 +346,7 @@ export function JourneyStoryModal({
                       </p>
                     )}
                     {section.paragraphs.map((p, j) => (
-                      <p key={j} className="body-copy text-[17px] leading-[1.65] dark:text-[rgba(247,244,235,0.80)]">
+                      <p key={j} className="body-copy text-[17px] leading-[1.65] dark:text-journey-paper">
                         {p}
                       </p>
                     ))}
@@ -380,29 +380,29 @@ export function JourneyStoryModal({
                 ))}
               </div>
             ) : (
-              <p className="body-copy text-sm dark:text-white/40">
+              <p className="body-copy text-sm dark:text-journey-muted-dark">
                 {data.mediaPlaceholder ? "Photos for this chapter are coming soon." : "No photos yet."}
               </p>
             )}
           </div>
 
-          <div className="flex shrink-0 items-center justify-between border-t border-border px-[30px] py-4 dark:border-white/10 md:px-[32px]">
+          <div className="flex shrink-0 items-center justify-between border-t border-border px-[30px] py-4 dark:border-journey-paper/30 md:px-[32px]">
             <button
               type="button"
               onClick={onPrevStory}
               disabled={isFirst}
-              className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-white/50 dark:hover:text-journey-glow dark:disabled:hover:text-white/50"
+              className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-journey-muted-dark dark:hover:text-journey-glow dark:disabled:hover:text-white/50"
             >
               ← Previous Story
             </button>
-            <span className="font-mono text-[10px] text-muted dark:text-white/40">
+            <span className="font-mono text-[10px] text-muted dark:text-journey-muted-dark">
               {data.index + 1} / {data.total}
             </span>
             {isLast ? (
               <button
                 type="button"
                 onClick={onFinishChapter}
-                className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent transition-colors hover:text-accent/80 dark:text-journey-glow dark:hover:text-[#F4DA7B]"
+                className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent transition-colors hover:text-accent dark:text-journey-glow dark:hover:text-journey-glow"
               >
                 Finish Chapter →
               </button>
@@ -410,7 +410,7 @@ export function JourneyStoryModal({
               <button
                 type="button"
                 onClick={onNextStory}
-                className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent dark:text-white/50 dark:hover:text-journey-glow"
+                className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent dark:text-journey-muted-dark dark:hover:text-journey-glow"
               >
                 Next Story →
               </button>

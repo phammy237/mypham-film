@@ -20,7 +20,7 @@ export function JourneyTimelineRail({ activeIndex }: { activeIndex: number }) {
   return (
     <div className="pointer-events-none fixed left-6 top-1/2 z-20 hidden -translate-y-1/2 xl:left-10 lg:flex">
       <div className="relative flex flex-col items-center">
-        <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-black/10 dark:bg-white/15" />
+        <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-journey-ink/40 dark:bg-journey-paper/30" />
         {STAGES.map((stage, i) => {
           const state = i < activeIndex ? "done" : i === activeIndex ? "active" : "upcoming";
           return (
@@ -30,10 +30,10 @@ export function JourneyTimelineRail({ activeIndex }: { activeIndex: number }) {
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full border-2 font-mono text-[9px] transition-colors duration-300 ${
                   state === "active"
-                    ? "border-accent bg-accent text-white shadow-[0_0_14px_rgba(65,103,136,0.65)] dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy dark:shadow-[0_0_14px_rgba(167,163,153,0.75)]"
+                    ? "border-accent bg-accent text-film-cream dark:text-film-black shadow-[0_0_14px_rgba(65,103,136,0.65)] dark:border-accent-lavender dark:bg-accent-lavender dark:text-navy dark:shadow-[0_0_14px_rgba(141,188,222,0.75)]"
                     : state === "done"
                     ? "border-accent/60 bg-accent/15 text-accent dark:border-accent-lavender/60 dark:bg-accent-lavender/15 dark:text-accent-lavender"
-                    : "border-black/20 bg-base text-black/30 dark:border-white/25 dark:bg-navy dark:text-white/30"
+                    : "border-journey-ink/50 bg-base text-journey-muted dark:border-journey-paper/50 dark:bg-navy dark:text-journey-muted-dark"
                 }`}
               >
                 {stage.number}

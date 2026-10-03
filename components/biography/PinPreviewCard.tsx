@@ -39,7 +39,7 @@ export function PinPreviewCard({
   className?: string;
 }) {
   return (
-    <div className={`rounded-2xl border border-border bg-white/95 p-5 shadow-xl backdrop-blur dark:border-white/10 dark:bg-navy-mid/95 ${className}`}>
+    <div className={`rounded-2xl border border-border bg-card/95 p-5 shadow-xl backdrop-blur dark:border-journey-paper/30 dark:bg-navy-mid/95 ${className}`}>
       <AnimatePresence mode="wait">
         <motion.div
           key={pin.id}
@@ -57,9 +57,9 @@ export function PinPreviewCard({
               <p className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">{metaLabel}</p>
             </div>
           </div>
-          <p className="body-copy mt-2 text-sm dark:text-white/60">{pin.preview.description}</p>
+          <p className="body-copy mt-2 text-sm dark:text-journey-paper">{pin.preview.description}</p>
 
-          <div className="relative mt-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-accent-light dark:bg-white/5">
+          <div className="relative mt-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-accent-light dark:bg-journey-paper/10">
             {pin.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={pin.image} alt="" className="h-full w-full object-cover" />
@@ -78,21 +78,21 @@ export function PinPreviewCard({
         </motion.div>
       </AnimatePresence>
 
-      <div className="mt-4 flex items-center justify-between border-t border-border pt-3 dark:border-white/10">
+      <div className="mt-4 flex items-center justify-between border-t border-border pt-3 dark:border-journey-paper/30">
         <button
           onClick={onPrev}
           disabled={!canPrev}
-          className="flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-white/50 dark:disabled:hover:text-white/50"
+          className="flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-journey-muted-dark dark:disabled:hover:text-white/50"
         >
           <span aria-hidden="true">←</span> Previous
         </button>
-        <span className="font-mono text-xs text-surface dark:text-white/70">
+        <span className="font-mono text-xs text-surface dark:text-journey-paper">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
         <button
           onClick={onNext}
           disabled={!canNext}
-          className="flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-white/50 dark:disabled:hover:text-white/50"
+          className="flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-accent disabled:opacity-30 disabled:hover:text-muted dark:text-journey-muted-dark dark:disabled:hover:text-white/50"
         >
           Next <span aria-hidden="true">→</span>
         </button>

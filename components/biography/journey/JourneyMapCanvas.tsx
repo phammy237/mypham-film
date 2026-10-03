@@ -573,11 +573,11 @@ function setupJourneyLayers(
       "text-ignore-placement": true,
     },
     paint: {
-      // "important labels such as Hanoi": rgba(246,241,230,.52) baked into the color itself, so it
+      // "important labels such as Hanoi": cream @ .92 baked into the color itself, so it
       // reads correctly even before the per-tick text-opacity multiplier (applyHanoiAnchorOpacity)
       // reaches 1.
-      "text-color": theme === "dark" ? "rgba(246,241,230,0.52)" : "#282723",
-      "text-halo-color": theme === "dark" ? "#1F1E1B" : "#FAF8F3",
+      "text-color": theme === "dark" ? "rgba(244,239,227,0.92)" : "#20201E",
+      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
       "text-halo-width": 1.4,
       "text-opacity": 0,
     },
@@ -626,8 +626,8 @@ function setupJourneyLayers(
       "text-ignore-placement": true,
     },
     paint: {
-      "text-color": theme === "dark" ? "rgba(246,241,230,0.52)" : "#282723",
-      "text-halo-color": theme === "dark" ? "#1F1E1B" : "#FAF8F3",
+      "text-color": theme === "dark" ? "rgba(244,239,227,0.92)" : "#20201E",
+      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
       "text-halo-width": 1.4,
       "text-opacity": 0,
     },
@@ -653,8 +653,8 @@ function setupJourneyLayers(
     },
     paint: {
       // major heading, crisp near-white — not gray (global typography rule)
-      "text-color": theme === "dark" ? "rgba(249,247,240,0.88)" : "rgba(40,39,35,0.75)",
-      "text-halo-color": theme === "dark" ? "#1F1E1B" : "#FAF8F3",
+      "text-color": theme === "dark" ? "#F4EFE3" : "#20201E",
+      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
       "text-halo-width": 1.6,
       "text-opacity": 0,
     },

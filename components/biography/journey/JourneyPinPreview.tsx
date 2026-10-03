@@ -34,22 +34,22 @@ export function JourneyPinPreview({
       }`}
     >
       {pin && (
-        <div className="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur-md dark:bg-navy-mid/85 md:w-[300px]">
+        <div className="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl bg-card/90 px-5 py-4 shadow-xl backdrop-blur-md dark:bg-navy-mid/85 md:w-[300px]">
           <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-xs font-medium text-white dark:bg-accent-lavender dark:text-navy">
             {String(pin.number).padStart(2, "0")}
           </span>
           <div className="min-w-0 flex-1">
             <p className="heading text-lg leading-tight">{pin.title}</p>
-            <p className="body-copy mt-0.5 text-sm dark:text-white/60">{pin.subtitle}</p>
+            <p className="body-copy mt-0.5 text-sm dark:text-journey-paper">{pin.subtitle}</p>
             {pin.description && (
-              <p className="mt-1 line-clamp-2 font-body text-xs leading-relaxed text-muted/80 dark:text-white/45">
+              <p className="mt-1 line-clamp-2 font-body text-xs leading-relaxed text-muted dark:text-journey-muted-dark">
                 {pin.description}
               </p>
             )}
             <button
               type="button"
               onClick={() => onLearnMore(pin.id)}
-              className="mt-2 font-mono text-xs text-accent transition-colors hover:text-accent/70 dark:text-accent-lavender dark:hover:text-accent-lavender/70"
+              className="mt-2 font-mono text-xs text-accent transition-colors hover:text-accent dark:text-accent-lavender dark:hover:text-accent-lavender"
             >
               Learn more →
             </button>

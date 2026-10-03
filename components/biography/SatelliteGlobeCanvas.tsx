@@ -154,7 +154,7 @@ function Atmosphere() {
     <mesh scale={1.035}>
       <sphereGeometry args={[RADIUS, 64, 64]} />
       <atmosphereMaterial
-        glowColor={new THREE.Color("#A7A399")}
+        glowColor={new THREE.Color("#8DBCE0")}
         intensity={1.3}
         side={THREE.BackSide}
         transparent
@@ -177,7 +177,7 @@ function CountryBoundary({ countries, countryId }: { countries: FeatureCollectio
   return (
     <>
       {rings.map((ring, i) => (
-        <Line key={i} points={ring} color="#F3EEE1" lineWidth={2.25} transparent opacity={0.95} />
+        <Line key={i} points={ring} color="#F4EFE3" lineWidth={2.25} transparent opacity={0.95} />
       ))}
     </>
   );
@@ -200,14 +200,14 @@ function Marker({ marker, occludeBy }: { marker: GlobeMarker; occludeBy: React.R
     <group position={position}>
       <mesh>
         <sphereGeometry args={[0.014, 16, 16]} />
-        <meshBasicMaterial color="#C5A46D" />
+        <meshBasicMaterial color="#F4D35E" />
       </mesh>
       <mesh ref={ringRef} rotation={[0, 0, 0]}>
         <ringGeometry args={[0.016, 0.02, 24]} />
-        <meshBasicMaterial color="#C5A46D" transparent opacity={0.35} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#F4D35E" transparent opacity={0.35} side={THREE.DoubleSide} />
       </mesh>
       <Html occlude={[occludeBy]} distanceFactor={2.2} style={{ pointerEvents: "none" }}>
-        <div className="-translate-y-6 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.25em] text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+        <div className="-translate-y-6 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.25em] text-journey-paper drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
           {marker.label}
         </div>
       </Html>
@@ -430,7 +430,7 @@ function PlaneMarker({ matRef }: { matRef: React.RefObject<THREE.MeshBasicMateri
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={6} array={PLANE_MARKER_POSITIONS} itemSize={3} />
       </bufferGeometry>
-      <meshBasicMaterial ref={matRef} color="#F7F3EA" transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} />
+      <meshBasicMaterial ref={matRef} color="#FAF7EF" transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} />
     </mesh>
   );
 }
@@ -498,7 +498,7 @@ function FlightRoute({ points, routeProgressRef }: { points: THREE.Vector3[]; ro
         <bufferGeometry ref={lineGeomRef}>
           <bufferAttribute attach="attributes-position" count={points.length} array={positions} itemSize={3} />
         </bufferGeometry>
-        <lineBasicMaterial ref={lineMatRef} color="#CDCBC6" transparent opacity={0} depthWrite={false} toneMapped={false} />
+        <lineBasicMaterial ref={lineMatRef} color="#F4EFE3" transparent opacity={0} depthWrite={false} toneMapped={false} />
       </line>
       <group ref={planeGroupRef}>
         <PlaneMarker matRef={planeMatRef} />
@@ -607,7 +607,7 @@ function GlobeScene({
           (progressiveRoute ? (
             <FlightRoute points={arcSegments} routeProgressRef={controller.routeProgressRef} />
           ) : (
-            <Line points={arcSegments} color="#CDCBC6" dashed dashSize={0.022} gapSize={0.016} transparent opacity={0.75} />
+            <Line points={arcSegments} color="#F4EFE3" dashed dashSize={0.022} gapSize={0.016} transparent opacity={0.75} />
           ))}
       </group>
       <Atmosphere />
@@ -644,9 +644,9 @@ export function SatelliteGlobeCanvas({
       aria-label={ariaLabel}
     >
       <div
-        className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-[#1C1B18] transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
+        className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-film-black transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
       >
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-accent-lavender" />
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-journey-paper/30 border-t-accent-lavender" />
       </div>
       <Canvas
         dpr={[1, 2]}
@@ -666,30 +666,30 @@ export function SatelliteGlobeCanvas({
       </Canvas>
 
       {interactive && (
-        <div className="pointer-events-none absolute bottom-3 right-3 flex flex-col overflow-hidden rounded-full border border-accent/25 bg-white/90 shadow-sm backdrop-blur dark:border-white/10 dark:bg-navy-mid/90">
+        <div className="pointer-events-none absolute bottom-3 right-3 flex flex-col overflow-hidden rounded-full border border-accent/60 bg-card/90 shadow-sm backdrop-blur dark:border-journey-paper/30 dark:bg-navy-mid/90">
           <button
             type="button"
             aria-label="Zoom in"
             onClick={() => controllerRef.current?.zoomBy(-0.3)}
-            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-white/60 dark:hover:bg-accent/20 dark:hover:text-white"
+            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-journey-paper dark:hover:bg-accent/25 dark:hover:text-journey-paper"
           >
             +
           </button>
-          <div className="h-px bg-border dark:bg-white/10" />
+          <div className="h-px bg-border dark:bg-journey-paper/10" />
           <button
             type="button"
             aria-label="Zoom out"
             onClick={() => controllerRef.current?.zoomBy(0.3)}
-            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-white/60 dark:hover:bg-accent/20 dark:hover:text-white"
+            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-journey-paper dark:hover:bg-accent/25 dark:hover:text-journey-paper"
           >
             −
           </button>
-          <div className="h-px bg-border dark:bg-white/10" />
+          <div className="h-px bg-border dark:bg-journey-paper/10" />
           <button
             type="button"
             aria-label="Reset view"
             onClick={() => controllerRef.current?.resetView()}
-            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-white/60 dark:hover:bg-accent/20 dark:hover:text-white"
+            className="pointer-events-auto flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-journey-paper dark:hover:bg-accent/25 dark:hover:text-journey-paper"
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 12a9 9 0 1 1-3-6.7" />

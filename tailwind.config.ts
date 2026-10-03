@@ -47,9 +47,10 @@ const config: Config = {
         // Biography journey — named so the journey's panels share the film palette
         "journey-violet": "#416788",
         "journey-ink": "#20201E",
-        "journey-paper": "#FAF7EF",
-        "journey-muted": "#7A766B",
-        "journey-body": "#4A463D",
+        "journey-paper": "#F4EFE3",
+        "journey-muted": "#6E6A60",
+        "journey-muted-dark": "#ABA597",
+        "journey-body": "#20201E",
         "journey-lilac": "#8DBCE0",
         "journey-lilac-soft": "#8DBCE0",
         "journey-glow": "#F4D35E",

@@ -33,15 +33,15 @@ export function ExpandedStory({
     <ModalShell
       onClose={onClose}
       maxWidth="max-w-3xl"
-      panelClassName="bg-film-cream border border-border dark:bg-film-black dark:border-white/10"
-      closeButtonClassName="bg-black/5 text-surface/70 hover:bg-black/10 hover:text-surface dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20 dark:hover:text-white"
+      panelClassName="bg-film-cream border border-border dark:bg-film-black dark:border-journey-paper/30"
+      closeButtonClassName="bg-black/5 text-surface/70 hover:bg-black/10 hover:text-surface dark:bg-journey-paper/10 dark:text-journey-paper dark:hover:bg-white/20 dark:hover:text-journey-paper"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden">
         {pin.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={pin.image} alt="" className="h-full w-full object-cover" />
         ) : (
-          <ImagePlaceholder bare className="h-full w-full bg-accent-light/40 dark:bg-white/[0.03]" />
+          <ImagePlaceholder bare className="h-full w-full bg-accent-light/40 dark:bg-journey-paper/10" />
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute bottom-4 left-6 flex items-center gap-3">
@@ -79,11 +79,11 @@ export function ExpandedStory({
       <div className="flex items-start justify-between gap-4 px-6 pt-6 md:px-8 md:pt-8">
         <div>
           <h2 className="heading text-2xl md:text-3xl">{pin.preview.title}</h2>
-          <p className="mt-1.5 font-mono text-xs uppercase tracking-wider text-muted dark:text-white/40">
+          <p className="mt-1.5 font-mono text-xs uppercase tracking-wider text-muted dark:text-journey-muted-dark">
             United States · {pin.yearRange}
           </p>
         </div>
-        <span className="shrink-0 font-mono text-xs text-muted dark:text-white/40">
+        <span className="shrink-0 font-mono text-xs text-muted dark:text-journey-muted-dark">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
       </div>
@@ -93,11 +93,11 @@ export function ExpandedStory({
           <StorySection key={section.id} section={section} index={i} />
         ))}
 
-        <div className="mt-2 border-t border-border pt-6 dark:border-white/10">
+        <div className="mt-2 border-t border-border pt-6 dark:border-journey-paper/30">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent transition-colors hover:text-accent/80"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent transition-colors hover:text-accent"
           >
             <span aria-hidden="true">←</span> Return to U.S. map
           </button>

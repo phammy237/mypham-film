@@ -22,10 +22,10 @@ function MediaItem({
   overlayLabel?: string;
 }) {
   if (!loadMedia) {
-    return <div className={`rounded-[13px] bg-accent-light/40 dark:bg-white/[0.03] ${className}`} />;
+    return <div className={`rounded-[13px] bg-accent-light/40 dark:bg-journey-paper/10 ${className}`} />;
   }
   return (
-    <div className={`relative overflow-hidden rounded-[13px] bg-accent-light dark:bg-white/5 ${className}`}>
+    <div className={`relative overflow-hidden rounded-[13px] bg-accent-light dark:bg-journey-paper/10 ${className}`}>
       {isVideo(src) ? (
         <video src={src} className="h-full w-full object-cover" muted loop playsInline />
       ) : (

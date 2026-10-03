@@ -1,24 +1,8 @@
 /**
- * Single canonical color source for the biography journey's dark AND light modes — the map style,
- * route/pin/anchor layers (MapLibre paint, drawn in JS), the Earth atmosphere, and the edge
- * vignette all read from here instead of each hand-rolling its own theme branch. Dark values are
- * the existing, approved reference composition, copied verbatim from wherever they used to live
- * (mapStyle.ts, JourneyMapCanvas.tsx, JourneyEarthGlow.tsx, JourneyEdgeFade.tsx) — dark mode must
- * look effectively unchanged. Light values are new: "editorial atlas in daylight" — soft ivory/mist
- * background, cool slate map lines, lavender journey accents, never a pale/washed-out default
- * MapLibre light theme.
- *
- * React DOM text (headings, body copy, panel chrome) is NOT centralized here — those already have
- * an established canonical source of their own (tailwind.config.ts's text-surface/text-muted/
- * text-accent tokens + Tailwind's `dark:` variant), and stay that way. This file exists specifically
- * for values that have no Tailwind/CSS-class equivalent: colors baked into MapLibre paint
- * expressions and canvas-drawn pin icons, which only a plain JS object can serve.
- *
- * Light theme design direction (per the approved reference mockups): soft pearl/lavender-white
- * surface, deep navy text, lavender as the singular accent (route, active pin, active states,
- * atmosphere haze), delicate white/pale linework on the map. Land and water keep real lightness
- * contrast so the map/globe still reads as a map, not a flat disc — the haze/mist lives in the
- * atmosphere and edge-vignette layers on TOP of that, not in the map's own land/water fill.
+ * Single colour source for the journey's dark and light modes: map style, route/pin/anchor layers
+ * (MapLibre paint), Earth atmosphere and edge vignette. Values are exact film tokens or alpha
+ * variants of them (role table: lib/biography/journeyPalette.ts). Dark is the site default.
+ * DOM text/panels use Tailwind tokens instead; only values baked into MapLibre/canvas live here.
  */
 
 export type BiographyJourneyThemeMode = "light" | "dark";
@@ -75,108 +59,100 @@ type BiographyJourneyTheme = {
 
 const dark: BiographyJourneyTheme = {
   map: {
-    background: "#151412",
-    water: "#191816",
-    // Same as `background` on purpose — the park layer is a new addition and must stay invisible
-    // in dark mode so dark mode's rendered output is pixel-identical to before it existed.
-    park: "#151412",
-    waterway: "rgba(190,187,180,0.12)",
-    waterLabel: "rgba(204,202,196,0.24)",
-    boundaryCountry: "rgba(176,173,164,0.10)",
-    boundaryState: "rgba(176,173,164,0.08)",
-    roadMinor: "rgba(188,185,177,0.10)",
-    roadMedium: "rgba(203,201,195,0.15)",
-    roadMajor: "rgba(218,216,212,0.23)",
-    cityLabel: "rgba(229,228,226,0.32)",
-    majorGeoLabel: "rgba(245,240,227,0.48)",
-    labelHalo: "#151412",
-    // Deliberately darker than `background` — the globe's sphere and the void around it (MapLibre's
-    // "sky" in globe projection) must never share a color, or the sphere's edge disappears.
-    skyColor: "#0A0A09",
-    horizonColor: "#83B3D6",
-    curatedLabel: "rgba(244,218,123,0.52)",
+    background: "#33322E", // soft: land sits a step above the ocean so continents read against it
+    water: "#171715", // navy-deep
+    park: "#33322E", // same as land on purpose: invisible in dark
+    waterway: "rgba(141,188,222,0.40)",
+    waterLabel: "rgba(141,188,222,0.85)",
+    boundaryCountry: "rgba(244,239,227,0.40)",
+    boundaryState: "rgba(244,239,227,0.20)",
+    roadMinor: "rgba(244,239,227,0.17)",
+    roadMedium: "rgba(244,239,227,0.28)",
+    roadMajor: "rgba(244,239,227,0.44)",
+    cityLabel: "rgba(244,239,227,0.78)",
+    majorGeoLabel: "#F4EFE3",
+    labelHalo: "#33322E",
+    // Darker than the sphere on purpose: the globe edge must stay visible against the void.
+    skyColor: "#0F0F0E", // film
+    horizonColor: "#8DBCE0", // sky
+    curatedLabel: "rgba(244,211,94,0.92)",
   },
   route: {
-    core: { completed: "rgba(244,218,123,0.26)", current: "rgba(244,218,123,0.92)", future: "rgba(244,218,123,0.10)" },
-    glow: { completed: "rgba(131,179,214,0.05)", current: "rgba(131,179,214,0.20)", future: "rgba(131,179,214,0)" },
+    core: { completed: "rgba(244,211,94,0.55)", current: "rgba(244,211,94,1)", future: "rgba(244,211,94,0.40)" },
+    glow: { completed: "rgba(141,188,222,0.08)", current: "rgba(141,188,222,0.26)", future: "rgba(141,188,222,0)" },
   },
   transpacific: {
-    core: { current: "rgba(244,218,123,0.72)", transparent: "rgba(244,218,123,0)" },
-    glow: { current: "rgba(131,179,214,0.12)", transparent: "rgba(131,179,214,0)" },
+    core: { current: "rgba(244,211,94,0.85)", transparent: "rgba(244,211,94,0)" },
+    glow: { current: "rgba(141,188,222,0.16)", transparent: "rgba(141,188,222,0)" },
   },
   pin: {
-    activeFill: "#90BBDA",
-    activeStroke: "rgba(248,244,235,0.88)",
-    activeHalo: "rgba(144,187,218,0.18)",
-    activeNumberText: "#FFFFFF",
-    inactiveFill: "#34332E",
-    inactiveStroke: "rgba(244,218,123,0.56)",
-    inactiveNumberText: "rgba(245,241,230,0.76)",
-    titleText: "#FAF8F2",
-    subtitleText: "rgba(215,214,210,0.7)",
-    labelHalo: "#282723",
+    activeFill: "#F4D35E",
+    activeStroke: "rgba(244,239,227,0.95)",
+    activeHalo: "rgba(244,211,94,0.25)",
+    activeNumberText: "#20201E",
+    inactiveFill: "#2A2A27",
+    inactiveStroke: "rgba(244,211,94,0.80)",
+    inactiveNumberText: "#F4EFE3",
+    titleText: "#F4EFE3",
+    subtitleText: "rgba(244,239,227,0.80)",
+    labelHalo: "#20201E",
   },
-  anchor: { glow: "#90BBDA", ring: "#F4DA7B", dot: "#FAF8F2" },
-  travelPoint: { dot: "#F4DA7B", glow: "rgba(244,218,123,0.40)" },
-  atmosphere: { inner: "rgba(243,237,222,0.42)", outer: "rgba(244,218,123,0.24)", outerFade: "rgba(124,175,211,0)" },
+  anchor: { glow: "#8DBCE0", ring: "#F4D35E", dot: "#F4EFE3" },
+  travelPoint: { dot: "#F4D35E", glow: "rgba(244,211,94,0.40)" },
+  atmosphere: { inner: "rgba(244,239,227,0.42)", outer: "rgba(244,211,94,0.24)", outerFade: "rgba(244,211,94,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(14,13,12,0) 50%, rgba(14,13,12,0.10) 66%, rgba(14,13,12,0.30) 82%, rgba(11,11,9,0.58) 100%)",
-    side: "linear-gradient(to right, rgba(11,11,9,0.20) 0%, transparent 13%, transparent 87%, rgba(11,11,9,0.26) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(15,15,14,0) 50%, rgba(15,15,14,0.10) 66%, rgba(15,15,14,0.30) 82%, rgba(15,15,14,0.58) 100%)",
+    side: "linear-gradient(to right, rgba(15,15,14,0.20) 0%, transparent 13%, transparent 87%, rgba(15,15,14,0.26) 100%)",
   },
 };
 
 const light: BiographyJourneyTheme = {
   map: {
-    background: "#F8F5EE", // land tint
-    water: "#F4EFE2",
-    park: "#E5EEDF",
-    waterway: "rgba(139,134,121,0.35)",
-    waterLabel: "rgba(103,99,89,0.60)",
-    boundaryCountry: "rgba(74,72,64,0.18)", // "stronger UI border" token, reused for country lines
-    boundaryState: "rgba(74,72,64,0.12)", // "subtle border" token
-    // Delicate white/pale-gray road network, per spec — visible against the land tint without
-    // reading as a road ATLAS; opacity (not hue) is what separates the three tiers.
-    roadMinor: "rgba(255,255,255,0.55)",
-    roadMedium: "rgba(255,255,255,0.75)",
-    roadMajor: "rgba(255,255,255,0.95)",
-    cityLabel: "#7E796D", // map labels
-    majorGeoLabel: "#58554D", // large city labels
-    labelHalo: "#F8F5EE",
-    skyColor: "#FAF7F0", // page background tone — the void behind the sphere
-    horizonColor: "#F4DA7B", // secondary lavender line — the rim's only accent color
-    curatedLabel: "rgba(126,121,109,0.80)",
+    background: "#FAF7EF", // paper
+    water: "#C3D7E2", // sky @ 50% over paper: ocean reads clearly against the cream land
+    park: "#F1EBDB", // soft @ 50% over paper
+    waterway: "rgba(65,103,136,0.50)",
+    waterLabel: "#416788",
+    boundaryCountry: "rgba(32,32,30,0.45)",
+    boundaryState: "rgba(32,32,30,0.28)",
+    // Ink alpha tiers (white roads vanish on cream paper).
+    roadMinor: "rgba(32,32,30,0.16)",
+    roadMedium: "rgba(32,32,30,0.26)",
+    roadMajor: "rgba(32,32,30,0.42)",
+    cityLabel: "#4D4A43", // muted pulled toward ink for map legibility
+    majorGeoLabel: "#20201E",
+    labelHalo: "#FAF7EF",
+    skyColor: "#FAF7EF", // page background: the void behind the sphere
+    horizonColor: "#416788",
+    curatedLabel: "#416788",
   },
   route: {
-    // Primary lavender at real opacity for completed/active; future/inactive drops to the secondary
-    // lavender line color at low opacity — still lavender-family (per reference), just quiet.
-    core: { completed: "rgba(134,181,215,0.35)", current: "rgba(134,181,215,0.95)", future: "rgba(244,218,123,0.20)" },
-    glow: { completed: "rgba(134,181,215,0.08)", current: "rgba(134,181,215,0.22)", future: "rgba(244,218,123,0)" },
+    core: { completed: "rgba(65,103,136,0.60)", current: "rgba(65,103,136,1)", future: "rgba(65,103,136,0.42)" },
+    glow: { completed: "rgba(65,103,136,0.08)", current: "rgba(65,103,136,0.22)", future: "rgba(65,103,136,0)" },
   },
   transpacific: {
-    core: { current: "rgba(134,181,215,0.85)", transparent: "rgba(134,181,215,0)" },
-    glow: { current: "rgba(134,181,215,0.18)", transparent: "rgba(134,181,215,0)" },
+    core: { current: "rgba(65,103,136,0.90)", transparent: "rgba(65,103,136,0)" },
+    glow: { current: "rgba(65,103,136,0.18)", transparent: "rgba(65,103,136,0)" },
   },
   pin: {
-    activeFill: "#86B5D7",
-    activeStroke: "rgba(255,255,255,0.95)",
-    activeHalo: "rgba(134,181,215,0.18)", // exact "soft lavender glow" token
-    activeNumberText: "#FFFFFF",
-    inactiveFill: "#FDFCFA", // elevated panel tone — pale, still visible against the land tint
-    inactiveStroke: "#F4DA7B", // secondary lavender line
-    inactiveNumberText: "#86B5D7",
-    titleText: "#35342F",
-    subtitleText: "rgba(106,103,93,0.85)",
-    labelHalo: "#F8F5EE",
+    activeFill: "#416788",
+    activeStroke: "#FAF7EF",
+    activeHalo: "rgba(65,103,136,0.22)",
+    activeNumberText: "#FAF7EF",
+    inactiveFill: "#FFFDF8", // card
+    inactiveStroke: "#416788",
+    inactiveNumberText: "#416788",
+    titleText: "#20201E",
+    subtitleText: "#4D4A43",
+    labelHalo: "#FAF7EF",
   },
-  anchor: { glow: "#86B5D7", ring: "#F4DA7B", dot: "#35342F" },
-  travelPoint: { dot: "#86B5D7", glow: "rgba(134,181,215,0.35)" },
-  // Soft diffused white-lavender mist, never a hard ring — the inner stop is the spec's own
-  // "soft haze/mist overlay" white, fading through the secondary lavender line color to transparent.
-  atmosphere: { inner: "rgba(255,255,255,0.55)", outer: "rgba(244,218,123,0.20)", outerFade: "rgba(244,218,123,0)" },
-  // White-lavender haze at the frame's edges — mist/fog, not a dark or neutral-gray vignette.
+  anchor: { glow: "#416788", ring: "#F4D35E", dot: "#20201E" },
+  travelPoint: { dot: "#416788", glow: "rgba(65,103,136,0.35)" },
+  // Cream haze at the rim, never a dark vignette.
+  atmosphere: { inner: "rgba(250,247,239,0.55)", outer: "rgba(141,188,222,0.30)", outerFade: "rgba(141,188,222,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(250,247,240,0) 50%, rgba(250,247,240,0.45) 78%, rgba(250,247,240,0.75) 100%)",
-    side: "linear-gradient(to right, rgba(250,247,240,0.30) 0%, transparent 15%, transparent 85%, rgba(250,247,240,0.35) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(250,247,239,0) 50%, rgba(250,247,239,0.45) 78%, rgba(250,247,239,0.75) 100%)",
+    side: "linear-gradient(to right, rgba(250,247,239,0.30) 0%, transparent 15%, transparent 85%, rgba(250,247,239,0.35) 100%)",
   },
 };
 

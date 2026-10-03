@@ -38,7 +38,7 @@ export function NotYetInterlude({ onCrossOcean }: { onCrossOcean: () => void }) 
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-border bg-[#FEFDFB] px-6 py-16 shadow-sm dark:border-white/10 dark:bg-navy-deep sm:px-10 md:py-24"
+      className="relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-16 shadow-sm dark:border-journey-paper/30 dark:bg-navy-mid sm:px-10 md:py-24"
       aria-label="Interlude: the years before leaving Hanoi"
     >
       <div
@@ -47,7 +47,7 @@ export function NotYetInterlude({ onCrossOcean }: { onCrossOcean: () => void }) 
       />
       <div
         className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full opacity-40 blur-3xl dark:opacity-60"
-        style={{ background: "radial-gradient(circle, rgba(167,163,153,0.25), transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(141,188,222,0.25), transparent 70%)" }}
       />
 
       <div className="relative mx-auto max-w-2xl">
@@ -65,7 +65,7 @@ export function NotYetInterlude({ onCrossOcean }: { onCrossOcean: () => void }) 
           <h2 className="heading mt-3 text-3xl leading-tight md:text-4xl">
             {notYetInterludeCopy.heading}
           </h2>
-          <p className="body-copy mt-4 max-w-xl text-base leading-relaxed dark:text-white/60">
+          <p className="body-copy mt-4 max-w-xl text-base leading-relaxed dark:text-journey-paper">
             {notYetInterludeCopy.paragraph}
           </p>
         </motion.div>

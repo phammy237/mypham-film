@@ -51,7 +51,7 @@ function HeroSlideshow({ pin }: { pin: HanoiJourneyPin }) {
                 type="button"
                 aria-label={`Go to photo ${i + 1}`}
                 onClick={() => setIdx(i)}
-                className={`h-1.5 rounded-full transition-all ${i === idx ? "w-5 bg-white" : "w-1.5 bg-white/40 hover:bg-white/60"}`}
+                className={`h-1.5 rounded-full transition-all ${i === idx ? "w-5 bg-white" : "w-1.5 bg-white/40 hover:bg-card/60"}`}
               />
             ))}
           </div>
@@ -90,8 +90,8 @@ export function ChapterStoryModal({
     <ModalShell
       onClose={onClose}
       maxWidth="max-w-2xl"
-      panelClassName="bg-film-cream border border-border dark:bg-film-black dark:border-white/10"
-      closeButtonClassName="bg-black/5 text-surface/70 hover:bg-black/10 hover:text-surface dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20 dark:hover:text-white"
+      panelClassName="bg-film-cream border border-border dark:bg-film-black dark:border-journey-paper/30"
+      closeButtonClassName="bg-black/5 text-surface/70 hover:bg-black/10 hover:text-surface dark:bg-journey-paper/10 dark:text-journey-paper dark:hover:bg-white/20 dark:hover:text-journey-paper"
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden">
         <HeroSlideshow pin={pin} />
@@ -131,24 +131,24 @@ export function ChapterStoryModal({
       <div className="flex items-start justify-between gap-4 px-6 pt-6 md:px-8 md:pt-8">
         <div>
           <h2 className="heading text-2xl md:text-3xl">{pin.preview.title}</h2>
-          <p className="mt-1.5 font-mono text-xs uppercase tracking-wider text-muted dark:text-white/40">
+          <p className="mt-1.5 font-mono text-xs uppercase tracking-wider text-muted dark:text-journey-muted-dark">
             Hanoi · Ages {pin.ageRange}
           </p>
         </div>
-        <span className="shrink-0 font-mono text-xs text-muted dark:text-white/40">
+        <span className="shrink-0 font-mono text-xs text-muted dark:text-journey-muted-dark">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
       </div>
 
       {hasMedia && (
-        <div className="mt-4 flex gap-1 border-b border-border px-6 dark:border-white/10 md:px-8">
+        <div className="mt-4 flex gap-1 border-b border-border px-6 dark:border-journey-paper/30 md:px-8">
           {(["overview", "media"] as const).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => setTab(t)}
               className={`px-3 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
-                tab === t ? "border-b-2 border-accent text-accent" : "text-muted hover:text-surface dark:text-white/40 dark:hover:text-white/70"
+                tab === t ? "border-b-2 border-accent text-accent" : "text-muted hover:text-surface dark:text-journey-muted-dark dark:hover:text-journey-paper"
               }`}
             >
               {t}
@@ -161,18 +161,18 @@ export function ChapterStoryModal({
         <div className="p-6 md:p-8">
           <div className="flex flex-col gap-4">
             {pin.backstory.map((paragraph, i) => (
-              <p key={i} className="body-copy text-sm leading-relaxed dark:text-white/65">
+              <p key={i} className="body-copy text-sm leading-relaxed dark:text-journey-paper">
                 {paragraph}
               </p>
             ))}
           </div>
 
           {pin.subsections && (
-            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border pt-6 dark:border-white/10 sm:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border pt-6 dark:border-journey-paper/30 sm:grid-cols-4">
               {pin.subsections.map((s) => (
                 <div key={s.title}>
                   <p className="font-mono text-xs uppercase tracking-wider text-accent">{s.title}</p>
-                  <p className="body-copy mt-1 text-xs leading-relaxed dark:text-white/50">{s.description}</p>
+                  <p className="body-copy mt-1 text-xs leading-relaxed dark:text-journey-muted-dark">{s.description}</p>
                 </div>
               ))}
             </div>

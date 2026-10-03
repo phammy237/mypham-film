@@ -1,24 +1,32 @@
 /**
- * Single source of truth for the journey page's exact design-system colors (dark mode only — this
- * palette is specific to the cinematic map redesign, not the site's shared light/dark tokens used
- * elsewhere). Map-paint code (plain JS/TS) imports these directly; DOM/CSS code uses the same hex
- * values as Tailwind arbitrary-value classes (`text-[#FAF8F2]` etc.) since Tailwind can't consume
- * JS constants for static class generation — keep both in sync with this file by eye.
+ * Biography colour roles -> film tokens (app/globals.css "Film design system", tailwind.config.ts).
+ * Dark is the site default. Map paint (JS) reads biographyJourneyTheme.ts; DOM uses Tailwind tokens.
+ *
+ *  role               dark                          light
+ *  page / land        paper  #20201E                paper  #FAF7EF
+ *  water / sky        navy-deep #171715 / film #0F0F0E   tint of sky over paper / paper
+ *  panel              card   #2A2A27                card   #FFFDF8
+ *  heading + body     cream  #F4EFE3 (journey-paper) ink   #20201E (journey-ink/-body)
+ *  muted / labels     #ABA597 (journey-muted-dark)  #6E6A60 (journey-muted)
+ *  border             cream @ .30                   ink @ .50
+ *  active accent      butter #F4D35E (journey-glow) film blue #416788 (journey-violet)
+ *  hover / ring       sky    #8DBCE0 (journey-lilac) film blue #416788
+ *  route / pin fill   butter (dark)                 film blue (light)
+ *  pin number         ink on butter                 paper on blue
  */
 export const journeyPalette = {
-  pageBackground: "#161513",
-  mapLand: "#2B2A26",
-  mapSecondaryLand: "#31302B",
-  mapWater: "#201F1B",
-  primaryPurple: "#90BBDA",
-  brightPurple: "#F4DA7B",
-  lavender: "#F4DA7B",
-  mainText: "#FAF8F2",
-  bodyText: "rgba(247,244,235,0.80)",
-  mutedText: "rgba(215,214,210,0.46)",
-  subtleBorder: "rgba(244,218,123,0.16)",
-  panelBackground: "rgba(29,29,26,0.88)",
-  minorRoad: "rgba(206,204,199,0.12)",
-  majorRoad: "rgba(244,218,123,0.28)",
-  districtBoundary: "rgba(190,187,180,0.13)",
+  pageBackground: "#20201E",
+  mapLand: "#33322E",
+  mapSecondaryLand: "#2A2A27",
+  mapWater: "#171715",
+  primaryBlue: "#8DBCE0",
+  accent: "#F4D35E",
+  mainText: "#F4EFE3",
+  bodyText: "#F4EFE3",
+  mutedText: "#ABA597",
+  subtleBorder: "rgba(244,239,227,0.30)",
+  panelBackground: "#2A2A27",
+  minorRoad: "rgba(244,239,227,0.16)",
+  majorRoad: "rgba(244,211,94,0.45)",
+  districtBoundary: "rgba(244,239,227,0.28)",
 } as const;

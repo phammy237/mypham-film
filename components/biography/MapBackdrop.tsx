@@ -29,7 +29,7 @@ export function MapBackdrop({
           strokeWidth={14}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="stroke-accent-light dark:stroke-[#34332E]"
+          className="stroke-accent-light dark:stroke-journey-paper/20"
         />
         <path
           d={riverPathD}
@@ -37,7 +37,7 @@ export function MapBackdrop({
           strokeWidth={14}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="stroke-transparent dark:stroke-[#416788]/40 dark:[filter:blur(6px)]"
+          className="stroke-transparent dark:stroke-journey-violet/40 dark:[filter:blur(6px)]"
         />
       </svg>
     );
@@ -72,14 +72,14 @@ export function MapBackdrop({
         fill="none"
         strokeWidth={22}
         strokeLinecap="round"
-        className="stroke-accent-light dark:stroke-[#34332E]"
+        className="stroke-accent-light dark:stroke-journey-paper/20"
       />
       <path
         d={river}
         fill="none"
         strokeWidth={22}
         strokeLinecap="round"
-        className="stroke-transparent dark:stroke-[#416788]/40 dark:[filter:blur(6px)]"
+        className="stroke-transparent dark:stroke-journey-violet/40 dark:[filter:blur(6px)]"
       />
       {blocks.map((b, i) => (
         <rect
@@ -89,7 +89,7 @@ export function MapBackdrop({
           width={b.w}
           height={b.h}
           rx={4}
-          className="fill-accent-light dark:fill-white/[0.03] dark:stroke-white/[0.06]"
+          className="fill-accent-light dark:fill-journey-paper/10 dark:stroke-journey-paper/10"
           stroke="none"
         />
       ))}

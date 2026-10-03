@@ -46,7 +46,7 @@ export function ChapterTransition({
     >
       <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">Next chapter</p>
       <h2 className="heading text-3xl md:text-4xl">Across the Pacific</h2>
-      <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wider text-muted dark:text-white/40">
+      <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-wider text-muted dark:text-journey-muted-dark">
         <span className={arcing ? "" : "text-accent"}>{FROM.regionLabel}</span>
         <span aria-hidden="true">→</span>
         <span className={arcing ? "text-accent" : ""}>{TO.regionLabel}</span>
@@ -72,7 +72,7 @@ export function ChapterTransition({
       <button
         type="button"
         onClick={onArrive}
-        className="font-mono text-xs uppercase tracking-wider text-muted underline-offset-4 transition-colors hover:text-accent hover:underline dark:text-white/40"
+        className="font-mono text-xs uppercase tracking-wider text-muted underline-offset-4 transition-colors hover:text-accent hover:underline dark:text-journey-muted-dark"
       >
         Skip →
       </button>

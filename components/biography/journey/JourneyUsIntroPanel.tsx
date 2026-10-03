@@ -76,7 +76,7 @@ export function JourneyUsIntroPanel({
         <h2 className="font-display text-[54px] leading-[0.98] text-journey-ink dark:text-journey-paper md:text-[58px]">
           {usJourneyCopy.heading}
         </h2>
-        <p className="max-w-[320px] font-body text-[16px] leading-[1.55] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
+        <p className="max-w-[320px] font-body text-[16px] leading-[1.55] text-journey-body dark:text-journey-paper">
           {usJourneyCopy.body}
         </p>
         <div className="flex flex-col items-start gap-3">
@@ -86,14 +86,14 @@ export function JourneyUsIntroPanel({
             className="group flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink opacity-100 transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-journey-lilac-soft"
           >
             {usJourneyCopy.ctaLabel}
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(74,72,64,0.18)] transition-colors group-hover:border-journey-violet dark:border-[rgba(131,179,214,0.4)] dark:group-hover:border-journey-lilac-soft">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-journey-ink/50 transition-colors group-hover:border-journey-violet dark:border-journey-lilac/60 dark:group-hover:border-journey-glow">
               →
             </span>
           </button>
           <button
             type="button"
             onClick={onExploreFreely}
-            className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.42] dark:hover:opacity-70"
+            className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-muted-dark"
           >
             {usJourneyCopy.secondaryCtaLabel}
           </button>
@@ -101,7 +101,7 @@ export function JourneyUsIntroPanel({
             <button
               type="button"
               onClick={onReturnToSummary}
-              className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.42] dark:hover:opacity-70"
+              className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-muted-dark"
             >
               Back to chapter summary
             </button>

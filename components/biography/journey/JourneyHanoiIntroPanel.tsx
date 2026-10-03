@@ -69,7 +69,7 @@ export function JourneyHanoiIntroPanel({
           <h2 className="font-display text-[54px] leading-[0.98] text-journey-ink dark:text-journey-paper md:text-[58px]">
             {journeyHanoiIntroContent.heading}
           </h2>
-          <p className="max-w-[320px] font-body text-[16px] leading-[1.55] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
+          <p className="max-w-[320px] font-body text-[16px] leading-[1.55] text-journey-body dark:text-journey-paper">
             {journeyHanoiIntroContent.body}
           </p>
           <div className="flex flex-col items-start gap-3">
@@ -79,7 +79,7 @@ export function JourneyHanoiIntroPanel({
               className="group flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-journey-ink opacity-100 transition-colors hover:text-journey-violet dark:text-journey-paper dark:hover:text-journey-lilac-soft"
             >
               {journeyHanoiIntroContent.ctaLabel}
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(74,72,64,0.18)] transition-colors group-hover:border-journey-violet dark:border-[rgba(131,179,214,0.4)] dark:group-hover:border-journey-lilac-soft">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-journey-ink/50 transition-colors group-hover:border-journey-violet dark:border-journey-lilac/60 dark:group-hover:border-journey-glow">
                 →
               </span>
             </button>
@@ -87,7 +87,7 @@ export function JourneyHanoiIntroPanel({
             <button
               type="button"
               onClick={onSkip}
-              className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.42] dark:hover:opacity-70"
+              className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-muted-dark"
             >
               Skip to next chapter
             </button>
@@ -95,7 +95,7 @@ export function JourneyHanoiIntroPanel({
               <button
                 type="button"
                 onClick={onReturnToSummary}
-                className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-[rgba(218,216,212,0.6)] dark:opacity-[.42] dark:hover:opacity-70"
+                className="font-mono text-[10px] uppercase tracking-[0.15em] text-journey-muted transition-opacity hover:opacity-80 dark:text-journey-muted-dark"
               >
                 Back to chapter summary
               </button>
@@ -107,15 +107,15 @@ export function JourneyHanoiIntroPanel({
       {/* Compass + scale bar + coordinates, bottom-left — light mode only (a new addition, not part
           of the original dark-mode composition, so it stays out of dark mode's rendered output). */}
       <div className="absolute bottom-8 left-[5%] hidden flex-col gap-3 dark:!hidden md:flex">
-        <div className="flex items-center gap-1.5 text-[#7E796D]">
+        <div className="flex items-center gap-1.5 text-journey-muted">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 2 L15 12 L12 22 L9 12 Z" fill="currentColor" opacity="0.75" />
           </svg>
           <span className="font-mono text-[10px] tracking-[0.1em]">N</span>
         </div>
         <div className="flex flex-col gap-1">
-          <div className="relative h-[7px] w-[120px] border-x border-t border-[rgba(74,72,64,0.35)]">
-            <div className="absolute left-1/2 top-0 h-full w-px bg-[rgba(74,72,64,0.35)]" />
+          <div className="relative h-[7px] w-[120px] border-x border-t border-journey-ink/60">
+            <div className="absolute left-1/2 top-0 h-full w-px bg-journey-ink/60" />
           </div>
           <div className="flex w-[120px] justify-between font-mono text-[9px] tracking-[0.05em] text-journey-muted">
             <span>0</span>
@@ -127,7 +127,7 @@ export function JourneyHanoiIntroPanel({
       </div>
 
       {/* dark-mode coordinate line — unchanged from the original composition */}
-      <p className="absolute bottom-8 left-[5%] hidden font-mono text-[10px] tracking-[0.1em] text-[rgba(218,216,212,0.42)] dark:md:block">
+      <p className="absolute bottom-8 left-[5%] hidden font-mono text-[10px] tracking-[0.1em] text-journey-muted-dark dark:md:block">
         {journeyHanoiIntroContent.coordinates}
       </p>
 

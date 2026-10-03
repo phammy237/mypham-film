@@ -34,7 +34,7 @@ export const JourneyUsMemoriesPanel = forwardRef<HTMLDivElement, { markers: Memo
             <h2 className="font-display text-[32px] leading-[1.05] text-journey-ink dark:text-journey-paper">
               {usMemoriesCopy.heading}
             </h2>
-            <p className="max-w-[320px] font-body text-[15px] leading-[1.55] text-journey-body dark:text-[rgba(231,230,228,0.70)]">
+            <p className="max-w-[320px] font-body text-[15px] leading-[1.55] text-journey-body dark:text-journey-paper">
               {usMemoriesCopy.body}
             </p>
           </div>
@@ -55,7 +55,7 @@ export const JourneyUsMemoriesPanel = forwardRef<HTMLDivElement, { markers: Memo
                     </span>
                   )}
                 </div>
-                <p className="mt-0.5 max-w-[320px] font-body text-[13px] leading-relaxed text-journey-body dark:text-[rgba(231,230,228,0.70)]">
+                <p className="mt-0.5 max-w-[320px] font-body text-[13px] leading-relaxed text-journey-body dark:text-journey-paper">
                   {marker.caption}
                 </p>
               </div>

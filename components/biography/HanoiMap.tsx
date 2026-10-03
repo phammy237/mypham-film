@@ -113,12 +113,12 @@ export function HanoiMap({
     setDragging(false);
   };
 
-  const zoomButtonClass = `flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-white/60 dark:hover:bg-accent/20 dark:hover:text-white ${settled ? "pointer-events-none" : "pointer-events-auto"}`;
+  const zoomButtonClass = `flex h-8 w-8 items-center justify-center text-surface/70 hover:bg-accent-light hover:text-accent transition-colors dark:text-journey-paper dark:hover:bg-accent/25 dark:hover:text-journey-paper ${settled ? "pointer-events-none" : "pointer-events-auto"}`;
 
   return (
     <div
       ref={containerRef}
-      className={`relative w-full touch-none select-none overflow-hidden rounded-2xl border border-border bg-base dark:border-white/10 dark:bg-navy ${
+      className={`relative w-full touch-none select-none overflow-hidden rounded-2xl border border-border bg-base dark:border-journey-paper/30 dark:bg-navy ${
         settled ? "cursor-default" : dragging ? "cursor-grabbing" : "cursor-grab"
       }`}
       style={{ aspectRatio: `${HANOI_MAP_WIDTH} / ${HANOI_MAP_HEIGHT}` }}
@@ -140,7 +140,7 @@ export function HanoiMap({
         <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
           <defs>
             <pattern id="hanoi-map-grid" width="26" height="26" patternUnits="userSpaceOnUse">
-              <circle cx="1.5" cy="1.5" r="1.5" className="fill-accent-light dark:fill-white/[0.07]" />
+              <circle cx="1.5" cy="1.5" r="1.5" className="fill-accent-light dark:fill-journey-paper/10" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#hanoi-map-grid)" />
@@ -154,13 +154,13 @@ export function HanoiMap({
           aria-hidden="true"
         >
           {roadsPathD && (
-            <path d={roadsPathD} fill="none" strokeWidth={1} strokeLinecap="round" className="stroke-accent-light dark:stroke-white/[0.08]" />
+            <path d={roadsPathD} fill="none" strokeWidth={1} strokeLinecap="round" className="stroke-accent-light dark:stroke-journey-paper/10" />
           )}
           {lakePathD && (
-            <path d={lakePathD} className="fill-[#F4DA7B] stroke-[#F4D771] dark:fill-[#3D3B35] dark:stroke-[#416788]" strokeWidth={1.2} />
+            <path d={lakePathD} className="fill-film-butter/40 stroke-film-butter dark:fill-navy-mid dark:stroke-journey-violet" strokeWidth={1.2} />
           )}
           {riverPathD && (
-            <path d={riverPathD} fill="none" strokeWidth={16} strokeLinecap="round" className="stroke-[#F4DA7B] dark:stroke-[#3D3B35]" />
+            <path d={riverPathD} fill="none" strokeWidth={16} strokeLinecap="round" className="stroke-film-butter/40 dark:stroke-navy-mid" />
           )}
         </svg>
 
@@ -204,7 +204,7 @@ export function HanoiMap({
       </div>
 
       <div
-        className={`pointer-events-none absolute bottom-4 right-4 z-30 flex flex-col overflow-hidden rounded-full border border-accent/25 bg-white/90 shadow-sm backdrop-blur transition-opacity duration-300 dark:border-white/10 dark:bg-navy-mid/90 ${
+        className={`pointer-events-none absolute bottom-4 right-4 z-30 flex flex-col overflow-hidden rounded-full border border-accent/60 bg-card/90 shadow-sm backdrop-blur transition-opacity duration-300 dark:border-journey-paper/30 dark:bg-navy-mid/90 ${
           settled ? "opacity-0" : "opacity-100"
         }`}
       >
@@ -216,7 +216,7 @@ export function HanoiMap({
         >
           +
         </button>
-        <div className="h-px bg-border dark:bg-white/10" />
+        <div className="h-px bg-border dark:bg-journey-paper/10" />
         <button
           type="button"
           aria-label="Zoom out"
@@ -225,7 +225,7 @@ export function HanoiMap({
         >
           −
         </button>
-        <div className="h-px bg-border dark:bg-white/10" />
+        <div className="h-px bg-border dark:bg-journey-paper/10" />
         <button
           type="button"
           aria-label="Reset view"
