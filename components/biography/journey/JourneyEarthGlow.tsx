@@ -54,11 +54,27 @@ export function JourneyEarthGlow({
   themeRef.current = theme;
 
   useEffect(() => {
+    let hidden = false;
     handleRef.current = {
       update: (progress, geometry) => {
         const el = rootRef.current;
         if (!el) return;
-        el.style.opacity = String(rampDownTo(progress, FADE_COMPLETE_AT, FADE_COMPLETE_AT));
+        const weight = rampDownTo(progress, FADE_COMPLETE_AT, FADE_COMPLETE_AT);
+        // Once the hero has faded out there is nothing to draw: take the layer out of layout and skip the
+        // per-tick left/top/size/gradient writes (each one re-laid-out and repainted a full-screen element).
+        if (weight <= 0.001) {
+          if (!hidden) {
+            el.style.opacity = "0";
+            el.style.display = "none";
+            hidden = true;
+          }
+          return;
+        }
+        if (hidden) {
+          el.style.display = "";
+          hidden = false;
+        }
+        el.style.opacity = String(weight);
 
         const xPx = geometry?.xPx ?? window.innerWidth * (FALLBACK_LEFT_VW / 100);
         const yPx = geometry?.yPx ?? window.innerHeight * (FALLBACK_TOP_VH / 100);

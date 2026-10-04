@@ -64,11 +64,11 @@ const dark: BiographyJourneyTheme = {
     park: "#22345C", // same as land on purpose: invisible in dark
     waterway: "rgba(141,188,222,0.40)",
     waterLabel: "rgba(141,188,222,0.85)",
-    boundaryCountry: "rgba(244,239,227,0.40)",
-    boundaryState: "rgba(244,239,227,0.20)",
-    roadMinor: "rgba(244,239,227,0.17)",
-    roadMedium: "rgba(244,239,227,0.28)",
-    roadMajor: "rgba(244,239,227,0.44)",
+    boundaryCountry: "rgba(244,239,227,0.28)",
+    boundaryState: "rgba(244,239,227,0.10)",
+    roadMinor: "#2A3E6B",
+    roadMedium: "#314677",
+    roadMajor: "#3C5489",
     cityLabel: "rgba(244,239,227,0.78)",
     majorGeoLabel: "#F4EFE3",
     labelHalo: "#22345C",
@@ -101,8 +101,8 @@ const dark: BiographyJourneyTheme = {
   travelPoint: { dot: "#F4D35E", glow: "rgba(244,211,94,0.40)" },
   atmosphere: { inner: "rgba(244,239,227,0.42)", outer: "rgba(244,211,94,0.24)", outerFade: "rgba(244,211,94,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(8,15,30,0) 50%, rgba(8,15,30,0.10) 66%, rgba(8,15,30,0.30) 82%, rgba(8,15,30,0.58) 100%)",
-    side: "linear-gradient(to right, rgba(8,15,30,0.20) 0%, transparent 13%, transparent 87%, rgba(8,15,30,0.26) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(8,15,30,0) 30%, rgba(8,15,30,0.38) 55%, rgba(8,15,30,0.78) 78%, rgba(8,15,30,0.97) 100%)",
+    side: "linear-gradient(to right, rgba(8,15,30,0.85) 0%, rgba(8,15,30,0.35) 12%, transparent 28%, transparent 72%, rgba(8,15,30,0.35) 88%, rgba(8,15,30,0.85) 100%)",
   },
 };
 
@@ -114,11 +114,11 @@ const light: BiographyJourneyTheme = {
     waterway: "rgba(65,103,136,0.50)",
     waterLabel: "#416788",
     boundaryCountry: "rgba(32,32,30,0.45)",
-    boundaryState: "rgba(32,32,30,0.28)",
+    boundaryState: "rgba(32,32,30,0.14)",
     // Ink alpha tiers (white roads vanish on cream paper).
-    roadMinor: "rgba(32,32,30,0.16)",
-    roadMedium: "rgba(32,32,30,0.26)",
-    roadMajor: "rgba(32,32,30,0.42)",
+    roadMinor: "#EEE8D8",
+    roadMedium: "#E3DBC6",
+    roadMajor: "#D5CBB0",
     cityLabel: "#4D4A43", // muted pulled toward ink for map legibility
     majorGeoLabel: "#20201E",
     labelHalo: "#FAF7EF",
@@ -151,8 +151,8 @@ const light: BiographyJourneyTheme = {
   // Cream haze at the rim, never a dark vignette.
   atmosphere: { inner: "rgba(250,247,239,0.55)", outer: "rgba(141,188,222,0.30)", outerFade: "rgba(141,188,222,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(250,247,239,0) 50%, rgba(250,247,239,0.45) 78%, rgba(250,247,239,0.75) 100%)",
-    side: "linear-gradient(to right, rgba(250,247,239,0.30) 0%, transparent 15%, transparent 85%, rgba(250,247,239,0.35) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(250,247,239,0) 40%, rgba(250,247,239,0.5) 68%, rgba(250,247,239,0.9) 100%)",
+    side: "linear-gradient(to right, rgba(250,247,239,0.75) 0%, rgba(250,247,239,0.3) 10%, transparent 24%, transparent 76%, rgba(250,247,239,0.3) 90%, rgba(250,247,239,0.75) 100%)",
   },
 };
 

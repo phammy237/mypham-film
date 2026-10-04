@@ -42,8 +42,8 @@ export const journeyStages: JourneyStageConfig[] = STAGE_ORDER.map((stage, index
 
 export const journeyChapters: JourneyChapterConfig[] = [
   { id: "earth", label: "Earth", firstStageId: "earth-intro" },
-  { id: "hanoi", label: "Hanoi", firstStageId: "hanoi-approach" },
-  { id: "us", label: "U.S.", firstStageId: "transpacific-flight" },
+  { id: "hanoi", label: "Hanoi", firstStageId: "hanoi-overview" },
+  { id: "us", label: "U.S.", firstStageId: "us-overview" },
   { id: "today", label: "Today", firstStageId: "today-ahead" },
 ];
 

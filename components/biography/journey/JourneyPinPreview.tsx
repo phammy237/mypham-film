@@ -34,7 +34,7 @@ export function JourneyPinPreview({
       }`}
     >
       {pin && (
-        <div className="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl bg-card/90 px-5 py-4 shadow-xl backdrop-blur-md dark:bg-navy-mid/85 md:w-[300px]">
+        <div className="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl bg-card/95 px-5 py-4 shadow-xl dark:bg-navy-mid/95 md:w-[300px]">
           <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-xs font-medium text-white dark:bg-accent-lavender dark:text-navy">
             {String(pin.number).padStart(2, "0")}
           </span>

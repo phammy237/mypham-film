@@ -40,6 +40,9 @@ export function JourneyEdgeFade({
   themeRef.current = theme;
 
   useEffect(() => {
+    let lastRadial = "";
+    let lastSide = "";
+    let lastOpacity = "";
     handleRef.current = {
       update: (progress, modalOpen) => {
         const state = computeJourneyVignetteState(progress);
@@ -47,14 +50,18 @@ export function JourneyEdgeFade({
         const intensity = Math.min(1, state.bottomOpacity / INTENSITY_NORMALIZER);
         const opacity = String(intensity * dampen);
         const c = getBiographyJourneyTheme(themeRef.current).edgeFade;
+        if (opacity === lastOpacity && c.radial === lastRadial && c.side === lastSide) return;
         if (edgeRef.current) {
-          edgeRef.current.style.background = c.radial;
+          if (c.radial !== lastRadial) edgeRef.current.style.background = c.radial;
           edgeRef.current.style.opacity = opacity;
         }
         if (sideRef.current) {
-          sideRef.current.style.background = c.side;
+          if (c.side !== lastSide) sideRef.current.style.background = c.side;
           sideRef.current.style.opacity = opacity;
         }
+        lastRadial = c.radial;
+        lastSide = c.side;
+        lastOpacity = opacity;
       },
     };
     return () => {
@@ -64,8 +71,8 @@ export function JourneyEdgeFade({
 
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[8]">
-      <div ref={edgeRef} className="absolute inset-0" style={{ opacity: 0 }} />
-      <div ref={sideRef} className="absolute inset-0" style={{ opacity: 0 }} />
+      <div ref={edgeRef} className="absolute inset-0" style={{ opacity: 0, willChange: "opacity" }} />
+      <div ref={sideRef} className="absolute inset-0" style={{ opacity: 0, willChange: "opacity" }} />
     </div>
   );
 }

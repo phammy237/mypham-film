@@ -49,12 +49,14 @@ import { JourneyEdgeFade, type JourneyEdgeFadeHandle } from "@/components/biogra
 import { rampDownTo, easeOutCubic, lerp, stageWeight } from "@/lib/biography/journeyMotion";
 import { hanoiJourneyPins, hanoiCheckpointCopy } from "@/data/biography/hanoiJourney";
 import { usJourneyPins, usCheckpointCopy } from "@/data/biography/usJourney";
+import { prefetchJourneyTiles } from "@/lib/biography/prefetchTiles";
 
 const HERO_FADE_COMPLETE_AT = getStageById("hanoi-approach").start;
 // Begin Journey's landing target: just inside hanoi-overview (city-wide Hanoi framing, before any
 // pin has been visited) — matches scrollToStageStart's own boundary-rounding nudge.
 const BEGIN_JOURNEY_TARGET_PROGRESS = getStageById("hanoi-overview").start + 1 / journeyStages.length / 4;
 const HANOI_OVERVIEW_STAGE = getStageById("hanoi-overview");
+const US_OVERVIEW_STAGE = getStageById("us-overview");
 const HANOI_OVERVIEW_EDGE_FADE = 0.02; // matches JourneyHanoiIntroPanel's own EDGE_FADE
 
 // Phase 6 — chapter-complete + interlude stage boundaries, referenced by both applyProgress (to
@@ -65,17 +67,6 @@ const US_COMPLETE_STAGE = getStageById("us-complete");
 /** the stage rail and Skip Journey button hide during these — a minimal, full-bleed cinematic beat
  *  with nothing to navigate to or skip past from inside it. */
 const INTERLUDE_STAGE_IDS: ReadonlySet<string> = new Set(["hanoi-interlude-not-yet", "hanoi-interlude-now"]);
-/** every stage where the right-edge story panel can be on screen — Skip Journey hides entirely
- *  during these ("should not feature ... as a prominent UI element during active story screens"). */
-const PIN_PREVIEW_STAGE_IDS: ReadonlySet<string> = new Set([
-  "hanoi-pin-1",
-  "hanoi-pin-2",
-  "hanoi-pin-3",
-  "hanoi-pin-4",
-  "hanoi-pin-5",
-  "rivermont-story",
-  "gainesville-story",
-]);
 /** Skip Journey's own allowlist — visible ONLY on the Earth/Hanoi/U.S. intro-overview beats, per
  *  "it can remain only on: Earth intro, Hanoi intro, U.S. intro." Hidden on every other stage
  *  (stories, chapter-complete, interlude, Today), not just the ones it used to collide with. */
@@ -99,6 +90,11 @@ export function GeographicJourney() {
   const earthGlowHandleRef = useRef<JourneyEarthGlowHandle | null>(null);
   const edgeFadeHandleRef = useRef<JourneyEdgeFadeHandle | null>(null);
   const isBeginningJourneyRef = useRef(false);
+  const mapShellRef = useRef<HTMLDivElement>(null);
+  const mapRevealedRef = useRef(false);
+  const warmStartedRef = useRef(false);
+  const readyCountRef = useRef(0);
+  const prefetchAbortRef = useRef<AbortController | null>(null);
   // fast, re-render-free "already flipped" check for applyProgress's own scroll-tick loop — the
   // actual render-affecting value lives in the hasReachedHanoiComplete/hasReachedUsComplete state
   // declared below, set (once) from inside applyProgress by reading these.
@@ -121,6 +117,10 @@ export function GeographicJourney() {
   // needs to be in that callback's dependency array, which would otherwise re-register GSAP's
   // ScrollTrigger on every open/close) — see the edge-fade double-darkening fix below.
   const isStoryModalOpenRef = useRef(false);
+  useEffect(() => {
+    document.body.classList.add("journey-active");
+    return () => document.body.classList.remove("journey-active");
+  }, []);
   useEffect(() => {
     isStoryModalOpenRef.current = isStoryModalOpen;
   }, [isStoryModalOpen]);
@@ -151,14 +151,10 @@ export function GeographicJourney() {
   const reducedMotion = !!useReducedMotion();
   const { theme } = useTheme();
 
-  const applyProgress = useCallback(
-    (progress: number, gsapInstance?: typeof import("gsap").gsap) => {
-      void gsapInstance; // no generic per-stage DOM crossfade remains — every stage is now owned by
-      // either the persistent map or the story layer, both driven imperatively below
-      lastProgressRef.current = progress;
-      const current = getStageAtProgress(progress);
-      const previousStageId = activeStageIdRef.current;
-
+  /** every map-facing update for a given scroll progress (camera, projection, pins, routes, glows) —
+   *  split out of applyProgress so the load-time warm-up can drive just the map, never the story UI */
+  const applyMapProgress = useCallback(
+    (progress: number) => {
       // Explicit projection ownership — fixes the globe's curved silhouette leaking into flat-map
       // stages, AND (see crossOceanCamera.ts) deliberately re-forms it for the redesigned
       // cross-ocean transition's own rotation window. Idempotent; only actually touches the map on
@@ -203,6 +199,32 @@ export function GeographicJourney() {
       mapHandleRef.current?.setCrossOceanImmersion(computeCrossOceanCleanWeight(progress));
       mapHandleRef.current?.setUsAnchorGlowOpacity(computeUsAnchorWeight(progress));
 
+      const heroWeight = rampDownTo(progress, HERO_FADE_COMPLETE_AT, HERO_FADE_COMPLETE_AT);
+      // the Earth-hero "glowing Hanoi" marker and the cross-ocean transition's own departure-side
+      // "Hanoi" marker share this one anchor layer (see JourneyMapCanvas) — never both visible at
+      // once (their two windows don't overlap), so a plain max is enough.
+      mapHandleRef.current?.setHanoiAnchorGlowOpacity(Math.max(heroWeight, computeHanoiAnchorCrossOceanWeight(progress)));
+
+      // Hanoi chapter label, tied to the hanoi-overview window the intro panel itself fades over.
+      // (Pin-01 used to get a separate pulsing "hint" hover here too — removed per the
+      // cinematic-atlas spec's "no pulsing/expanding circles" rule; the active pin's static halo
+      // already carries that job.)
+      const hanoiOverviewWeight = stageWeight(progress, HANOI_OVERVIEW_STAGE.start, HANOI_OVERVIEW_STAGE.end, HANOI_OVERVIEW_EDGE_FADE);
+      mapHandleRef.current?.setHanoiChapterLabelOpacity(hanoiOverviewWeight);
+    },
+    [reducedMotion]
+  );
+
+  const applyProgress = useCallback(
+    (progress: number, gsapInstance?: typeof import("gsap").gsap) => {
+      void gsapInstance; // no generic per-stage DOM crossfade remains — every stage is now owned by
+      // either the persistent map or the story layer, both driven imperatively below
+      lastProgressRef.current = progress;
+      const current = getStageAtProgress(progress);
+      const previousStageId = activeStageIdRef.current;
+
+      applyMapProgress(progress);
+
       // story panels — opacity/slide-in for whichever location is currently being read
       storyLayerHandleRef.current?.update(progress);
 
@@ -210,14 +232,9 @@ export function GeographicJourney() {
       // atmosphere all share one fade window (see JourneyHeroContent/JourneyMapCanvas/
       // JourneyEarthGlow) so they resolve together, not independently — "no hard cut" between the
       // Earth and Hanoi visual modes.
-      const heroWeight = rampDownTo(progress, HERO_FADE_COMPLETE_AT, HERO_FADE_COMPLETE_AT);
       heroHandleRef.current?.update(progress);
       earthGlowHandleRef.current?.update(progress, mapHandleRef.current?.getEarthGlowGeometry() ?? null);
       edgeFadeHandleRef.current?.update(progress, isStoryModalOpenRef.current);
-      // the Earth-hero "glowing Hanoi" marker and the cross-ocean transition's own departure-side
-      // "Hanoi" marker share this one anchor layer (see JourneyMapCanvas) — never both visible at
-      // once (their two windows don't overlap), so a plain max is enough.
-      mapHandleRef.current?.setHanoiAnchorGlowOpacity(Math.max(heroWeight, computeHanoiAnchorCrossOceanWeight(progress)));
       hanoiIntroHandleRef.current?.update(progress);
       usIntroHandleRef.current?.update(progress);
       hanoiCompleteHandleRef.current?.update(progress);
@@ -232,19 +249,13 @@ export function GeographicJourney() {
         setHasReachedUsComplete(true);
       }
 
-      // Hanoi chapter label, tied to the hanoi-overview window the intro panel itself fades over.
-      // (Pin-01 used to get a separate pulsing "hint" hover here too — removed per the
-      // cinematic-atlas spec's "no pulsing/expanding circles" rule; the active pin's static halo
-      // already carries that job.)
-      const hanoiOverviewWeight = stageWeight(progress, HANOI_OVERVIEW_STAGE.start, HANOI_OVERVIEW_STAGE.end, HANOI_OVERVIEW_EDGE_FADE);
-      mapHandleRef.current?.setHanoiChapterLabelOpacity(hanoiOverviewWeight);
 
       if (current.id !== previousStageId) {
         activeStageIdRef.current = current.id;
         setActiveStageId(current.id);
       }
     },
-    [reducedMotion]
+    [applyMapProgress]
   );
 
   // The map canvas loads via next/dynamic (code-split, client-only) and can resolve after GSAP's
@@ -252,7 +263,76 @@ export function GeographicJourney() {
   // scroll yet (progress stuck at 0), that first call's setCamera/setPinStatus/etc. would silently
   // no-op against a still-null handle and never get replayed. Re-running once the handle is ready
   // fixes the map's initial paint without touching the scroll-driven update path itself.
-  const handleMapReady = useCallback(() => applyProgress(lastProgressRef.current), [applyProgress]);
+  // Load-time warm-up. The first time the journey scrolls into each kind of map content, MapLibre has to
+  // compile that content's shaders and pull its tiles — that is the stutter. So while the Earth hero is
+  // still loading, the (hidden) map quickly renders a stop of each kind — Hanoi pins, the ocean flight, the
+  // U.S. stops — then returns to the hero and fades in. Strictly time-boxed, abandoned the moment the user
+  // scrolls or hits Begin Journey, and the map always reveals even if every step fails.
+  const revealMap = useCallback(() => {
+    if (mapRevealedRef.current) return;
+    mapRevealedRef.current = true;
+    const el = mapShellRef.current;
+    if (!el) return;
+    el.style.transition = reducedMotion ? "none" : "opacity 700ms ease";
+    el.style.opacity = "1";
+  }, [reducedMotion]);
+
+  const warmUpMap = useCallback(async () => {
+    const handle = mapHandleRef.current;
+    if (!handle || mapRevealedRef.current || lastProgressRef.current > 0.01 || window.scrollY > 40) {
+      revealMap();
+      return;
+    }
+    const deadline = performance.now() + 3500;
+    const flight = getStageById("transpacific-flight");
+    const stops = [
+      computePinClickTargetProgress(1),
+      (flight.start + flight.end) / 2,
+      getStageById("us-overview").end - 0.001,
+      computeRivermontClickTargetProgress(),
+      computeGainesvilleClickTargetProgress(),
+    ];
+    try {
+      for (const p of stops) {
+        if (mapRevealedRef.current || window.scrollY > 40 || isBeginningJourneyRef.current || performance.now() > deadline) break;
+        applyMapProgress(p);
+        await handle.whenIdle(Math.max(300, Math.min(1500, deadline - performance.now())));
+      }
+    } catch {
+      // warm-up is best effort only
+    } finally {
+      applyMapProgress(lastProgressRef.current);
+      revealMap();
+      const ac = new AbortController();
+      prefetchAbortRef.current = ac;
+      window.setTimeout(() => {
+        prefetchJourneyTiles(ac.signal).catch(() => undefined);
+      }, 800);
+    }
+  }, [applyMapProgress, revealMap]);
+
+  const handleMapReady = useCallback(() => {
+    applyProgress(lastProgressRef.current);
+    // call 1 = handle just created, call 2 = first "idle" (satellite imagery + first tiles in)
+    readyCountRef.current += 1;
+    if (readyCountRef.current === 2 && !warmStartedRef.current) {
+      warmStartedRef.current = true;
+      void warmUpMap();
+    }
+  }, [applyProgress, warmUpMap]);
+
+  // never leave the map hidden: no WebGL / a failed or very slow map load just shows it as before
+  useEffect(() => {
+    const t1 = window.setTimeout(() => {
+      if (!mapHandleRef.current) revealMap();
+    }, 2500);
+    const t2 = window.setTimeout(revealMap, 6000);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      prefetchAbortRef.current?.abort();
+    };
+  }, [revealMap]);
 
   useEffect(() => {
     let cancelled = false;
@@ -270,7 +350,7 @@ export function GeographicJourney() {
           trigger: rootRef.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.35,
+          scrub: 0.12,
           invalidateOnRefresh: true,
           onUpdate: (self) => applyProgress(self.progress, gsap),
         });
@@ -398,10 +478,16 @@ export function GeographicJourney() {
         scrollToTodaySection();
         return;
       }
+      if (chapterId === "us") {
+        // the U.S. intro copy only reaches full strength at the very end of us-overview (the stage
+        // before it is still the globe flattening in) — land there, not on the stage's first frame
+        scrollToProgress(US_OVERVIEW_STAGE.end - 0.001);
+        return;
+      }
       const chapter = journeyChapters.find((c) => c.id === chapterId);
       if (chapter) scrollToStageStart(chapter.firstStageId);
     },
-    [scrollToStageStart, scrollToTodaySection]
+    [scrollToProgress, scrollToStageStart, scrollToTodaySection]
   );
 
   // arrow keys step through the chapters, like advancing a roll of film
@@ -470,28 +556,19 @@ export function GeographicJourney() {
       <h1 className="sr-only">My Pham&apos;s journey — from Hanoi, Vietnam to Rivermont and Gainesville, United States</h1>
       <div ref={rootRef} className="relative" style={{ height: `${TOTAL_VH}vh` }}>
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <JourneyMapStage
-            theme={theme}
-            reducedMotion={reducedMotion}
-            handleRef={mapHandleRef}
-            onPinClick={handlePinClick}
-            onPinHover={setHoveredPinId}
-            onReady={handleMapReady}
-          />
-          <JourneyEarthGlow handleRef={earthGlowHandleRef} theme={theme} />
+          {/* hidden (opacity 0) until the load-time warm-up has finished, then faded in — see warmUpMap */}
+          <div ref={mapShellRef} className="absolute inset-0" style={{ opacity: 0 }}>
+            <JourneyMapStage
+              theme={theme}
+              reducedMotion={reducedMotion}
+              handleRef={mapHandleRef}
+              onPinClick={handlePinClick}
+              onPinHover={setHoveredPinId}
+              onReady={handleMapReady}
+            />
+            <JourneyEarthGlow handleRef={earthGlowHandleRef} theme={theme} />
+          </div>
           <JourneyEdgeFade handleRef={edgeFadeHandleRef} theme={theme} />
-          {PIN_PREVIEW_STAGE_IDS.has(activeStage.id) && !isStoryModalOpen && (
-            <div className="journey-map-marginalia pointer-events-none" aria-hidden="true">
-              <div className="journey-map-caption">
-                <span className="mb-7 block font-mono text-[10px] tracking-[0.3em]">N<br />＋</span>
-                <p className="font-display text-xl">{activeStage.chapter === "hanoi" ? "HANOI" : "UNITED STATES"}</p>
-                <p className="mt-2 font-mono text-[9px] uppercase leading-relaxed tracking-[0.24em]">Places make<br />people</p>
-              </div>
-              <p className="journey-map-footnote font-mono text-[9px] uppercase leading-loose tracking-[0.2em]">
-                Same places.<br />A different me.
-              </p>
-            </div>
-          )}
           <JourneyStoryLayer
             handleRef={storyLayerHandleRef}
             reducedMotion={reducedMotion}

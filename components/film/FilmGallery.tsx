@@ -83,6 +83,7 @@ export function FilmGallery() {
   const [view, setView] = useState<"rolls" | "collage">("rolls");
   const [rollId, setRollId] = useState<string | null>(null);
   const [lastId, setLastId] = useState<string | null>(null);
+  const [spreadId, setSpreadId] = useState<string | null>(null);
   const [open, setOpen] = useState<Open | null>(null);
   const moreRef = useRef<HTMLDivElement>(null);
   
@@ -99,14 +100,19 @@ export function FilmGallery() {
     <div className="pb-24">
       {/* a few to start */}
       <section aria-label="A few frames" className="f-wrap">
-        <ul className="fg-first">
-          {FIRST_FRAMES.map((p, i) => (
-            <li key={p.src}>
-              <Pola p={p} n={i + 1} sizes="(max-width: 700px) 70vw, 320px" onOpen={() => setOpen({ list: FIRST_FRAMES, i })}
-                style={{ ["--h" as string]: "clamp(210px, 26vw, 300px)", ["--ar" as string]: String(p.w / p.h), transform: `rotate(${tilt(p.src, 3)}deg)` }} />
-            </li>
-          ))}
-        </ul>
+        {[FIRST_FRAMES.slice(0, Math.ceil(FIRST_FRAMES.length / 2)), FIRST_FRAMES.slice(Math.ceil(FIRST_FRAMES.length / 2))].map((row, r) => (
+          <ul key={r} className="fg-first">
+            {row.map((p, j) => {
+              const i = r * Math.ceil(FIRST_FRAMES.length / 2) + j;
+              return (
+                <li key={p.src} style={{ ["--ar" as string]: String(p.w / p.h) }}>
+                  <Pola p={p} n={i + 1} sizes="(max-width: 700px) 70vw, 420px" onOpen={() => setOpen({ list: FIRST_FRAMES, i })}
+                    style={{ ["--h" as string]: "clamp(210px, 26vw, 300px)", ["--ar" as string]: String(p.w / p.h), transform: `rotate(${tilt(p.src, 2)}deg)` }} />
+                </li>
+              );
+            })}
+          </ul>
+        ))}
       </section>
 
       <div className="f-wrap mt-12 flex flex-col items-center gap-3">
@@ -141,10 +147,11 @@ export function FilmGallery() {
                   const isOpen = rollId === r.id;
                   const shown = lastId === r.id;
                   const ph = shown ? photosOf(r) : [];
+                  const isSpread = isOpen && spreadId === r.id;
                   return (
-                    <li key={r.id} className={`fg-reel${isOpen ? " is-open" : ""}`}>
+                    <li key={r.id} className={`fg-reel${isOpen ? " is-open" : ""}${isSpread ? " is-spread" : ""}`}>
                       <button type="button" className="fg-reel-btn" aria-expanded={isOpen} aria-label={`${r.title} roll, ${r.srcs.length} frames`}
-                        onClick={() => { setRollId(isOpen ? null : r.id); if (!isOpen) setLastId(r.id); }}
+                        onClick={() => { setRollId(isOpen ? null : r.id); setSpreadId(null); if (!isOpen) setLastId(r.id); }}
                         data-cursor-photo data-cursor-label={isOpen ? "roll it back" : "unroll"}>
                         <Canister color={r.color} speed={r.speed} />
                       </button>
@@ -152,6 +159,11 @@ export function FilmGallery() {
                         <div className="fg-tongue-head">
                           <span className="f-hand fg-tongue-title">{r.title}</span>
                           <span className="f-mono fg-tongue-meta">{isOpen ? r.blurb : `${r.srcs.length} frames · tap the roll`}</span>
+                          {isOpen && (
+                            <button type="button" className="f-btn fg-spread-btn" aria-expanded={isSpread} onClick={() => setSpreadId(isSpread ? null : r.id)}>
+                              {isSpread ? "close collage ↑" : "open everything ↓"}
+                            </button>
+                          )}
                         </div>
                         <div className="fg-tongue-body">
                           <div className="f-rail fg-tongue-rail" tabIndex={isOpen ? 0 : -1}>
@@ -168,6 +180,22 @@ export function FilmGallery() {
                           </div>
                         </div>
                       </div>
+                      {isSpread && (
+                        <ul className="fg-collage fg-reel-collage" aria-label={`Everything on the ${r.title} roll`}>
+                          {ph.map((p, i) => {
+                            const rot = tilt(p.src, 4);
+                            return (
+                              <motion.li key={p.src} className="fg-item"
+                                initial={reduce ? false : { opacity: 0, y: 40, scale: 0.92, rotate: rot * 3 }}
+                                animate={{ opacity: 1, y: 0, scale: 1, rotate: rot }}
+                                transition={{ type: "spring", stiffness: 140, damping: 16, delay: Math.min(i, 12) * 0.04 }}>
+                                {hash(p.src) % 3 === 0 && <span className="fg-tape" aria-hidden="true" />}
+                                <Pola p={p} n={i + 1} sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 270px" onOpen={() => setOpen({ list: ph, i })} />
+                              </motion.li>
+                            );
+                          })}
+                        </ul>
+                      )}
                     </li>
                   );
                 })}

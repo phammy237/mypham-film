@@ -62,7 +62,7 @@ export function JourneyProgressRail({ chapters, activeChapterId, activeChapterIn
         aria-label="Journey chapters"
         className="fixed inset-x-0 bottom-20 z-40 flex justify-center md:hidden"
       >
-        <div className="flex items-center gap-1 rounded-full border border-journey-ink/40 bg-card/90 px-2 py-2 backdrop-blur-sm dark:border-journey-paper/30 dark:bg-navy-mid/85">
+        <div className="flex items-center gap-1 rounded-full border border-journey-ink/40 bg-card/95 px-2 py-2 dark:border-journey-paper/30 dark:bg-navy-mid/95">
           {chapters.map((chapter, i) => {
             const isActive = chapter.id === activeChapterId;
             const isCompleted = i < activeChapterIndex;
