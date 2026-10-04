@@ -1,7 +1,7 @@
 # My Pham — Film Portfolio
 
 The film-roll redesign of mypham.space: a cream-paper homepage with a draggable "lately, on film" strip,
-featured projects, a filterable photo grid, and a signature intro that writes itself in one continuous line.
+featured projects, and a filterable photo grid.
 
 This started as the `film-home` branch of [Personal-Website](https://github.com/phammy237/Personal-Website),
 which keeps the original UI. The two projects are now independent.

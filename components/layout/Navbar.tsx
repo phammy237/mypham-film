@@ -78,15 +78,12 @@ export function Navbar() {
             <Link
               href="/"
               className="block h-10 w-10 shrink-0"
-              aria-label="My Pham home (replays my signature)"
-              data-cursor-label="replay signature ✎"
+              aria-label="My Pham home"
               data-cursor-photo
               onClick={(e) => {
-                try { sessionStorage.setItem("replay-intro", "1"); } catch { /* storage can be blocked */ }
                 if (pathname === "/") {
                   e.preventDefault();
                   window.scrollTo({ top: 0, behavior: "smooth" });
-                  window.dispatchEvent(new Event("replay-intro"));
                 }
               }}
             >
