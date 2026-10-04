@@ -30,9 +30,9 @@ const config: Config = {
         sand: "#FAF7EF",
         // Midnight navy — intelligent, private, slightly intimidating
         surface: "#20201E",
-        navy: "#20201E",
+        navy: "#0F1B33",
         // Raised surface in dark mode — cards, panels, modals floating above the navy base
-        "navy-mid": "#2A2A27",
+        "navy-mid": "#19284A",
         // Deepest dark-mode moment (immersive/interlude sections) — deliberately dark but never pure black
         "navy-deep": "#171715",
         border: "#E3DAC6",

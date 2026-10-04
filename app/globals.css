@@ -18,7 +18,7 @@
 }
 
 .dark {
-  --page-bg: #20201E;
+  --page-bg: #0F1B33;
   --accent-rgb: 156 195 227;
 }
 
@@ -31,7 +31,7 @@ html {
 body {
   background-color: #FAF7EF;
 }
-.dark body, .dark html { background-color: #20201E; }
+.dark body, .dark html { background-color: #0F1B33; }
 .dark html { color: #F4EFE3; }
 
 /* film grain over every page (the home carries its own) */
@@ -221,14 +221,14 @@ body.journey-today-in-view .journey-chatbot-widget:hover {
 @keyframes film-flash { from { opacity: 1; transform: scale(.3); } to { opacity: 0; transform: scale(1.2); } }
 
 /* ═══ Film design system (shared by every page) ═══
-   Light: cream paper + black ink. Dark: film-black paper + cream ink. Butter + sky are fills only. */
+   Light: cream paper + black ink. Dark: navy paper + cream ink. Butter + sky are fills only. */
 :root {
   --paper: #FAF7EF; --ink: #20201E; --muted: #6E6A60; --line: rgba(32,32,30,.12); --card: #FFFDF8; --soft: #E8DDC7;
   --butter: #F4D35E; --sky: #8DBCE0; --blue: #416788; --note: #FBE7A1; --film: #20201E; --fade: 250,247,239;
 }
 .dark {
-  --paper: #20201E; --ink: #F4EFE3; --muted: #ABA597; --line: rgba(244,239,227,.14); --card: #2A2A27; --soft: #33322E;
-  --blue: #9CC3E3; --note: #E8CF73; --film: #0F0F0E; --fade: 32,32,30;
+  --paper: #0F1B33; --ink: #F4EFE3; --muted: #ABA597; --line: rgba(244,239,227,.14); --card: #19284A; --soft: #22345C;
+  --blue: #9CC3E3; --note: #E8CF73; --film: #080F1E; --fade: 15,27,51;
 }
 .f-wrap { max-width: 1120px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px; }
 .f-serif { font-family: var(--font-instrument), serif; font-weight: 400; letter-spacing: -.01em; }

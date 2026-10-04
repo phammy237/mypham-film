@@ -7,8 +7,8 @@
   position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-inter), system-ui, sans-serif; overflow-x: clip;
 }
 :global(.dark) .root {
-  --paper: #20201E; --ink: #F4EFE3; --muted: #ABA597; --line: rgba(244,239,227,.14); --card: #2A2A27; --soft: #33322E;
-  --blue: #9CC3E3; --note: #E8CF73; --film: #0F0F0E; --fade: 32,32,30;
+  --paper: #0F1B33; --ink: #F4EFE3; --muted: #ABA597; --line: rgba(244,239,227,.14); --card: #19284A; --soft: #22345C;
+  --blue: #9CC3E3; --note: #E8CF73; --film: #080F1E; --fade: 15,27,51;
 }
 .root::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--grain); opacity: .5; mix-blend-mode: multiply; }
 :global(.dark) .root::before { mix-blend-mode: overlay; opacity: .3; }
@@ -224,7 +224,7 @@
 .cardList li { font: 400 15px/32px "Courier Prime", monospace; cursor: pointer; border-radius: 2px; }
 .cardList li:hover { background: rgba(244, 211, 94, .4); }
 .reel { list-style: none; margin: 0; padding: 0 0 0 76px; display: grid; gap: 12px; position: relative; }
-.reel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 56px; background: #0F0F0E; border-radius: 4px; }
+.reel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 56px; background: #080F1E; border-radius: 4px; }
 .reel::after { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 8px; background: repeating-linear-gradient(0deg, #E8DDC7 0 9px, transparent 9px 22px); opacity: .9; }
 .reelFrame { position: relative; display: grid; gap: 4px; width: 100%; text-align: left; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color .2s; }
 .reelFrame::before { content: attr(data-n); position: absolute; left: -66px; top: 14px; width: 44px; text-align: right; font: 700 10px var(--font-jetbrains), monospace; color: var(--butter); }
