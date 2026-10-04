@@ -59,9 +59,9 @@ type BiographyJourneyTheme = {
 
 const dark: BiographyJourneyTheme = {
   map: {
-    background: "#33322E", // soft: land sits a step above the ocean so continents read against it
-    water: "#171715", // navy-deep
-    park: "#33322E", // same as land on purpose: invisible in dark
+    background: "#22345C", // soft: land sits a step above the ocean so continents read against it
+    water: "#0A1326", // navy-deep
+    park: "#22345C", // same as land on purpose: invisible in dark
     waterway: "rgba(141,188,222,0.40)",
     waterLabel: "rgba(141,188,222,0.85)",
     boundaryCountry: "rgba(244,239,227,0.40)",
@@ -71,9 +71,9 @@ const dark: BiographyJourneyTheme = {
     roadMajor: "rgba(244,239,227,0.44)",
     cityLabel: "rgba(244,239,227,0.78)",
     majorGeoLabel: "#F4EFE3",
-    labelHalo: "#33322E",
+    labelHalo: "#22345C",
     // Darker than the sphere on purpose: the globe edge must stay visible against the void.
-    skyColor: "#0F0F0E", // film
+    skyColor: "#080F1E", // film
     horizonColor: "#8DBCE0", // sky
     curatedLabel: "rgba(244,211,94,0.92)",
   },
@@ -90,19 +90,19 @@ const dark: BiographyJourneyTheme = {
     activeStroke: "rgba(244,239,227,0.95)",
     activeHalo: "rgba(244,211,94,0.25)",
     activeNumberText: "#20201E",
-    inactiveFill: "#2A2A27",
+    inactiveFill: "#19284A",
     inactiveStroke: "rgba(244,211,94,0.80)",
     inactiveNumberText: "#F4EFE3",
     titleText: "#F4EFE3",
     subtitleText: "rgba(244,239,227,0.80)",
-    labelHalo: "#20201E",
+    labelHalo: "#0F1B33",
   },
   anchor: { glow: "#8DBCE0", ring: "#F4D35E", dot: "#F4EFE3" },
   travelPoint: { dot: "#F4D35E", glow: "rgba(244,211,94,0.40)" },
   atmosphere: { inner: "rgba(244,239,227,0.42)", outer: "rgba(244,211,94,0.24)", outerFade: "rgba(244,211,94,0)" },
   edgeFade: {
-    radial: "radial-gradient(ellipse at center, rgba(15,15,14,0) 50%, rgba(15,15,14,0.10) 66%, rgba(15,15,14,0.30) 82%, rgba(15,15,14,0.58) 100%)",
-    side: "linear-gradient(to right, rgba(15,15,14,0.20) 0%, transparent 13%, transparent 87%, rgba(15,15,14,0.26) 100%)",
+    radial: "radial-gradient(ellipse at center, rgba(8,15,30,0) 50%, rgba(8,15,30,0.10) 66%, rgba(8,15,30,0.30) 82%, rgba(8,15,30,0.58) 100%)",
+    side: "linear-gradient(to right, rgba(8,15,30,0.20) 0%, transparent 13%, transparent 87%, rgba(8,15,30,0.26) 100%)",
   },
 };
 

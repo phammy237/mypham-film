@@ -175,7 +175,7 @@ export function JourneyStoryModal({
       <div
         aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 bg-[rgba(15,15,14,0.62)] backdrop-blur-[8px] dark:bg-[rgba(15,15,14,0.62)]"
+        className="absolute inset-0 bg-[rgba(8,15,30,0.62)] backdrop-blur-[8px] dark:bg-[rgba(8,15,30,0.62)]"
       />
       <div
         ref={dialogRef}

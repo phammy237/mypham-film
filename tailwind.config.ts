@@ -34,7 +34,7 @@ const config: Config = {
         // Raised surface in dark mode — cards, panels, modals floating above the navy base
         "navy-mid": "#19284A",
         // Deepest dark-mode moment (immersive/interlude sections) — deliberately dark but never pure black
-        "navy-deep": "#171715",
+        "navy-deep": "#0A1326",
         border: "#E3DAC6",
         muted: "#6E6A60",
         // Film home — cream canvas, film-blue structure, butter personality, sky + beige accents
@@ -43,7 +43,7 @@ const config: Config = {
         "film-butter": "#F4D35E",
         "film-sky": "#8DBCE0",
         "film-blue": "#416788",
-        "film-black": "#20201E",
+        "film-black": "#0F1B33",
         // Biography journey — named so the journey's panels share the film palette
         "journey-violet": "#416788",
         "journey-ink": "#20201E",

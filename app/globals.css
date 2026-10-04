@@ -88,7 +88,7 @@ body::before {
 /* Journey map attribution — MapLibre's default is a bright white pill; restyled small/quiet per
    the cinematic-atlas design system (legal text kept verbatim, only the chrome changes). */
 .maplibregl-ctrl-attrib {
-  background-color: rgba(15,15,14,0.72) !important;
+  background-color: rgba(8,15,30,0.72) !important;
   padding: 3px 6px !important;
   border-radius: 6px;
   opacity: 0.9;
@@ -134,7 +134,7 @@ body.journey-today-in-view .journey-chatbot-widget:hover {
 .dark .journey-preview-panel {
   color: #F4EFE3;
   border-color: rgba(244,211,94,.55);
-  background: linear-gradient(145deg, rgba(42,42,39,.98), rgba(32,32,30,.98) 65%);
+  background: linear-gradient(145deg, rgba(25,40,74,.98), rgba(15,27,51,.98) 65%);
   box-shadow: inset 0 0 20px rgba(244,211,94,.06), 0 18px 65px rgba(0, 0, 0, .3), 0 0 1px rgba(244,211,94,.6);
 }
 .journey-preview-content { display: flex; width: 100%; flex: 1; flex-direction: column; padding: 24px; }
@@ -339,7 +339,7 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-item { break-inside: avoid; margin: 0 0 26px; position: relative; display: block; }
 .fg-item .fg-pola { width: 100%; }
 .fg-tape { position: relative; display: block; width: 62px; height: 20px; margin: 0 auto -11px; background: rgba(244,211,94,.72); transform: rotate(-4deg); z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,.25); } /* in the flow, not absolute: absolute children misplace themselves inside CSS columns */
-.fg-back { position: fixed; inset: 0; z-index: 9984; background: rgba(15,15,14,.9); display: grid; place-items: center; padding: 16px; }
+.fg-back { position: fixed; inset: 0; z-index: 9984; background: rgba(8,15,30,.9); display: grid; place-items: center; padding: 16px; }
 .fg-dialog { position: relative; width: min(94vw, 1100px); }
 .fg-stage { position: relative; width: 100%; height: min(74vh, 760px); }
 .fg-full { object-fit: contain; }

@@ -234,8 +234,8 @@ export function AbstractGlobeFallback({
         <defs>
           <radialGradient id="globe-sphere-lit" cx="35%" cy="32%" r="75%">
             <stop offset="0%" stopColor="#416788" />
-            <stop offset="55%" stopColor="#33322E" />
-            <stop offset="100%" stopColor="#20201E" />
+            <stop offset="55%" stopColor="#22345C" />
+            <stop offset="100%" stopColor="#0F1B33" />
           </radialGradient>
         </defs>
         <circle cx={size / 2} cy={size / 2} r={(baseScale * scale)} className="fill-film-cream dark:fill-[url(#globe-sphere-lit)]" />

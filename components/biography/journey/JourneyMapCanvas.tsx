@@ -577,7 +577,7 @@ function setupJourneyLayers(
       // reads correctly even before the per-tick text-opacity multiplier (applyHanoiAnchorOpacity)
       // reaches 1.
       "text-color": theme === "dark" ? "rgba(244,239,227,0.92)" : "#20201E",
-      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
+      "text-halo-color": theme === "dark" ? "#22345C" : "#FAF7EF",
       "text-halo-width": 1.4,
       "text-opacity": 0,
     },
@@ -627,7 +627,7 @@ function setupJourneyLayers(
     },
     paint: {
       "text-color": theme === "dark" ? "rgba(244,239,227,0.92)" : "#20201E",
-      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
+      "text-halo-color": theme === "dark" ? "#22345C" : "#FAF7EF",
       "text-halo-width": 1.4,
       "text-opacity": 0,
     },
@@ -654,7 +654,7 @@ function setupJourneyLayers(
     paint: {
       // major heading, crisp near-white — not gray (global typography rule)
       "text-color": theme === "dark" ? "#F4EFE3" : "#20201E",
-      "text-halo-color": theme === "dark" ? "#20201E" : "#FAF7EF",
+      "text-halo-color": theme === "dark" ? "#22345C" : "#FAF7EF",
       "text-halo-width": 1.6,
       "text-opacity": 0,
     },

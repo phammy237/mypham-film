@@ -59,7 +59,7 @@ export function ModalShell({
       className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-6"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
     >
-      <div className="absolute inset-0 bg-[#20201E]/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-[#080F1E]/70 backdrop-blur-sm" onClick={onClose} />
       <motion.div
         ref={panelRef}
         role="dialog"

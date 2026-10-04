@@ -65,7 +65,7 @@ export function JourneyInterlude({
       >
         {/* "darken the map more than normal here" — a local overlay, not a second vignette system;
             shares this block's own opacity fade automatically (no separate ref needed). */}
-        <div className="pointer-events-none absolute inset-0 -z-10 dark:bg-[rgba(15,15,14,0.22)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 -z-10 dark:bg-[rgba(8,15,30,0.22)]" aria-hidden="true" />
         <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-journey-violet dark:text-journey-lilac">
           Between Chapters
         </p>
