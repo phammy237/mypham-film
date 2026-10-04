@@ -7,7 +7,7 @@ import { getBiographyJourneyTheme } from "@/lib/biography/biographyJourneyTheme"
  * tiles.openfreemap.org before wiring this in. Attribution text below matches what OpenFreeMap
  * asks for verbatim ("OpenFreeMap © OpenMapTiles · Data from OpenStreetMap").
  */
-const OPENFREEMAP_TILEJSON_URL = "https://tiles.openfreemap.org/planet";
+export const OPENFREEMAP_TILEJSON_URL = "https://tiles.openfreemap.org/planet";
 /** Corner coordinates (top-left, top-right, bottom-right, bottom-left) for a full-world
  *  equirectangular image source — see the earth-day/earth-night sources below. MapLibre's `image`
  *  source still computes an internal Mercator tile coordinate for its corners even under globe
@@ -122,7 +122,7 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
         type: "symbol",
         source: "openmaptiles",
         "source-layer": "water_name",
-        maxzoom: 10,
+        maxzoom: 6,
         layout: {
           "text-field": ["get", "name"],
           "text-font": ["Noto Sans Italic"],
@@ -181,7 +181,7 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
           "!",
           ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary", "tertiary"]]],
         ],
-        minzoom: 12.5,
+        minzoom: 13,
         paint: { "line-color": c.roadMinor, "line-width": 0.75 },
       },
       {
@@ -190,7 +190,7 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
         source: "openmaptiles",
         "source-layer": "transportation",
         filter: ["in", ["get", "class"], ["literal", ["secondary", "tertiary"]]],
-        minzoom: 8,
+        minzoom: 11,
         paint: { "line-color": c.roadMedium, "line-width": ["interpolate", ["linear"], ["zoom"], 8, 1, 14, 1.25] },
       },
       {
@@ -202,7 +202,7 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
         minzoom: 4,
         paint: {
           "line-color": c.roadMajor,
-          "line-width": ["interpolate", ["linear"], ["zoom"], 4, 1.25, 14, 1.75],
+          "line-width": ["interpolate", ["linear"], ["zoom"], 4, 1, 14, 1.4],
           "line-opacity": 1,
         },
       },
@@ -217,7 +217,11 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
         type: "symbol",
         source: "openmaptiles",
         "source-layer": "place",
-        filter: ["in", ["get", "class"], ["literal", ["country", "city"]]],
+        filter: [
+          "any",
+          ["==", ["get", "class"], "country"],
+          ["all", ["==", ["get", "class"], "city"], ["<=", ["coalesce", ["get", "rank"], 99], 3]],
+        ],
         maxzoom: 10,
         layout: {
           "text-field": ["get", "name"],
@@ -234,21 +238,6 @@ export function getJourneyMapStyle(theme: "light" | "dark"): StyleSpecification 
       // Curated Hanoi labels only — no generic town/POI/commercial labels at city scale. Named,
       // real OSM features (district place points + West Lake + the Red River), not fabricated
       // points; "Hanoi" itself already has its own larger, dedicated layer (hanoi-chapter-label).
-      {
-        id: "curated-hanoi-districts",
-        type: "symbol",
-        source: "openmaptiles",
-        "source-layer": "place",
-        filter: ["in", ["get", "name"], ["literal", ["Ba Đình", "Cầu Giấy", "Đống Đa", "Hoàn Kiếm", "Long Biên"]]],
-        minzoom: 10,
-        layout: { "text-field": ["get", "name"], "text-font": ["Noto Sans Regular"], "text-size": 13 },
-        paint: {
-          "text-color": c.curatedLabel,
-          "text-halo-color": c.background,
-          "text-halo-width": 1.2,
-          "text-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 10.8, 1],
-        },
-      },
       {
         id: "curated-west-lake",
         type: "symbol",

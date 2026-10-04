@@ -95,6 +95,8 @@ export type JourneyMapHandle = {
    *  now deliberately FORCES globe at similarly low zoom, on purpose. Idempotent — safe to call
    *  every tick, only actually touches the map when the mode changes. */
   setProjectionMode: (mode: "globe" | "mercator") => void;
+  /** resolves once the map has finished rendering + loading whatever it currently needs (or after `timeoutMs`) */
+  whenIdle: (timeoutMs: number) => Promise<void>;
 };
 
 export type JourneyMapCanvasProps = {
@@ -468,8 +470,8 @@ function setupJourneyLayers(
       source,
       layout: { "line-cap": "round", "line-join": "round" },
       paint: {
-        "line-width": 6,
-        "line-blur": 4,
+        "line-width": 11,
+        "line-blur": 5,
         "line-gradient": routeGlowGradient(0, theme) as never,
         "line-opacity": 1,
         "line-opacity-transition": ROUTE_OPACITY_TRANSITION,
@@ -481,7 +483,7 @@ function setupJourneyLayers(
       source,
       layout: { "line-cap": "round", "line-join": "round" },
       paint: {
-        "line-width": 1.6,
+        "line-width": 3.6,
         "line-gradient": routeGradient(0, theme) as never,
         "line-opacity": 1,
         "line-opacity-transition": ROUTE_OPACITY_TRANSITION,
@@ -498,8 +500,8 @@ function setupJourneyLayers(
     source: "transpacific-route",
     layout: { "line-cap": "round", "line-join": "round" },
     paint: {
-      "line-width": 4,
-      "line-blur": 3,
+      "line-width": 8,
+      "line-blur": 4,
       "line-gradient": transpacificRouteGlowGradient(0, theme) as never,
       "line-opacity": 0,
     },
@@ -509,7 +511,7 @@ function setupJourneyLayers(
     type: "line",
     source: "transpacific-route",
     layout: { "line-cap": "round", "line-join": "round" },
-    paint: { "line-width": 1.4, "line-gradient": transpacificRouteGradient(0, theme) as never, "line-opacity": 0 },
+    paint: { "line-width": 3, "line-gradient": transpacificRouteGradient(0, theme) as never, "line-opacity": 0 },
   });
 
   // the route's single moving travel point — a soft blurred halo underneath a small solid dot, no
@@ -962,9 +964,32 @@ export function JourneyMapCanvas({
       interactive: false,
       dragRotate: false,
       touchZoomRotate: false,
-      fadeDuration: reducedMotion ? 0 : 300,
+      fadeDuration: reducedMotion ? 0 : 120,
+      // Smoothness: cap the backing-store resolution (a 2-3x display otherwise renders 4-9x the pixels
+      // every scroll tick), keep fetching tiles while the camera is moving, and hold more tiles around.
+      pixelRatio: Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1 : 1.25),
+      crossSourceCollisions: false,
+      refreshExpiredTiles: false,
+      cancelPendingTileRequestsWhileZooming: false,
+      maxTileCacheSize: 256,
     });
     constructedThemeRef.current = theme;
+
+    // The scroll handler re-sends dozens of paint properties on every tick even when nothing changed
+    // (every setPaintProperty marks the style dirty and re-evaluates it). Skip any call whose value is
+    // identical to the last one we applied; numbers are compared to 3 decimals. The cache resets on
+    // every style (re)load, since a theme swap replaces all layers with fresh defaults.
+    const paintCache = new Map<string, string>();
+    const rawSetPaintProperty = map.setPaintProperty.bind(map);
+    map.setPaintProperty = ((layer: string, prop: string, value: unknown, options?: unknown) => {
+      const key = `${layer}|${prop}`;
+      const sig = JSON.stringify(value, (_k, v) => (typeof v === "number" ? Math.round(v * 1000) / 1000 : v));
+      if (paintCache.get(key) === sig) return map;
+      const result = (rawSetPaintProperty as (...a: unknown[]) => unknown)(layer, prop, value, options);
+      paintCache.set(key, sig);
+      return result;
+    }) as typeof map.setPaintProperty;
+    map.on("style.load", () => paintCache.clear());
     // OpenFreeMap's own TileJSON already declares its attribution string — MapLibre pulls it in
     // automatically, so no customAttribution here (adding one duplicated the same text twice).
     map.addControl(new AttributionControl({ compact: true }), "bottom-left");
@@ -1005,6 +1030,7 @@ export function JourneyMapCanvas({
         });
       },
       setPinStatus: (pinId, status) => {
+        if (pinStatusesRef.current.get(pinId) === status) return; // unchanged: skip the feature-state write
         pinStatusesRef.current.set(pinId, status);
         const m = mapRef.current;
         if (!m) return;
@@ -1112,6 +1138,19 @@ export function JourneyMapCanvas({
         projectionModeRef.current = mode;
         m.setProjection({ type: mode });
       },
+      whenIdle: (timeoutMs) =>
+        new Promise<void>((resolve) => {
+          const m = mapRef.current;
+          if (!m) return resolve();
+          const finish = () => {
+            clearTimeout(timer);
+            m.off("idle", finish);
+            resolve();
+          };
+          const timer = setTimeout(finish, timeoutMs);
+          m.once("idle", finish);
+          m.triggerRepaint();
+        }),
     };
     onReadyRef.current?.();
     // The earth-day/earth-night `image` sources aren't queryable via getLayer() the instant

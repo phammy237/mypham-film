@@ -40,6 +40,8 @@ body::before {
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 .dark body::before { mix-blend-mode: overlay; opacity: .34; } /* more grain at night */
+/* a blend-mode layer over the live WebGL map forces a full-screen re-composite every scroll frame */
+body.journey-active::before { display: none; }
 
 /* Instrument Serif runs lighter than the old DM Serif, so tighten tracking a touch */
 .heading, .font-display { letter-spacing: -.01em; }
@@ -329,6 +331,13 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 .fg-first { list-style: none; margin: 0; padding: 20px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 36px 30px; }
 .fg-pola { display: block; text-align: left; padding: 8px 8px 12px; border: 0; cursor: pointer; transition: transform .25s cubic-bezier(.3,1.4,.5,1), box-shadow .25s; }
 .fg-first .fg-pola { width: calc(var(--h) * var(--ar) + 16px); max-width: 100%; }
+/* two rows, each justified: a frame's share of the line follows its shape, so a row always fills one line */
+@media (min-width: 700px) {
+  .fg-first { flex-wrap: nowrap; gap: 0 26px; }
+  .fg-first + .fg-first { padding-top: 34px; }
+  .fg-first > li { flex: var(--ar) 1 0; min-width: 0; }
+  .fg-first .fg-pola { width: 100%; }
+}
 .fg-pola:hover, .fg-pola:focus-visible { transform: rotate(0deg) scale(1.05) !important; z-index: 3; box-shadow: 0 18px 28px -14px rgba(0,0,0,.6); outline: none; }
 .fg-pola:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 .fg-pola .f-photo { width: 100%; }
@@ -376,6 +385,9 @@ html.theme-fade, html.theme-fade *, html.theme-fade *::before, html.theme-fade *
 /* reels: a standing canister with its film strip pulled out to the side; opening one stretches the strip across the page */
 .fg-reels { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
 .fg-reel { --can: 84px; display: flex; align-items: center; min-width: 0; }
+.fg-reel.is-spread { flex-wrap: wrap; align-items: flex-start; }
+.fg-reel-collage { flex: 1 0 100%; margin-top: 22px; padding-top: 0; }
+.fg-spread-btn { font-size: 12px; padding: 4px 12px; margin-left: auto; }
 .fg-reel-btn { flex: 0 0 var(--can); width: var(--can); background: none; border: 0; padding: 0; cursor: pointer; position: relative; z-index: 2; transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
 .fg-reel-btn:hover { transform: rotate(-4deg) scale(1.05); }
 .fg-reel-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 10px; }
