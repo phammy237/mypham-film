@@ -209,6 +209,23 @@ function shutterClick(ctx: AudioContext) {
 }
 
 /* ── page ── */
+/* hand-drawn doodles: four-point sparkle + squiggle underline */
+function Sparkle({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 4c.7 5 3 7.3 8 8-5 .7-7.3 3-8 8-.7-5-3-7.3-8-8 5-.7 7.3-3 8-8Z" />
+      <path d="M3.5 3.5v.01M20.5 3.5v.01M3.5 20.5v.01M20.5 20.5v.01" strokeWidth="2" />
+    </svg>
+  );
+}
+function Squiggle({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 120 10" width="120" height="10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+      <path d="M2 6c8-6 12 6 20 0s12 6 20 0 12 6 20 0 12 6 20 0 12 6 18 0" />
+    </svg>
+  );
+}
+
 export function FilmHome() {
   const [open, setOpen] = useState<{ list: Frame[]; i: number } | null>(null);
   const dragMoved = useRef(false);
@@ -298,7 +315,7 @@ export function FilmHome() {
       {/* about */}
       <section className={`${s.wrap} ${s.about}`} id="about">
         <div>
-          <h2 className={s.serif}>about me</h2>
+          <h2 className={s.serif}>about me<Sparkle className={s.doodleTitle} /></h2>
           <div className={s.portrait}>
             <Photo src={PHOTOS.glow.src} alt={PHOTOS.glow.alt} sizes="(max-width: 900px) 100vw, 360px" />
             <span className={`${s.hand} ${s.portraitNote}`}>a little bit about me</span>
@@ -314,13 +331,14 @@ export function FilmHome() {
             </div>
           </div>
         </div>
-        <div>
+        <div className={s.aboutText}>
           <p className={s.bio}>I&apos;m My — a Data Science student at the {ed.school} who likes turning ideas into real things. I work across product, operations, and decision systems.</p>
           <p className={s.factsHead}>quick facts:</p>
+          <Squiggle className={s.doodleSquiggle} />
           <ul className={s.facts}>
-            {[["⌖", "Hanoi, Vietnam → Gainesville, FL"], ["✎", `Data Science @ UF (${ed.period.replace("Expected ", "")})`], ["◌", languages], ["☕", "matcha > coffee"],
-              ["♪", hobbies.slice(0, 4).map((h) => h.split(" (")[0].toLowerCase()).join(", ")]].map(([i, t]) => (
-              <li key={t}><span className={s.ic} aria-hidden="true">{i}</span>{t}</li>
+            {[`Hanoi, Vietnam → Gainesville, FL`, `Data Science @ UF (${ed.period.replace("Expected ", "")})`, languages, "matcha > coffee",
+              hobbies.slice(0, 4).map((h) => h.split(" (")[0].toLowerCase()).join(", ")].map((text) => (
+              <li key={text}><Sparkle className={s.factStar} />{text}</li>
             ))}
           </ul>
           <p style={{ marginTop: 22, display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -341,6 +359,7 @@ export function FilmHome() {
               </motion.div>
             ))}
           </div>
+          <Sparkle className={s.doodleStack} />
           <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
         </div>
       </section>

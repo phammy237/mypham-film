@@ -80,7 +80,7 @@
 .pcardTop { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-courier), monospace; }
 .tag { font: 500 10px var(--font-jetbrains), monospace; letter-spacing: .1em; text-transform: uppercase; padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; }
 .pcard .photo { aspect-ratio: 16/10; border-radius: 10px; margin-top: 10px; }
-.pcard h3 { font-family: var(--font-courier), monospace; font-size: 21px; margin-top: 14px; }
+.pcard h3 { font-family: var(--font-caveat), cursive; font-weight: 600; font-size: 28px; line-height: 1.05; margin-top: 12px; }
 .pcard p { font-size: 14px; margin-top: 6px; flex: 1; }
 .pcardFoot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
 .chips { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -122,7 +122,11 @@
 .factsHead { font-family: var(--font-courier), monospace; font-weight: 700; text-decoration: underline; margin-top: 24px; }
 .facts { list-style: none; padding: 0; display: grid; gap: 14px; margin-top: 18px; }
 .facts li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: center; font-family: var(--font-courier), monospace; font-size: 15px; }
-.facts .ic { width: 30px; height: 30px; font-size: 13px; }
+.facts .factStar { width: 22px; height: 22px; color: var(--ink); justify-self: center; }
+.aboutText { margin-top: var(--about-offset, 62px); }
+.doodleTitle { display: inline-block; font-size: .55em; margin-left: 10px; vertical-align: super; transform: rotate(12deg); }
+.doodleSquiggle { display: block; margin-top: 2px; color: var(--ink); opacity: .7; }
+.doodleStack { display: block; font-size: 30px; margin: 6px 0 0 auto; transform: rotate(-10deg); }
 .stack { position: relative; aspect-ratio: 1 / 1.42; margin-top: 14px; }
 .stack .pola { position: absolute; width: 62%; }
 .stack .pola:nth-child(1) { left: 0; top: 0; transform: rotate(-4deg); }
@@ -154,6 +158,7 @@
   .roles, .places { display: none; }
   .note { position: relative; right: auto; bottom: auto; margin: 6px 20px 0 auto; }
   .feat, .about { grid-template-columns: 1fr; }
+  .aboutText { margin-top: 0; }
   .cards { grid-template-columns: 1fr; }
   .tilt { transform: rotate(-1deg); }
   .frame { width: 240px; }
