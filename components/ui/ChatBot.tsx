@@ -50,9 +50,112 @@ const curiousQs = [
   },
   {
     q: "Are you open to opportunities?",
-    a: `Yes — actively looking for summer 2026 internships in product management, consulting, and data/analytics. I'm especially interested in roles where strategy, data, and product decision-making overlap. Feel free to reach out at ${SITE_EMAIL} or on LinkedIn.`,
+    a: `Yes — I'm open to opportunities in product management, consulting, and data/analytics, especially roles where strategy, data, and product decision-making overlap. Feel free to reach out at ${SITE_EMAIL} or on LinkedIn.`,
   },
 ];
+
+
+/* ─── Free-text answers ────────────────────────────────
+   Typed questions are scored against these topics: every keyword that matches a word in the message
+   (as a word prefix, or a phrase) adds a point, the best score wins. Facts are the same ones used by the
+   question buttons above and the CV page. */
+interface Topic { keys: string[]; friend: string; curious: string }
+const topics: Topic[] = [
+  {
+    keys: ["who", "background", "yourself", "deal", "bio", "introduce", "from", "vietnam", "hanoi", "where", "home", "school", "uf", "florida", "gpa", "university", "major", "study", "student", "class", "college", "education", "deloitte", "research", "experience"],
+    friend: friendQs[0].a,
+    curious: curiousQs[0].a,
+  },
+  {
+    keys: ["goal", "goals", "future", "career", "role", "roles", "toward", "dream", "product management", "consulting", "strategy", "pm"],
+    friend: "i want to work on messy, ambiguous stuff — product management, strategy consulting, or analytical roles where the hard part is figuring out what to build or decide, not just how. basically where tech, data, and business thinking overlap 🎯",
+    curious: curiousQs[1].a,
+  },
+  {
+    keys: ["project", "projects", "build", "built", "building", "portfolio", "made", "app", "latest", "recent", "standout", "highlight"],
+    friend: friendQs[2].a,
+    curious: curiousQs[2].a,
+  },
+  {
+    keys: ["transpeaktation", "shellhacks", "hackathon", "aws", "tiger", "routing", "traffic"],
+    friend: "transPEAKtation is my latest — an event-aware routing app my team built at ShellHacks 2026 (2nd place for Best Use of AWS + Best Use of Tiger Data 🏆). i built the data pipeline + backend: 17,000+ road incident records turned into something the router could actually use",
+    curious: "transPEAKtation won 2nd Place for Best Use of AWS and Best Use of Tiger Data at ShellHacks 2026. It's event-aware routing; I built the data pipeline (17,000+ road incident records) and the backend integration.",
+  },
+  {
+    keys: ["gatorbot", "innovation", "referral", "challenge", "chatbot"],
+    friend: "GatorBot won the Deloitte Innovation Challenge!! it's an AI chatbot that cut campus referral time by ~70% 🐊",
+    curious: "GatorBot won the Deloitte Innovation Challenge — an AI chatbot that cut campus referral time by about 70%.",
+  },
+  {
+    keys: ["wnba", "monte", "simulator", "simulation", "basketball", "profit"],
+    friend: "the WNBA strategy simulator was a for-fun one — monte carlo analysis projecting $56M–$79M season profit ranges. yes i'm that person lol 🏀",
+    curious: "The WNBA Strategy Simulator used Monte Carlo simulation to project $56M–$79M season profit ranges.",
+  },
+  {
+    keys: ["cartcoach", "impulse", "extension", "chrome", "shopping", "savings"],
+    friend: "CartCoach is an AI chrome extension that pops up when you're about to impulse buy and shows the real cost — like 'this delays your savings goal by 3 weeks' 💀",
+    curious: "CartCoach is an AI Chrome extension that appears when you're about to make an impulse purchase and shows its real cost, for example how much it delays a savings goal.",
+  },
+  {
+    keys: ["kite", "pediatric", "health"],
+    friend: "Kite is a pediatric health platform i worked on — it captures 1,000+ interaction data points per session 🩺",
+    curious: "Kite is a pediatric health platform capturing 1,000+ interaction data points per session.",
+  },
+  {
+    keys: ["cshirt", "c-shirt", "coffee", "fashion", "sustainable", "tees", "startup", "lattera", "lattéra"],
+    friend: "C-Shirt is my tiny sustainable fashion startup — eco tees made from coffee waste ☕. i'm also doing product strategy work for a startup called Lattéra!",
+    curious: "Alongside school I run C-Shirt, a small sustainable fashion startup making eco tees from coffee waste, and I do product strategy work for a startup called Lattéra.",
+  },
+  {
+    keys: ["skill", "skills", "tech", "stack", "python", "sql", "react", "figma", "tools", "code", "coding", "language", "languages", "good", "strengths", "tableau"],
+    friend: friendQs[1].a,
+    curious: curiousQs[3].a,
+  },
+  {
+    keys: ["fun", "hobby", "hobbies", "piano", "tennis", "swim", "swimming", "golf", "music", "glee", "free time", "outside"],
+    friend: friendQs[3].a,
+    curious: "Outside of work I play piano (I've done solo performances), and I enjoy tennis, swimming and golf. I was also in a glee club in high school.",
+  },
+  {
+    keys: ["contact", "email", "mail", "reach", "linkedin", "message", "talk", "connect", "touch", "number", "phone"],
+    friend: friendQs[4].a,
+    curious: `You can reach me at ${SITE_EMAIL} or on LinkedIn at linkedin.com/in/mypham237. The Connect page also has a contact form.`,
+  },
+  {
+    keys: ["hire", "hiring", "intern", "internship", "internships", "opportunities", "job", "jobs", "available", "availability", "recruit", "recruiter", "open"],
+    friend: `yes!! i'm open to opportunities — product, consulting, or data/analytics. email me at ${SITE_EMAIL} or hit me up on LinkedIn 📬`,
+    curious: curiousQs[4].a,
+  },
+  {
+    keys: ["resume", "cv", "curriculum"],
+    friend: "my resume lives on the CV page — tap '→ resume' below and it'll take you there 📄",
+    curious: "My full resume is on the CV page — use the '→ resume' shortcut below to open it.",
+  },
+];
+
+const GREETING = /^(hi|hey|hello|yo|sup|hiya|howdy)\b/;
+const THANKS = /\b(thanks|thank you|thx|ty)\b/;
+
+function tokenize(text: string): string[] {
+  return text.toLowerCase().replace(/[^a-z0-9À-ỹ\s-]/g, " ").split(/\s+/).filter(Boolean);
+}
+
+/** best topic for a typed message (or null) */
+function findTopic(text: string): Topic | null {
+  const lower = text.toLowerCase();
+  const words = tokenize(text);
+  let best: Topic | null = null;
+  let bestScore = 0;
+  for (const t of topics) {
+    let score = 0;
+    for (const k of t.keys) {
+      if (k.includes(" ") ? lower.includes(k) : words.some((w) => w === k || (k.length >= 4 && w.startsWith(k)))) score++;
+    }
+    // on a tie the narrower topic (fewer keywords, e.g. one project) beats the broad one
+    if (score > bestScore || (score > 0 && score === bestScore && best && t.keys.length < best.keys.length)) { best = t; bestScore = score; }
+  }
+  return best;
+}
 
 /* ─── Helpers ──────────────────────────────────────── */
 function BotAvatar() {
@@ -83,7 +186,13 @@ function Bubble({ msg }: { msg: Msg }) {
             : "bg-[#F4D35E] text-[#20201E] rounded-tr-sm"
         }`}
       >
-        {msg.text}
+        {msg.text || (
+          <span className="inline-flex items-center gap-1 py-1" role="status" aria-label="Typing">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60 [animation-delay:150ms]" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60 [animation-delay:300ms]" />
+          </span>
+        )}
       </div>
     </motion.div>
   );
@@ -95,6 +204,10 @@ export function ChatBot() {
   const [tone, setTone] = useState<Tone>(null);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  // set once the AI route reports it isn't configured, so later messages go straight to the built-in answers
+  const aiOffRef = useRef(false);
+  const abortRef = useRef<AbortController | null>(null);
   const router = useRouter();
   const jump = (href: string) => { router.push(href); setOpen(false); };
   useEffect(() => {
@@ -103,6 +216,17 @@ export function ChatBot() {
     return () => window.removeEventListener("open-chat", openChat);
   }, []);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  // focus the message box as soon as a conversation starts (or the panel reopens mid-conversation)
+  useEffect(() => {
+    if (open && tone) inputRef.current?.focus();
+  }, [open, tone]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -131,34 +255,98 @@ export function ChatBot() {
     ]);
   }
 
-  function handleInput(e: React.FormEvent) {
+  /** the built-in (keyword/topic) answer, used whenever the AI is unavailable */
+  function localReply(text: string): string {
+    const lower = text.toLowerCase().trim();
+    const friend = tone === "friend";
+    const topic = findTopic(text);
+    if (GREETING.test(lower) && !topic) {
+      return friend ? "heyy 👋 ask me anything — pick a question below or just type" : "Hello! Feel free to pick a question below or type your own.";
+    }
+    if (THANKS.test(lower) && !topic) {
+      return friend ? "anytime!! 💛" : "You're welcome! Let me know if there's anything else you'd like to know.";
+    }
+    if (topic) return friend ? topic.friend : topic.curious;
+    return friend
+      ? `hmm not sure about that one! try one of the question buttons, or email me directly at ${SITE_EMAIL} 😊`
+      : `I don't have a specific answer for that. Try one of the suggested questions, or reach out directly at ${SITE_EMAIL}.`;
+  }
+
+  const dropPlaceholder = () => setMsgs((prev) => (prev[prev.length - 1]?.text === "" ? prev.slice(0, -1) : prev));
+
+  /** streams a reply from /api/chat into a new bot bubble; "off" means use the built-in answer instead */
+  async function askAI(text: string, prior: Msg[]): Promise<"ok" | "limited" | "off"> {
+    const payload = [...prior, { role: "user" as const, text }]
+      .map((m) => ({ role: m.role === "bot" ? ("assistant" as const) : ("user" as const), content: m.text.slice(0, 590) }))
+      .slice(-10);
+    while (payload.length && payload[0].role !== "user") payload.shift();
+
+    setMsgs((prev) => [...prev, { role: "bot", text: "" }]);
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+    let acc = "";
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: payload, tone }),
+        signal: ctrl.signal,
+      });
+      if (res.status === 429) {
+        const msg = (await res.json().catch(() => null))?.error as string | undefined;
+        setMsgs((prev) => [...prev.slice(0, -1), { role: "bot", text: `${msg ?? "Too many messages right now."} You can also email ${SITE_EMAIL}.` }]);
+        return "limited";
+      }
+      if (!res.ok || !res.body) {
+        if (res.status === 503 || res.status === 404) aiOffRef.current = true;
+        dropPlaceholder();
+        return "off";
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        const shown = acc;
+        setMsgs((prev) => prev.map((m, i) => (i === prev.length - 1 ? { ...m, text: shown } : m)));
+      }
+      acc += decoder.decode();
+      if (!acc.trim()) {
+        dropPlaceholder();
+        return "off";
+      }
+      return "ok";
+    } catch {
+      // keep whatever streamed before a mid-reply failure; otherwise fall back to the built-in answer
+      if (acc.trim()) return "ok";
+      dropPlaceholder();
+      return "off";
+    } finally {
+      abortRef.current = null;
+    }
+  }
+
+  async function handleInput(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
-    if (!text) return;
+    if (!text || busy) return;
     setInput("");
+    const prior = msgs;
+    setMsgs((prev) => [...prev, { role: "user", text }]);
 
-    // Simple keyword matching
-    const lower = text.toLowerCase();
-    const all = tone === "friend" ? friendQs : curiousQs;
-    const match = all.find((item) =>
-      item.q.toLowerCase().split(" ").some((w) => w.length > 3 && lower.includes(w))
-    );
-
-    setMsgs((prev) => [
-      ...prev,
-      { role: "user", text },
-      {
-        role: "bot",
-        text: match
-          ? match.a
-          : tone === "friend"
-          ? "hmm not sure about that one! try one of the question buttons or email me directly at phamlehamy2307@gmail.com 😊"
-          : "I don't have a specific answer for that. You're welcome to reach out directly at phamlehamy2307@gmail.com for more details.",
-      },
-    ]);
+    if (!aiOffRef.current) {
+      setBusy(true);
+      const result = await askAI(text, prior);
+      setBusy(false);
+      if (result !== "off") return;
+    }
+    setMsgs((prev) => [...prev, { role: "bot", text: localReply(text) }]);
   }
 
   function reset() {
+    abortRef.current?.abort();
+    setBusy(false);
     setTone(null);
     setMsgs([]);
     setInput("");
@@ -171,6 +359,8 @@ export function ChatBot() {
       <div className="journey-chatbot-widget fixed bottom-6 right-6 z-50">
         <motion.button
           onClick={() => setOpen((o) => !o)}
+          aria-label={open ? "Close chat" : "Open chat"}
+          aria-expanded={open}
           className="w-14 h-14 rounded-full flex items-center justify-center text-[#20201E] shadow-xl shadow-black/30 ring-1 ring-[#20201E]/20"
           style={{ background: "#F4D35E" }}
           whileHover={{ scale: 1.08 }}
@@ -214,7 +404,7 @@ export function ChatBot() {
               <BotAvatar />
               <div className="flex-1">
                 <p className="font-type text-sm text-white font-bold">Chat with My</p>
-                <p className="font-mono text-[10px] text-white/40">Portfolio Assistant</p>
+                <p className="font-mono text-[10px] text-white/40">AI Portfolio Assistant</p>
               </div>
               {tone && (
                 <button
@@ -238,7 +428,7 @@ export function ChatBot() {
                   <div className="flex gap-2 items-start">
                     <BotAvatar />
                     <div className="bg-navy text-white/85 text-sm font-body px-3.5 py-2.5 rounded-2xl rounded-tl-sm leading-relaxed">
-                      hey! 👋 i&apos;m My&apos;s portfolio assistant. how do you want to vibe?
+                      hey! 👋 i&apos;m My&apos;s portfolio assistant (an AI). how do you want to vibe?
                     </div>
                   </div>
 
@@ -315,6 +505,9 @@ export function ChatBot() {
                 className="flex gap-2 px-3 py-3 border-t border-white/10"
               >
                 <input
+                  ref={inputRef}
+                  aria-label="Message"
+                  maxLength={500}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={tone === "friend" ? "type anything..." : "Ask something..."}
@@ -322,7 +515,8 @@ export function ChatBot() {
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-full bg-[#F4D35E] flex items-center justify-center text-[#20201E] text-xs hover:bg-[#F4D35E]/80 transition-colors flex-shrink-0"
+                  disabled={busy}
+                  className="w-8 h-8 disabled:opacity-50 rounded-full bg-[#F4D35E] flex items-center justify-center text-[#20201E] text-xs hover:bg-[#F4D35E]/80 transition-colors flex-shrink-0"
                 >
                   ↑
                 </button>
