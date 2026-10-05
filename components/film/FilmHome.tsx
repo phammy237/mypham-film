@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { allWork, type Project } from "@/data/projects";
-import { education, hobbies, leadership, spokenLanguages } from "@/data/cv";
+import { education, leadership, spokenLanguages } from "@/data/cv";
 import { CURRENTLY, FEATURED, LATELY, MORE, PHOTOS, type FrameRef, type GridFilter } from "@/data/film";
 import { FlipPhoto } from "@/components/film/FlipPhoto";
 import { ExperienceReel, ToolsShelf } from "@/components/film/ToolsAndExperience";
@@ -332,12 +332,12 @@ export function FilmHome() {
           </div>
         </div>
         <div className={s.aboutText}>
-          <p className={s.bio}>I&apos;m My — a Data Science student at the {ed.school} who likes turning ideas into real things. I work across product, operations, and decision systems.</p>
+          <p className={s.bio}>I&apos;m My — a product-minded builder from Hanoi studying Data Science at the {ed.school}. I use data, AI, and design to explore problems I find interesting, usually somewhere between a hackathon, a matcha latte, and my next overly ambitious idea.</p>
           <p className={s.factsHead}>quick facts:</p>
           <Squiggle className={s.doodleSquiggle} />
           <ul className={s.facts}>
-            {[`Hanoi, Vietnam → Gainesville, FL`, `Data Science @ UF (${ed.period.replace("Expected ", "")})`, languages, "matcha > coffee",
-              hobbies.slice(0, 4).map((h) => h.split(" (")[0].toLowerCase()).join(", ")].map((text) => (
+            {[`Hanoi, Vietnam → Gainesville, FL`, `Data Science @ UF (${ed.period.replace("Expected ", "")}) + AI certificate`, languages, "matcha > coffee",
+              "travelling, taking pictures, making vlogs", "building something past 12"].map((text) => (
               <li key={text}><Sparkle className={s.factStar} />{text}</li>
             ))}
           </ul>
@@ -360,7 +360,7 @@ export function FilmHome() {
             ))}
           </div>
           <Sparkle className={s.doodleStack} />
-          <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br />(drag them around, flip them over)</p>
+          <p className={`${s.hand} ${s.stackNote}`}>places that made me :) <br /><span className={s.stackHint}>(drag them around, flip them over)</span></p>
         </div>
       </section>
 
