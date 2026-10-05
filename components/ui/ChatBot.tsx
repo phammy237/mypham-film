@@ -186,7 +186,13 @@ function Bubble({ msg }: { msg: Msg }) {
             : "bg-[#F4D35E] text-[#20201E] rounded-tr-sm"
         }`}
       >
-        {msg.text}
+        {msg.text || (
+          <span className="inline-flex items-center gap-1 py-1" role="status" aria-label="Typing">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60 [animation-delay:150ms]" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60 [animation-delay:300ms]" />
+          </span>
+        )}
       </div>
     </motion.div>
   );
@@ -198,6 +204,10 @@ export function ChatBot() {
   const [tone, setTone] = useState<Tone>(null);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  // set once the AI route reports it isn't configured, so later messages go straight to the built-in answers
+  const aiOffRef = useRef(false);
+  const abortRef = useRef<AbortController | null>(null);
   const router = useRouter();
   const jump = (href: string) => { router.push(href); setOpen(false); };
   useEffect(() => {
@@ -245,32 +255,98 @@ export function ChatBot() {
     ]);
   }
 
-  function handleInput(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text) return;
-    setInput("");
-
+  /** the built-in (keyword/topic) answer, used whenever the AI is unavailable */
+  function localReply(text: string): string {
     const lower = text.toLowerCase().trim();
     const friend = tone === "friend";
     const topic = findTopic(text);
-    let reply: string;
     if (GREETING.test(lower) && !topic) {
-      reply = friend ? "heyy 👋 ask me anything — pick a question below or just type" : "Hello! Feel free to pick a question below or type your own.";
-    } else if (THANKS.test(lower) && !topic) {
-      reply = friend ? "anytime!! 💛" : "You're welcome! Let me know if there's anything else you'd like to know.";
-    } else if (topic) {
-      reply = friend ? topic.friend : topic.curious;
-    } else {
-      reply = friend
-        ? `hmm not sure about that one! try one of the question buttons, or email me directly at ${SITE_EMAIL} 😊`
-        : `I don't have a specific answer for that. Try one of the suggested questions, or reach out directly at ${SITE_EMAIL}.`;
+      return friend ? "heyy 👋 ask me anything — pick a question below or just type" : "Hello! Feel free to pick a question below or type your own.";
     }
+    if (THANKS.test(lower) && !topic) {
+      return friend ? "anytime!! 💛" : "You're welcome! Let me know if there's anything else you'd like to know.";
+    }
+    if (topic) return friend ? topic.friend : topic.curious;
+    return friend
+      ? `hmm not sure about that one! try one of the question buttons, or email me directly at ${SITE_EMAIL} 😊`
+      : `I don't have a specific answer for that. Try one of the suggested questions, or reach out directly at ${SITE_EMAIL}.`;
+  }
 
-    setMsgs((prev) => [...prev, { role: "user", text }, { role: "bot", text: reply }]);
+  const dropPlaceholder = () => setMsgs((prev) => (prev[prev.length - 1]?.text === "" ? prev.slice(0, -1) : prev));
+
+  /** streams a reply from /api/chat into a new bot bubble; "off" means use the built-in answer instead */
+  async function askAI(text: string, prior: Msg[]): Promise<"ok" | "limited" | "off"> {
+    const payload = [...prior, { role: "user" as const, text }]
+      .map((m) => ({ role: m.role === "bot" ? ("assistant" as const) : ("user" as const), content: m.text.slice(0, 590) }))
+      .slice(-10);
+    while (payload.length && payload[0].role !== "user") payload.shift();
+
+    setMsgs((prev) => [...prev, { role: "bot", text: "" }]);
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+    let acc = "";
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: payload, tone }),
+        signal: ctrl.signal,
+      });
+      if (res.status === 429) {
+        const msg = (await res.json().catch(() => null))?.error as string | undefined;
+        setMsgs((prev) => [...prev.slice(0, -1), { role: "bot", text: `${msg ?? "Too many messages right now."} You can also email ${SITE_EMAIL}.` }]);
+        return "limited";
+      }
+      if (!res.ok || !res.body) {
+        if (res.status === 503 || res.status === 404) aiOffRef.current = true;
+        dropPlaceholder();
+        return "off";
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        const shown = acc;
+        setMsgs((prev) => prev.map((m, i) => (i === prev.length - 1 ? { ...m, text: shown } : m)));
+      }
+      acc += decoder.decode();
+      if (!acc.trim()) {
+        dropPlaceholder();
+        return "off";
+      }
+      return "ok";
+    } catch {
+      // keep whatever streamed before a mid-reply failure; otherwise fall back to the built-in answer
+      if (acc.trim()) return "ok";
+      dropPlaceholder();
+      return "off";
+    } finally {
+      abortRef.current = null;
+    }
+  }
+
+  async function handleInput(e: React.FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || busy) return;
+    setInput("");
+    const prior = msgs;
+    setMsgs((prev) => [...prev, { role: "user", text }]);
+
+    if (!aiOffRef.current) {
+      setBusy(true);
+      const result = await askAI(text, prior);
+      setBusy(false);
+      if (result !== "off") return;
+    }
+    setMsgs((prev) => [...prev, { role: "bot", text: localReply(text) }]);
   }
 
   function reset() {
+    abortRef.current?.abort();
+    setBusy(false);
     setTone(null);
     setMsgs([]);
     setInput("");
@@ -328,7 +404,7 @@ export function ChatBot() {
               <BotAvatar />
               <div className="flex-1">
                 <p className="font-type text-sm text-white font-bold">Chat with My</p>
-                <p className="font-mono text-[10px] text-white/40">Portfolio Assistant</p>
+                <p className="font-mono text-[10px] text-white/40">AI Portfolio Assistant</p>
               </div>
               {tone && (
                 <button
@@ -352,7 +428,7 @@ export function ChatBot() {
                   <div className="flex gap-2 items-start">
                     <BotAvatar />
                     <div className="bg-navy text-white/85 text-sm font-body px-3.5 py-2.5 rounded-2xl rounded-tl-sm leading-relaxed">
-                      hey! 👋 i&apos;m My&apos;s portfolio assistant. how do you want to vibe?
+                      hey! 👋 i&apos;m My&apos;s portfolio assistant (an AI). how do you want to vibe?
                     </div>
                   </div>
 
@@ -431,6 +507,7 @@ export function ChatBot() {
                 <input
                   ref={inputRef}
                   aria-label="Message"
+                  maxLength={500}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={tone === "friend" ? "type anything..." : "Ask something..."}
@@ -438,7 +515,8 @@ export function ChatBot() {
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-full bg-[#F4D35E] flex items-center justify-center text-[#20201E] text-xs hover:bg-[#F4D35E]/80 transition-colors flex-shrink-0"
+                  disabled={busy}
+                  className="w-8 h-8 disabled:opacity-50 rounded-full bg-[#F4D35E] flex items-center justify-center text-[#20201E] text-xs hover:bg-[#F4D35E]/80 transition-colors flex-shrink-0"
                 >
                   ↑
                 </button>
