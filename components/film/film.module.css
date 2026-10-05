@@ -114,6 +114,11 @@
 
 /* ── about ── */
 .about { display: grid; grid-template-columns: 1fr 1fr .9fr; gap: 28px; margin-top: 90px; align-items: start; }
+/* desktop: same 1120px edges as the sections below; the picture columns get a bit more of the row */
+@media (min-width: 901px) {
+  .about { column-gap: 32px; grid-template-columns: .95fr 1.5fr .9fr; }
+  .stack .pola { width: 65%; }
+}
 .about h2 { font-size: clamp(32px, 4vw, 44px); }
 .portrait { position: relative; margin-top: 14px; }
 .portrait .photo { aspect-ratio: 4/5; border-radius: 6px; }
@@ -133,6 +138,8 @@
 .stack .pola:nth-child(2) { right: 0; top: 8%; transform: rotate(5deg); }
 .stack .pola:nth-child(3) { left: 14%; top: 38%; transform: rotate(-1deg); z-index: 2; }
 .stackNote { font-size: 24px; text-align: right; transform: rotate(-6deg); margin-top: 8px; }
+/* the hint stays on one line; its size follows the viewport so it fits the narrower picture column */
+.stackHint { display: block; white-space: nowrap; font-size: clamp(16px, 1.55vw, 22px); }
 /* let's connect: one line of social icons under the portrait */
 .connect { margin-top: 18px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
 .connect p { font-size: 26px; white-space: nowrap; margin: 0; }

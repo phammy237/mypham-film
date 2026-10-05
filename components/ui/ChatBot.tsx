@@ -19,11 +19,11 @@ const friendQs = [
   },
   {
     q: "what are u building rn? 🔨",
-    a: "okay so — my latest is transPEAKtation, an event-aware routing app my team built at ShellHacks 2026 (we won 2nd for Best Use of AWS + Best Use of Tiger Data 🏆). i did the data pipeline + backend, basically turning messy SF traffic and event data into something the router could use. before that, CartCoach — an AI chrome extension that pops up when you're about to impulse buy and shows you the real cost (like 'this delays your savings goal by 3 weeks' 💀). also doing product strategy work for a startup called Lattéra! oh and i just did a WNBA strategy simulator with monte carlo analysis for fun lol yes i'm that person",
+    a: "a few things at once lol. Career OS — a personal operating system for internship recruiting so job searching isn't 40 tabs + hoping i remember where i applied (transparent job ranking, tracking, resume workflows, a browser extension). a case-interview learning game where you work through a case and get scored on your reasoning. transPEAKtation, which we're still building after ShellHacks (search history, community events, map + UX polish). this website, which is meant to feel like portfolio but with lore. and i'm the sole PM at an early-stage fashion + personal style stealth startup 👗",
   },
   {
     q: "what do u do for fun? 🎹",
-    a: "piano is my thing — i've done solo performances. also tennis, swimming, golf 🏊. i was in a glee club in high school which is very not serious. also i have a tiny sustainable fashion startup called C-Shirt — eco tees made from coffee waste ☕ because apparently i can't just have one thing going on",
+    a: "travelling, taking pictures and making vlogs — my friends always say that about me 📸✈️ also piano (i've done solo performances), tennis, swimming, golf 🏊. i was in a glee club in high school which is very not serious. also i have a tiny sustainable fashion startup called C-Shirt — eco tees made from coffee waste ☕ because apparently i can't just have one thing going on",
   },
   {
     q: "how do i reach u? 📬",
@@ -72,6 +72,16 @@ const topics: Topic[] = [
     curious: curiousQs[1].a,
   },
   {
+    keys: ["favorite", "favourite", "fave", "best", "proudest", "proud", "top"],
+    friend: "hard to pick just one, but if i had to point to one it's transPEAKtation 🏆 — an event-aware routing app that won 2nd place for Best Use of AWS + Best Use of Tiger Data at ShellHacks 2026. i built the data pipeline + backend. tap '→ best project' below to see it",
+    curious: "The project I'd point to is transPEAKtation, which won 2nd Place for Best Use of AWS and Best Use of Tiger Data at ShellHacks 2026. I built the data pipeline and backend integration. The '→ best project' shortcut below opens its page.",
+  },
+  {
+    keys: ["first", "earliest", "oldest", "started", "beginning", "begin"],
+    friend: "one of my earlier ones was the Artificial Reef Web App (Nov 2024) — a full-stack app visualizing 3D reef models for ecological data, built with a 5-person team. i designed the MongoDB schema + indexing 🪸 it taught me a lot about backend thinking",
+    curious: "One of my earliest projects was the Artificial Reef Web App (Nov 2024), a full-stack platform visualizing 3D reef models to improve ecological data access. I designed the MongoDB schema and indexing as part of a 5-person team.",
+  },
+  {
     keys: ["project", "projects", "build", "built", "building", "portfolio", "made", "app", "latest", "recent", "standout", "highlight"],
     friend: friendQs[2].a,
     curious: curiousQs[2].a,
@@ -112,9 +122,24 @@ const topics: Topic[] = [
     curious: curiousQs[3].a,
   },
   {
-    keys: ["fun", "hobby", "hobbies", "piano", "tennis", "swim", "swimming", "golf", "music", "glee", "free time", "outside"],
+    keys: ["travel", "traveling", "travelling", "trip", "trips", "photo", "photos", "photography", "pictures", "picture", "camera", "vlog", "vlogs", "vlogging", "film", "cities", "city", "cafe", "cafes"],
+    friend: "i love travelling, taking pictures and making vlogs — my friends say that about me all the time lol 📸 i'm more of a wander-around-a-city-with-no-plan, cafe-hopping, museum-and-architecture person than a tourist-checklist one. my camera roll is basically a scrapbook. the /film page has some of my photos ✈️",
+    curious: "I enjoy travelling, photography and making vlogs. I like exploring cities on foot, visiting cafes, museums and interesting architecture, and collecting photos of the places and everyday moments. Some of my photos are on the /film page.",
+  },
+  {
+    keys: ["swamphacks", "adobe", "grace", "hopper", "ghc", "california", "upcoming", "next", "soon", "events", "meet"],
+    friend: "coming up: i'm doing SwampHacks and an Adobe hackathon, and i'll be in California for Grace Hopper 2026 ✨ if you're gonna be around and wanna meet up, email me or use the Connect page!",
+    curious: "Coming up, I'm participating in SwampHacks and an Adobe hackathon, and I'll be in California for Grace Hopper Celebration 2026. If you'd like to meet up, feel free to reach out through the Connect page or by email.",
+  },
+  {
+    keys: ["matcha", "cat", "cats", "spicy", "music", "playlist", "playlists", "rain", "notebook", "notebooks"],
+    friend: "okay lore time: matcha latte is my official drink 🍵, i'm a cat person (had two cats), i cannot handle spicy food, and i make very oddly specific playlists. also rainy days + cute notebooks + a cafe = peak happiness",
+    curious: "A few personal details: I love matcha lattes, I'm a cat person and previously had two cats, I make mood-based playlists, and I can't handle spicy food very well.",
+  },
+  {
+    keys: ["fun", "hobby", "hobbies", "piano", "tennis", "swim", "swimming", "golf", "glee", "free time", "outside"],
     friend: friendQs[3].a,
-    curious: "Outside of work I play piano (I've done solo performances), and I enjoy tennis, swimming and golf. I was also in a glee club in high school.",
+    curious: "Outside of work I love travelling, photography and making vlogs. I also play piano (I've done solo performances), and I enjoy tennis, swimming and golf. I was in a glee club in high school.",
   },
   {
     keys: ["contact", "email", "mail", "reach", "linkedin", "message", "talk", "connect", "touch", "number", "phone"],
@@ -205,6 +230,8 @@ export function ChatBot() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  // suggested questions: shown at the start, hidden once a question is answered, shown again when the message box is clicked
+  const [showQs, setShowQs] = useState(true);
   // set once the AI route reports it isn't configured, so later messages go straight to the built-in answers
   const aiOffRef = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
@@ -230,12 +257,13 @@ export function ChatBot() {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs]);
+  }, [msgs, showQs]);
 
   const questions = tone === "friend" ? friendQs : curiousQs;
 
   function pickTone(t: Tone) {
     setTone(t);
+    setShowQs(true);
     setMsgs([
       {
         role: "bot",
@@ -248,6 +276,7 @@ export function ChatBot() {
   }
 
   function askQuestion(q: string, a: string) {
+    setShowQs(false);
     setMsgs((prev) => [
       ...prev,
       { role: "user", text: q },
@@ -298,7 +327,9 @@ export function ChatBot() {
         return "limited";
       }
       if (!res.ok || !res.body) {
-        if (res.status === 503 || res.status === 404) aiOffRef.current = true;
+        // only a permanent "not configured" answer switches the AI off for the session; a 404/500/503 during a
+        // recompile or a Redis blip must not lock the tab onto the canned answers
+        if (res.status === 503 && (await res.json().catch(() => null))?.error === "Chat is not configured.") aiOffRef.current = true;
         dropPlaceholder();
         return "off";
       }
@@ -332,6 +363,7 @@ export function ChatBot() {
     const text = input.trim();
     if (!text || busy) return;
     setInput("");
+    setShowQs(false);
     const prior = msgs;
     setMsgs((prev) => [...prev, { role: "user", text }]);
 
@@ -481,18 +513,29 @@ export function ChatBot() {
                       </button>
                     ))}
                   </div>
-                  {/* Suggested questions */}
-                  <div className="space-y-1.5 pt-2">
-                    {questions.map((item) => (
-                      <button
-                        key={item.q}
-                        onClick={() => askQuestion(item.q, item.a)}
-                        className="w-full text-left font-body text-xs text-white/60 px-3 py-2 rounded-lg border border-white/10 hover:border-accent/40 hover:text-white/85 hover:bg-accent/5 transition-all"
+                  {/* Suggested questions: only before a question is asked / when the message box is clicked */}
+                  <AnimatePresence initial={false}>
+                    {showQs && (
+                      <motion.div
+                        key="suggestions"
+                        className="space-y-1.5 pt-2"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.15 }}
                       >
-                        {item.q}
-                      </button>
-                    ))}
-                  </div>
+                        {questions.map((item) => (
+                          <button
+                            key={item.q}
+                            onClick={() => askQuestion(item.q, item.a)}
+                            className="w-full text-left font-body text-xs text-white/60 px-3 py-2 rounded-lg border border-white/10 hover:border-accent/40 hover:text-white/85 hover:bg-accent/5 transition-all"
+                          >
+                            {item.q}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                   <div ref={bottomRef} />
                 </>
               )}
@@ -509,7 +552,9 @@ export function ChatBot() {
                   aria-label="Message"
                   maxLength={500}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => { setInput(e.target.value); setShowQs(e.target.value === ""); }}
+                  onFocus={() => !input && setShowQs(true)}
+                  onClick={() => !input && setShowQs(true)}
                   placeholder={tone === "friend" ? "type anything..." : "Ask something..."}
                   className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 font-body text-sm text-white placeholder-white/30 outline-none focus:border-accent/50 transition-colors"
                 />

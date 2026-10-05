@@ -3,6 +3,8 @@ import { allWork } from "@/data/projects";
 import { hanoiJourneyPins } from "@/data/biography/hanoiJourney";
 import { usJourneyPins } from "@/data/biography/usJourney";
 import { SITE_EMAIL } from "@/lib/site";
+import { PROFILE } from "./profile";
+import { getMyosKnowledge } from "./myos";
 
 /**
  * Everything the portfolio chatbot is allowed to know, assembled from the same data files the pages render
@@ -17,7 +19,16 @@ function jobs(title: string, list: readonly Job[]): string {
 
 let cached: string | null = null;
 
-export function getKnowledge(): string {
+/** static site knowledge plus, when configured, live public data from myOS */
+export async function getKnowledge(): Promise<string> {
+  const myos = await getMyosKnowledge();
+  return myos ? `${getBaseKnowledge()}
+
+## Live from myOS (My's Career OS; public, approved items only; newer than the lists above if they differ)
+${myos}` : getBaseKnowledge();
+}
+
+function getBaseKnowledge(): string {
   if (cached) return cached;
 
   const edu = education.map((e) => `- ${e.degree}, ${e.school} (${e.location}), ${e.period}. GPA ${e.gpa}. ${e.details.join(" ")}`).join("\n");
@@ -60,6 +71,7 @@ export function getKnowledge(): string {
     `## Hobbies\n${hobbies.join(", ")}`,
     "## Projects and competition work",
     work,
+    PROFILE.trim(),
     "## Life story - Hanoi chapter (from the biography page)",
     hanoi,
     "## Life story - United States chapter (from the biography page)",
